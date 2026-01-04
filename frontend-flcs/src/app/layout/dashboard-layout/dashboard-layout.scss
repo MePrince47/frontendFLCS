@@ -1,0 +1,23 @@
+.sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-link {
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+.nav-link.active {
+  background-color: #ffffff;
+  color: #198754 !important;
+  font-weight: 600;
+}
+
+.nav-link.active i {
+  color: #198754;
+}

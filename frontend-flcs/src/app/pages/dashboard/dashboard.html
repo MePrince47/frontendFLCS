@@ -1,37 +1,66 @@
-<h2 class="mb-4">Dashboard</h2>
+<h2 class="mb-3">Dashboard</h2>
+
+<!-- ACTIONS RAPIDES -->
+<div class="d-flex gap-2 mb-4">
+  <a routerLink="/app/candidats/add" class="btn btn-success">
+    <i class="bi bi-person-plus"></i> Nouveau candidat
+  </a>
+  <a routerLink="/app/candidats" class="btn btn-outline-success">
+    <i class="bi bi-list"></i> Voir les candidats
+  </a>
+</div>
 
 <!-- STATS -->
 <div class="row g-4 mb-5">
   <div class="col-md-4">
-    <div class="card shadow-sm">
+    <div class="card shadow-sm h-100">
       <div class="card-body">
-        <h6>Total candidats</h6>
-        <h3 class="text-success">--</h3>
+        <h6 class="d-flex align-items-center gap-2">
+          <i class="bi bi-people-fill text-success"></i>
+          Total candidats
+        </h6>
+        <h3 class="text-success">120</h3>
+
+        <div class="mt-2">
+          <small class="text-muted">Taux de paiement</small>
+          <div class="progress" style="height: 6px">
+            <div class="progress-bar bg-success" style="width: 65%"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="col-md-4">
-    <div class="card shadow-sm">
+    <div class="card shadow-sm h-100">
       <div class="card-body">
-        <h6>Payés</h6>
-        <h3 class="text-success">--</h3>
+        <h6 class="d-flex align-items-center gap-2">
+          <i class="bi bi-cash-coin text-success"></i>
+          Payés
+        </h6>
+        <h3 class="text-success">78</h3>
+        <span class="badge bg-light text-success border">
+          Rentrée 2025
+        </span>
       </div>
     </div>
   </div>
 
   <div class="col-md-4">
-    <div class="card shadow-sm">
+    <div class="card shadow-sm h-100">
       <div class="card-body">
-        <h6>Non payés</h6>
-        <h3 class="text-danger">--</h3>
+        <h6 class="d-flex align-items-center gap-2">
+          <i class="bi bi-x-circle-fill text-danger"></i>
+          Non payés
+        </h6>
+        <h3 class="text-danger">42</h3>
       </div>
     </div>
   </div>
 </div>
 
 <!-- APERÇU CANDIDATS -->
-<div class="card shadow-sm">
+<div class="card shadow-sm mb-4">
   <div class="card-body">
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h5 class="mb-0">Derniers candidats</h5>
@@ -66,5 +95,26 @@
         </tr>
       </tbody>
     </table>
+  </div>
+</div>
+
+<!-- ACTIVITÉ RÉCENTE -->
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h5 class="mb-3">Activité récente</h5>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        <i class="bi bi-check-circle-fill text-success"></i>
+        Jean Dupont ajouté
+      </li>
+      <li class="list-group-item">
+        <i class="bi bi-cash text-success"></i>
+        Paiement validé – Marie K.
+      </li>
+      <li class="list-group-item">
+        <i class="bi bi-journal-text text-primary"></i>
+        Note hebdomadaire saisie – Paul T.
+      </li>
+    </ul>
   </div>
 </div>

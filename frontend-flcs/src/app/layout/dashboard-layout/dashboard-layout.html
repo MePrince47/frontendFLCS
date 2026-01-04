@@ -2,18 +2,64 @@
   <div class="row min-vh-100">
 
     <!-- SIDEBAR -->
-    <aside class="col-2 bg-success text-white p-3">
-      <h5 class="fw-bold mb-4">Admin</h5>
+    <aside class="col-12 col-md-3 col-lg-2 bg-success text-white p-4 sidebar">
+      
+      <!-- LOGO / TITRE -->
+      <div class="mb-5">
+        <h4 class="fw-bold mb-0">Admin Panel</h4>
+        <small class="text-white-50">Gestion académique</small>
+      </div>
 
-      <ul class="nav flex-column gap-2">
-        <li><a routerLink="/app/home" class="nav-link text-white">Dashboard</a></li>
-        <li><a routerLink="/app/candidats" class="nav-link text-white">Candidats</a></li>
-        <li><a routerLink="/app/candidats/add" class="nav-link text-white">Ajouter</a></li>
+      <!-- MENU -->
+      <ul class="nav flex-column gap-1">
+
+        <li class="nav-item">
+          <a
+            routerLink="/app/home"
+            routerLinkActive="active"
+            class="nav-link d-flex align-items-center gap-2 text-white"
+          >
+            <i class="bi bi-speedometer2"></i>
+            Dashboard
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            routerLink="/app/candidats"
+            routerLinkActive="active"
+            class="nav-link d-flex align-items-center gap-2 text-white"
+          >
+            <i class="bi bi-people"></i>
+            Candidats
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a
+            routerLink="/app/candidats/add"
+            routerLinkActive="active"
+            class="nav-link d-flex align-items-center gap-2 text-white"
+          >
+            <i class="bi bi-person-plus"></i>
+            Ajouter candidat
+          </a>
+        </li>
+
       </ul>
+
+      <!-- FOOTER SIDEBAR -->
+      <div class="mt-auto pt-4 border-top border-light-subtle">
+        <a class="nav-link d-flex align-items-center gap-2 text-white opacity-75">
+          <i class="bi bi-box-arrow-right"></i>
+          Déconnexion
+        </a>
+      </div>
+
     </aside>
 
     <!-- CONTENU -->
-    <main class="col-10 p-4 bg-light">
+    <main class="col-12 col-md-9 col-lg-10 p-4 bg-light">
       <router-outlet></router-outlet>
     </main>
 

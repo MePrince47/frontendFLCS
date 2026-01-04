@@ -1,7 +1,12 @@
-aside {
-  min-height: 100vh;
+.card {
+  border-radius: 14px;
 }
 
-.card {
-  max-width: 900px;
+.card:hover {
+  transform: translateY(-3px);
+  transition: all 0.2s ease-in-out;
+}
+
+.table tr:hover {
+  background-color: #f8f9fa;
 }

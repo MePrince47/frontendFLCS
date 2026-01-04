@@ -1,0 +1,12 @@
+aside {
+  min-height: 100vh;
+}
+
+.nav-link {
+  border-radius: 6px;
+  padding: 8px 12px;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+  }
+}

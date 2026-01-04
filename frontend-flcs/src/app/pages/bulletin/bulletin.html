@@ -1,0 +1,33 @@
+<div *ngIf="!bulletin?.paye" class="alert alert-danger">
+  Paiement requis pour consulter le bulletin
+</div>
+
+<div *ngIf="bulletin?.paye">
+
+  <h4 class="text-center mb-4">
+    Bulletin de {{ bulletin.nom }} {{ bulletin.prenom }}
+  </h4>
+
+  <ul class="list-group">
+    <li class="list-group-item">
+      Moyenne hebdomadaire : <strong>{{ bulletin.moyenneHebdo }}</strong>
+    </li>
+    <li class="list-group-item">
+      Note examen : <strong>{{ bulletin.noteExamen }}</strong>
+    </li>
+    <li class="list-group-item fw-bold">
+      Moyenne finale : {{ bulletin.moyenneFinale }}
+    </li>
+  </ul>
+
+  <div class="mt-3 text-center">
+    <span
+      class="badge fs-6"
+      [class.bg-success]="bulletin.decision === 'Admis'"
+      [class.bg-danger]="bulletin.decision === 'Ajourné'"
+    >
+      {{ bulletin.decision }}
+    </span>
+  </div>
+
+</div>

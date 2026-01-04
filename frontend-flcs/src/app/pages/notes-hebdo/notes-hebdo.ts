@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './notes-hebdo.html',
 })
 export class NotesHebdo {
+  editionActive = false;
 
   candidats = [
     {
@@ -17,17 +18,14 @@ export class NotesHebdo {
       prenom: 'Jean',
       niveau: 'A1',
       notes: { s1: null, s2: null, s3: null, s4: null, s5: null }
-    },
-    {
-      id: 2,
-      nom: 'Martin',
-      prenom: 'Sophie',
-      niveau: 'A1',
-      notes: { s1: null, s2: null, s3: null, s4: null, s5: null }
     }
   ];
 
-  enregistrer(candidat: any) {
-    console.log('Enregistrement:', candidat);
+  activerEdition() {
+    this.editionActive = true;
+  }
+
+  enregistrer() {
+    this.editionActive = false;
   }
 }

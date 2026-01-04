@@ -1,6 +1,25 @@
 <div class="container-fluid">
   <h4 class="mb-4">Saisie des notes hebdomadaires</h4>
 
+  <!-- ACTIONS GLOBALES -->
+  <div class="d-flex justify-content-end gap-2 mb-3">
+    <button
+      *ngIf="!editionActive"
+      class="btn btn-outline-primary"
+      (click)="activerEdition()"
+    >
+      Éditer les notes
+    </button>
+
+    <button
+      *ngIf="editionActive"
+      class="btn btn-success"
+      (click)="enregistrer()"
+    >
+      Enregistrer
+    </button>
+  </div>
+
   <div class="card shadow-sm">
     <div class="card-body p-0">
 
@@ -15,29 +34,58 @@
             <th>S3</th>
             <th>S4</th>
             <th>S5</th>
-            <th>Action</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr *ngFor="let c of candidats">
+          <tr *ngFor="let c of candidats" [class.table-light]="!editionActive">
             <td>{{ c.nom }}</td>
             <td>{{ c.prenom }}</td>
             <td>{{ c.niveau }}</td>
 
-            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s1"></td>
-            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s2"></td>
-            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s3"></td>
-            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s4"></td>
-            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s5"></td>
+            <td>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="c.notes.s1"
+                [disabled]="!editionActive"
+              />
+            </td>
 
             <td>
-              <button
-                class="btn btn-sm btn-success"
-                (click)="enregistrer(c)"
-              >
-                Enregistrer
-              </button>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="c.notes.s2"
+                [disabled]="!editionActive"
+              />
+            </td>
+
+            <td>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="c.notes.s3"
+                [disabled]="!editionActive"
+              />
+            </td>
+
+            <td>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="c.notes.s4"
+                [disabled]="!editionActive"
+              />
+            </td>
+
+            <td>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="c.notes.s5"
+                [disabled]="!editionActive"
+              />
             </td>
           </tr>
         </tbody>

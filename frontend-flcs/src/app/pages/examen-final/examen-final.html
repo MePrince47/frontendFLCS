@@ -1,0 +1,59 @@
+<div class="container-fluid">
+  <h4 class="mb-4">Saisie de l'examen final</h4>
+
+  <!-- ACTIONS GLOBALES -->
+  <div class="d-flex justify-content-end gap-2 mb-3">
+    <button
+      *ngIf="!editionActive"
+      class="btn btn-outline-primary"
+      (click)="activerEdition()"
+    >
+      Éditer les notes
+    </button>
+
+    <button
+      *ngIf="editionActive"
+      class="btn btn-success"
+      (click)="enregistrer()"
+    >
+      Enregistrer
+    </button>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+
+      <table class="table table-bordered table-hover align-middle mb-0">
+        <thead class="table-success">
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Niveau</th>
+            <th>Note Examen</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let c of candidats" [class.table-light]="!editionActive">
+            <td>{{ c.nom }}</td>
+            <td>{{ c.prenom }}</td>
+            <td>{{ c.niveau }}</td>
+
+            <td>
+              <input
+                type="number"
+                class="form-control form-control-sm"
+                [(ngModel)]="c.noteExamen"
+                [disabled]="!editionActive"
+                min="0"
+                max="20"
+              />
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+  </div>
+</div>

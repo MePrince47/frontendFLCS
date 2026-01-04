@@ -18,6 +18,27 @@ export class NotesHebdo {
       prenom: 'Jean',
       niveau: 'A1',
       notes: { s1: null, s2: null, s3: null, s4: null, s5: null }
+    },
+    {
+      id: 1,
+      nom: 'Ismael',
+      prenom: 'Kote',
+      niveau: 'A1',
+      notes: { s1: null, s2: null, s3: null, s4: null, s5: null }
+    },
+    {
+      id: 2,
+      nom: 'Paul',
+      prenom: 'Jean',
+      niveau: 'A3',
+      notes: { s1: null, s2: null, s3: null, s4: null, s5: null }
+    },
+    {
+      id: 3,
+      nom: 'Patricia',
+      prenom: 'Makou',
+      niveau: 'A2',
+      notes: { s1: null, s2: null, s3: null, s4: null, s5: null }
     }
   ];
 

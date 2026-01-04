@@ -6,6 +6,7 @@ import { AddCandidate } from './pages/add-candidate/add-candidate';
 import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
 import { CandidateDetails } from './pages/candidate-details/candidate-details';
 import { NotesHebdo } from './pages/notes-hebdo/notes-hebdo';
+import { ExamenFinal } from './pages/examen-final/examen-final';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -21,6 +22,7 @@ export const routes: Routes = [
 
       { path: 'candidats/:id', component: CandidateDetails },
       { path: 'notes-hebdo', component: NotesHebdo },
+      { path: 'examen-final',component: ExamenFinal},
 
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]

@@ -8,6 +8,8 @@ import { CandidateDetails } from './pages/candidate-details/candidate-details';
 import { NotesHebdo } from './pages/notes-hebdo/notes-hebdo';
 import { ExamenFinal } from './pages/examen-final/examen-final';
 import { Bulletin } from './pages/bulletin/bulletin';
+import { Register } from './pages/register/register';
+
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -29,6 +31,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },
-
+  
+  { path: 'register', component: Register },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];

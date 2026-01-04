@@ -25,35 +25,39 @@
                 <th>Actions</th>
               </tr>
             </thead>
+                <tbody>
+                  <tr *ngFor="let candidat of candidats">
+                    <td>{{ candidat.nom }}</td>
+                    <td>{{ candidat.prenom }}</td>
+                    <td>{{ candidat.niveau }}</td>
 
-            <tbody>
-              <tr>
-                <td>Dupont</td>
-                <td>Jean</td>
-                <td>A1</td>
-                <td><span class="badge bg-success">Payé</span></td>
-                <td>
-                  <button class="btn btn-sm btn-outline-success">Modifier</button>
-                  <a
-                    class="btn btn-sm btn-outline-success"
-                    [routerLink]="['/app/candidats', candidat.id]"
-                  >
-                    Détails
-                  </a>
+                    <td>
+                      <span
+                        class="badge"
+                        [ngClass]="candidat.paye ? 'bg-success' : 'bg-danger'"
+                      >
+                        {{ candidat.paye ? 'Payé' : 'Non payé' }}
+                      </span>
+                    </td>
 
-                </td>
-              </tr>
+                    <td class="d-flex gap-2">
+                      <button
+                        class="btn btn-sm btn-outline-success"
+                        (click)="editCandidat(candidat)"
+                      >
+                        Modifier
+                      </button>
 
-              <tr>
-                <td>Martin</td>
-                <td>Sophie</td>
-                <td>B1</td>
-                <td><span class="badge bg-danger">Non payé</span></td>
-                <td>
-                  <button class="btn btn-sm btn-outline-success">Modifier</button>
-                </td>
-              </tr>
-            </tbody>
+                      <a
+                        class="btn btn-sm btn-outline-success"
+                        [routerLink]="['/app/candidats', candidat.id]"
+                      >
+                        Détails
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+
           </table>
 
         </div>

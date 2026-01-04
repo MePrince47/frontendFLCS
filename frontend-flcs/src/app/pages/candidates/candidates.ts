@@ -9,8 +9,25 @@ import { RouterLink } from '@angular/router';
   styleUrls: ['./candidates.scss']
 })
 export class Candidates {
-  candidats = [
-    { id: 1, nom: 'Jean Dupont', niveau: 'A1' },
-    { id: 2, nom: 'Marie K.', niveau: 'B1' }
+   candidats = [
+    {
+      id: 1,
+      nom: 'Dupont',
+      prenom: 'Jean',
+      niveau: 'A1',
+      paye: true
+    },
+    {
+      id: 2,
+      nom: 'Martin',
+      prenom: 'Sophie',
+      niveau: 'B1',
+      paye: false
+    }
   ];
+  
+  editCandidat(candidat: any) {
+    console.log('Modifier', candidat);
+  }
+
 }

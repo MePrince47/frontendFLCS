@@ -1,0 +1,28 @@
+<div class="container">
+  <h4 class="mb-4">Notes hebdomadaires</h4>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+
+      <div class="row g-3">
+        <div class="col-md-2" *ngFor="let semaine of [1,2,3,4,5]; let i = index">
+          <label class="form-label">Semaine {{ semaine }}</label>
+          <input
+            type="number"
+            class="form-control"
+            min="0"
+            max="20"
+            [(ngModel)]="notes['s' + (i + 1)]"
+          />
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <button class="btn btn-success" (click)="enregistrer()">
+          Enregistrer
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>

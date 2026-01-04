@@ -5,6 +5,7 @@ import { Candidates } from './pages/candidates/candidates';
 import { AddCandidate } from './pages/add-candidate/add-candidate';
 import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
 import { CandidateDetails } from './pages/candidate-details/candidate-details';
+import { NotesHebdo } from './pages/notes-hebdo/notes-hebdo';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -14,9 +15,13 @@ export const routes: Routes = [
     component: DashboardLayout,
     children: [
       { path: 'home', component: Dashboard },
+
       { path: 'candidats', component: Candidates },
       { path: 'candidats/add', component: AddCandidate },
+
       { path: 'candidats/:id', component: CandidateDetails },
+      { path: 'candidats/:id/notes-hebdo', component: NotesHebdo },
+
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },

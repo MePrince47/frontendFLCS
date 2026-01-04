@@ -1,27 +1,48 @@
-<div class="container">
-  <h4 class="mb-4">Notes hebdomadaires</h4>
+<div class="container-fluid">
+  <h4 class="mb-4">Saisie des notes hebdomadaires</h4>
 
   <div class="card shadow-sm">
-    <div class="card-body">
+    <div class="card-body p-0">
 
-      <div class="row g-3">
-        <div class="col-md-2" *ngFor="let semaine of [1,2,3,4,5]; let i = index">
-          <label class="form-label">Semaine {{ semaine }}</label>
-          <input
-            type="number"
-            class="form-control"
-            min="0"
-            max="20"
-            [(ngModel)]="notes['s' + (i + 1)]"
-          />
-        </div>
-      </div>
+      <table class="table table-bordered table-hover align-middle mb-0">
+        <thead class="table-success">
+          <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Niveau</th>
+            <th>S1</th>
+            <th>S2</th>
+            <th>S3</th>
+            <th>S4</th>
+            <th>S5</th>
+            <th>Action</th>
+          </tr>
+        </thead>
 
-      <div class="mt-4">
-        <button class="btn btn-success" (click)="enregistrer()">
-          Enregistrer
-        </button>
-      </div>
+        <tbody>
+          <tr *ngFor="let c of candidats">
+            <td>{{ c.nom }}</td>
+            <td>{{ c.prenom }}</td>
+            <td>{{ c.niveau }}</td>
+
+            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s1"></td>
+            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s2"></td>
+            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s3"></td>
+            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s4"></td>
+            <td><input type="number" class="form-control form-control-sm" [(ngModel)]="c.notes.s5"></td>
+
+            <td>
+              <button
+                class="btn btn-sm btn-success"
+                (click)="enregistrer(c)"
+              >
+                Enregistrer
+              </button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
 
     </div>
   </div>

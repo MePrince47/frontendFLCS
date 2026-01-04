@@ -20,7 +20,7 @@ export const routes: Routes = [
       { path: 'candidats/add', component: AddCandidate },
 
       { path: 'candidats/:id', component: CandidateDetails },
-      { path: 'candidats/:id/notes-hebdo', component: NotesHebdo },
+      { path: 'notes-hebdo', component: NotesHebdo },
 
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]

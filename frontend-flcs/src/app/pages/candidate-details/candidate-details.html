@@ -1,0 +1,58 @@
+<h2 class="mb-4">Détails du candidat</h2>
+
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <h5 class="mb-3">Informations générales</h5>
+
+    <p><strong>Nom :</strong> {{ candidate.nom }}</p>
+    <p><strong>Partenaire :</strong> {{ candidate.partenaire }}</p>
+  </div>
+</div>
+
+<div class="row g-4">
+
+  <!-- PROGRESSION -->
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5>Progression</h5>
+
+        <label class="form-label">Niveau actuel</label>
+        <select class="form-select" [(ngModel)]="candidate.niveau">
+          <option>A1</option>
+          <option>A2</option>
+          <option>B1</option>
+          <option>B2</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAIEMENT -->
+  <div class="col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body">
+        <h5>Statut de paiement</h5>
+
+        <div class="form-check form-switch mt-3">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            [checked]="candidate.paiement === 'PAYE'"
+            (change)="candidate.paiement = $event.target.checked ? 'PAYE' : 'NON_PAYE'"
+          />
+          <label class="form-check-label">
+            {{ candidate.paiement === 'PAYE' ? 'Payé' : 'Non payé' }}
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="mt-4">
+  <button class="btn btn-success" (click)="saveChanges()">
+    Enregistrer les modifications
+  </button>
+</div>

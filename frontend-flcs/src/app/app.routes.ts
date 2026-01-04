@@ -4,6 +4,7 @@ import { Dashboard } from './pages/dashboard/dashboard';
 import { Candidates } from './pages/candidates/candidates';
 import { AddCandidate } from './pages/add-candidate/add-candidate';
 import { DashboardLayout } from './layout/dashboard-layout/dashboard-layout';
+import { CandidateDetails } from './pages/candidate-details/candidate-details';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -15,6 +16,7 @@ export const routes: Routes = [
       { path: 'home', component: Dashboard },
       { path: 'candidats', component: Candidates },
       { path: 'candidats/add', component: AddCandidate },
+      { path: 'candidats/:id', component: CandidateDetails },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },

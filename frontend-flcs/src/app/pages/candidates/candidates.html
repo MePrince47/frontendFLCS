@@ -34,6 +34,13 @@
                 <td><span class="badge bg-success">Payé</span></td>
                 <td>
                   <button class="btn btn-sm btn-outline-success">Modifier</button>
+                  <a
+                    class="btn btn-sm btn-outline-success"
+                    [routerLink]="['/app/candidats', candidat.id]"
+                  >
+                    Détails
+                  </a>
+
                 </td>
               </tr>
 

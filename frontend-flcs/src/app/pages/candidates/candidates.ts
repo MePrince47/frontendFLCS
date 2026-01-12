@@ -2,11 +2,13 @@ import { Component, OnInit, signal, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { ApiService } from '../../api.service';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-candidates',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './candidates.html',
   styleUrls: ['./candidates.scss']
 })
@@ -16,7 +18,7 @@ export class Candidates implements OnInit {
   candidats: any[] = [];
   loading = false;
 
-  constructor(private api: ApiService, private cdr: ChangeDetectorRef) {}
+  constructor(private api: ApiService, private cdr: ChangeDetectorRef,private router: Router) {}
 
   ngOnInit(): void {
     this.loadEleves();
@@ -58,6 +60,6 @@ export class Candidates implements OnInit {
   }
 
   editCandidat(candidat: any) {
-    console.log('Modifier', candidat);
-  }
+  this.router.navigate(['/app/candidats/edit', candidat.id]);
+}
 }

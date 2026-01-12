@@ -21,6 +21,7 @@ export const routes: Routes = [
       { path: 'home', component: Dashboard },
 
       { path: 'candidats', component: Candidates },
+      { path: 'candidats/edit/:id', component: AddCandidate },
       { path: 'candidats/add', component: AddCandidate },
 
       { path: 'candidats/:id', component: CandidateDetails },

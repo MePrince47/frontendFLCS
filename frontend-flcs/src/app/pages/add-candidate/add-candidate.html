@@ -65,8 +65,8 @@
                   name="niveauLangue"
                   [(ngModel)]="candidat.niveauLangue"
                   required>
-                  <option value="" disabled selected>-- Sélectionner --</option>
-                  <option *ngFor="let n of niveaux" [value]="n.code">
+                  <option  disabled selected>-- Sélectionner --</option>
+                  <option *ngFor="let n of niveaux" [ngValue]="n.code">
                     {{ n.code }}
                   </option>
                 </select>

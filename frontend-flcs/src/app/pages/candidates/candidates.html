@@ -1,7 +1,6 @@
 <div class="container-fluid">
   <div class="row min-vh-100">
 
-
     <!-- CONTENU -->
     <main class="col-12 col-md-9 col-lg-10 p-4 bg-light">
 
@@ -12,7 +11,7 @@
         </button>
       </div>
 
-      <div class="card shadow-sm">
+      <div class="card shadow-sm" >
         <div class="card-body p-0">
 
           <table class="table table-striped mb-0">
@@ -20,45 +19,68 @@
               <tr>
                 <th>Nom</th>
                 <th>Prénom</th>
-                <th>Niveau</th>
-                <th>Paiement</th>
+                <th>Date Naissance</th>
+                <th>Niveau scolaire</th>
+                <th>Niveau langue</th>
+                <th>Partenaire</th>
+                <th>Rentrée</th>
+                <th>Statut</th>
+                <th>Téléphone Candidat</th>
+                <th>Téléphone Parent</th>
+                <th>Type Procédure</th>
                 <th>Actions</th>
               </tr>
             </thead>
-                <tbody>
-                  <tr *ngFor="let candidat of candidats">
-                    <td>{{ candidat.nom }}</td>
-                    <td>{{ candidat.prenom }}</td>
-                    <td>{{ candidat.niveau }}</td>
+            <tbody>
+              <tr *ngFor="let candidat of candidats ">
+                <td>{{ candidat.nom }}</td>
+                <td>{{ candidat.prenom }}</td>
+                <td>{{ candidat.dateNaiss }}</td>
+                <td>{{ candidat.niveauScolaire }}</td>
+                <td>{{ candidat.niveauLangue }}</td>
+                <td>
+                  <span class="badge bg-primary">
+                    {{ candidat.partenaire }}
+                  </span>
+                </td>
+                <td>{{ candidat.rentree }}</td>
+                <td>{{ candidat.statut }}</td>
+                <td>{{ candidat.telCandidat }}</td>
+                <td>{{ candidat.telParent }}</td>
+                <td>{{ candidat.typeProcedure }}</td>
+                <td class="d-flex gap-2">
+                  <button
+                    class="btn btn-sm btn-outline-success"
+                    (click)="editCandidat(candidat)"
+                  >
+                    Modifier
+                  </button>
 
-                    <td>
-                      <span
-                        class="badge"
-                        [ngClass]="candidat.paye ? 'bg-success' : 'bg-danger'"
-                      >
-                        {{ candidat.paye ? 'Payé' : 'Non payé' }}
-                      </span>
-                    </td>
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    (click)="deleteCandidat(candidat.id)"
+                  >
+                    Supprimer
+                  </button>
 
-                    <td class="d-flex gap-2">
-                      <button
-                        class="btn btn-sm btn-outline-success"
-                        (click)="editCandidat(candidat)"
-                      >
-                        Modifier
-                      </button>
-
-                      <a
-                        class="btn btn-sm btn-outline-success"
-                        [routerLink]="['/app/candidats', candidat.id]"
-                      >
-                        Détails
-                      </a>
-                    </td>
-                  </tr>
-                </tbody>
-
+                  <a
+                    class="btn btn-sm btn-outline-primary"
+                    [routerLink]="['/app/candidats', candidat.id]"
+                  >
+                    Détails
+                  </a>
+                </td>
+              </tr>
+            </tbody>
           </table>
+
+          <div *ngIf="!loading && candidats.length === 0" class="p-3 text-center text-muted">
+            Aucun candidat trouvé.
+          </div>
+
+          <div *ngIf="loading" class="p-3 text-center">
+            <span class="spinner-border spinner-border-sm me-2"></span>Chargement...
+          </div>
 
         </div>
       </div>

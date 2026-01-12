@@ -1,61 +1,164 @@
 <div class="container-fluid">
   <div class="row min-vh-100">
 
-
     <!-- CONTENU -->
     <main class="col-12 col-md-9 col-lg-10 p-4 bg-light">
 
-      <h2 class="mb-4">Ajouter un candidat</h2>
+      <h2 class="mb-4">
+        {{ isEdit ? 'Modifier un candidat' : 'Ajouter un candidat' }}
+      </h2>
 
       <div class="card shadow-sm">
         <div class="card-body">
 
-          <form>
+          <form (ngSubmit)="submit()" #candidatForm="ngForm">
+
             <div class="row g-3">
 
+              <!-- NOM -->
               <div class="col-md-6">
-                <label class="form-label">Nom</label>
-                <input type="text" class="form-control">
+                <label class="form-label">Nom *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="nom"
+                  [(ngModel)]="candidat.nom"
+                  required>
               </div>
 
+              <!-- PRENOM -->
               <div class="col-md-6">
-                <label class="form-label">Prénom</label>
-                <input type="text" class="form-control">
+                <label class="form-label">Prénom *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="prenom"
+                  [(ngModel)]="candidat.prenom"
+                  required>
               </div>
 
+              <!-- DATE NAISSANCE -->
               <div class="col-md-6">
-                <label class="form-label">Niveau</label>
-                <select class="form-select">
-                  <option>A1</option>
-                  <option>A2</option>
-                  <option>B1</option>
-                  <option>B2</option>
+                <label class="form-label">Date de naissance</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  name="dateNaiss"
+                  [(ngModel)]="candidat.dateNaiss">
+              </div>
+
+              <!-- NIVEAU SCOLAIRE -->
+              <div class="col-md-6">
+                <label class="form-label">Niveau scolaire</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="niveauScolaire"
+                  [(ngModel)]="candidat.niveauScolaire">
+              </div>
+
+              <!-- NIVEAU LANGUE -->
+              <div class="col-md-6">
+                <label class="form-label">Niveau langue *</label>
+                <select
+                  class="form-select"
+                  name="niveauLangue"
+                  [(ngModel)]="candidat.niveauLangue"
+                  required>
+                  <option value="" disabled selected>-- Sélectionner --</option>
+                  <option *ngFor="let n of niveaux" [value]="n.code">
+                    {{ n.code }}
+                  </option>
                 </select>
               </div>
 
+              <!-- PARTENAIRE -->
               <div class="col-md-6">
-                <label class="form-label">Rentrée</label>
-                <select class="form-select">
-                  <option>2024</option>
-                  <option>2025</option>
+                <label class="form-label">Partenaire *</label>
+                <select
+                  class="form-select"
+                  name="partenaire"
+                  [(ngModel)]="candidat.partenaire"
+                  required>
+                  <option value="" disabled selected>-- Sélectionner --</option>
+                  <option *ngFor="let p of partenaires" [value]="p.nomPartenaire">
+                    {{ p.nomPartenaire }}
+                  </option>
                 </select>
               </div>
 
+              <!-- RENTRÉE -->
+              <div class="col-md-6">
+                <label class="form-label">Rentrée *</label>
+                <select
+                  class="form-select"
+                  name="rentree"
+                  [(ngModel)]="candidat.rentree"
+                  required>
+                  <option value="" disabled selected>-- Sélectionner --</option>
+                  <option *ngFor="let r of rentrees" [value]="r.nomRentree">
+                    {{ r.nomRentree }}
+                  </option>
+                </select>
+              </div>
+
+              <!-- TELEPHONE CANDIDAT -->
+              <div class="col-md-6">
+                <label class="form-label">Téléphone candidat</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="telCandidat"
+                  [(ngModel)]="candidat.telCandidat">
+              </div>
+
+              <!-- TELEPHONE PARENT -->
+              <div class="col-md-6">
+                <label class="form-label">Téléphone parent</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="telParent"
+                  [(ngModel)]="candidat.telParent">
+              </div>
+
+              <!-- TYPE PROCEDURE -->
+              <div class="col-md-6">
+                <label class="form-label">Type procédure</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  name="typeProcedure"
+                  [(ngModel)]="candidat.typeProcedure">
+              </div>
+
+              <!-- STATUT PAIEMENT -->
               <div class="col-md-6">
                 <label class="form-label">Statut paiement</label>
-                <select class="form-select">
-                  <option>Payé</option>
-                  <option>Non payé</option>
+                <select
+                  class="form-select"
+                  name="statut"
+                  [(ngModel)]="candidat.statut">
+                  <option value="PAYE">Payé</option>
+                  <option value="NON_PAYE">Non payé</option>
                 </select>
               </div>
 
             </div>
 
+            <!-- BOUTONS -->
             <div class="mt-4 d-flex gap-2">
-              <button type="button" class="btn btn-warning">
-                Enregistrer
+              <button
+                type="submit"
+                class="btn btn-warning"
+                [disabled]="!candidatForm.form.valid">
+                {{ isEdit ? 'Mettre à jour' : 'Enregistrer' }}
               </button>
-              <button type="button" class="btn btn-secondary">
+
+              <button
+                type="button"
+                class="btn btn-secondary"
+                routerLink="/app/candidats">
                 Annuler
               </button>
             </div>

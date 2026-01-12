@@ -1,12 +1,27 @@
-aside {
-  min-height: 100vh;
+.avatar-sm {
+  font-size: 0.85rem;
+  font-weight: bold;
 }
 
-.table th {
-  white-space: nowrap;
+.table {
+  th {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    color: #6c757d;
+  }
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.bg-light-subtle {
+  background-color: #f8f9fa;
+  border-left: 4px solid #0d6efd;
 }
 
 .badge {
-  padding: 6px 10px;
-  font-size: 0.85rem;
+  padding: 0.5em 0.8em;
 }

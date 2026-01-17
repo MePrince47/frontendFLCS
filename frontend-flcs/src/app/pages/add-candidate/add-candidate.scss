@@ -1,12 +1,113 @@
+/* Animation d'entrée */
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Effet sur les boutons */
+.transition-btn {
+  transition: all 0.3s ease;
+}
+
+.transition-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+
+/* Style des cartes */
 .card {
-  border-radius: 14px;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
-.card:hover {
-  transform: translateY(-3px);
-  transition: all 0.2s ease-in-out;
+/* Personnalisation de la barre de défilement (Scrollbar) */
+.list-container::-webkit-scrollbar {
+  width: 4px;
+}
+.list-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 10px;
 }
 
-.table tr:hover {
-  background-color: #f8f9fa;
+
+
+/* Style des inputs "Clean" */
+.form-control, .form-select {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    transition: all 0.2s ease-in-out;
+}
+
+.form-control:focus, .form-select:focus {
+    background-color: #fff !important;
+    box-shadow: 0 0 0 0.25rem rgba(255, 193, 7, 0.15) !important;
+    border: 1px solid #ffc107 !important;
+}
+
+/* Bouton principal animé */
+.transition-btn {
+    transition: all 0.3s transform;
+    border-radius: 10px;
+}
+
+.transition-btn:hover:not(:disabled) {
+    transform: scale(1.02);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.transition-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Badge de statut dynamique */
+.form-select.bg-success-subtle {
+    color: #198754;
+}
+
+/* Animation douce pour l'apparition du formulaire */
+.card {
+    animation: slideUp 0.6s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Supprimer l'effet bleu par défaut de Bootstrap au clic */
+.accordion-button:focus {
+    box-shadow: none;
+    border-color: rgba(0,0,0,.125);
+}
+
+/* Style des boutons d'accordéon quand ils sont ouverts */
+.accordion-button:not(.collapsed) {
+    color: white;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.125);
+}
+
+/* Animation de rotation de la flèche */
+.accordion-button::after {
+    filter: brightness(0) invert(1); /* Rend la flèche blanche */
+}
+
+/* Arrondir les angles des items de l'accordéon */
+.accordion-item {
+    border-radius: 12px !important;
+    overflow: hidden;
+}
+
+.accordion-button {
+    border-radius: 12px !important;
+}
+
+/* Transition douce sur les formulaires */
+.accordion-body {
+    transition: all 0.3s ease;
 }

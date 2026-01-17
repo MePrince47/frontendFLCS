@@ -4,170 +4,256 @@
     <!-- CONTENU -->
     <main class="col-12 col-md-9 col-lg-10 p-4 bg-light">
 
-      <h2 class="mb-4">
-        {{ isEdit ? 'Modifier un candidat' : 'Ajouter un candidat' }}
-      </h2>
+<div class="row g-4 mb-4">
 
-      <div class="card shadow-sm">
-        <div class="card-body">
+<div class="accordion shadow-sm rounded-4 overflow-hidden" id="accordionSettings">
 
-          <form (ngSubmit)="submit()" #candidatForm="ngForm">
+  <div class="accordion-item border-0 mb-2 shadow-sm rounded-3">
+    <h2 class="accordion-header">
+      <button class="accordion-button bg-primary bg-gradient text-white fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseRentree">
+        <i class="bi bi-calendar-event me-2"></i> Gestion de la Rentrée
+      </button>
+    </h2>
+    <div id="collapseRentree" class="accordion-collapse collapse" data-bs-parent="#accordionSettings">
+      <div class="accordion-body bg-white">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label small fw-bold text-muted">Nom de la session</label>
+            <input class="form-control border-0 bg-light" type="text" placeholder="ex: Automne 2024" [(ngModel)]="nouvelleRentree.nomRentree" name="nomRentree">
+          </div>
+          <div class="col-md-6">
+            <label class="form-label small fw-bold text-muted">Date de début</label>
+            <input class="form-control border-0 bg-light" type="date" [(ngModel)]="nouvelleRentree.dateDebut" name="dateDebut">
+          </div>
+        </div>
+        <button class="btn btn-primary btn-sm mt-3 w-100 shadow-sm transition-btn" (click)="creerRentree()">
+          <i class="bi bi-plus-circle me-2"></i>Créer la rentrée
+        </button>
 
-            <div class="row g-3">
+        <hr class="my-4">
 
-              <!-- NOM -->
-              <div class="col-md-6">
-                <label class="form-label">Nom *</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="nom"
-                  [(ngModel)]="candidat.nom"
-                  required>
-              </div>
-
-              <!-- PRENOM -->
-              <div class="col-md-6">
-                <label class="form-label">Prénom *</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="prenom"
-                  [(ngModel)]="candidat.prenom"
-                  required>
-              </div>
-
-              <!-- DATE NAISSANCE -->
-              <div class="col-md-6">
-                <label class="form-label">Date de naissance</label>
-                <input
-                  type="date"
-                  class="form-control"
-                  name="dateNaiss"
-                  [(ngModel)]="candidat.dateNaiss">
-              </div>
-
-              <!-- NIVEAU SCOLAIRE -->
-              <div class="col-md-6">
-                <label class="form-label">Niveau scolaire</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="niveauScolaire"
-                  [(ngModel)]="candidat.niveauScolaire">
-              </div>
-
-              <!-- NIVEAU LANGUE -->
-              <div class="col-md-6">
-                <label class="form-label">Niveau langue *</label>
-                <select
-                  class="form-select"
-                  name="niveauLangue"
-                  [(ngModel)]="candidat.niveauLangue"
-                  required>
-                  <option  disabled selected>-- Sélectionner --</option>
-                  <option *ngFor="let n of niveaux" [ngValue]="n.code">
-                    {{ n.code }}
-                  </option>
-                </select>
-              </div>
-
-              <!-- PARTENAIRE -->
-              <div class="col-md-6">
-                <label class="form-label">Partenaire *</label>
-                <select
-                  class="form-select"
-                  name="partenaire"
-                  [(ngModel)]="candidat.partenaire"
-                  required>
-                  <option value="" disabled selected>-- Sélectionner --</option>
-                  <option *ngFor="let p of partenaires" [value]="p.nomPartenaire">
-                    {{ p.nomPartenaire }}
-                  </option>
-                </select>
-              </div>
-
-              <!-- RENTRÉE -->
-              <div class="col-md-6">
-                <label class="form-label">Rentrée *</label>
-                <select
-                  class="form-select"
-                  name="rentree"
-                  [(ngModel)]="candidat.rentree"
-                  required>
-                  <option value="" disabled selected>-- Sélectionner --</option>
-                  <option *ngFor="let r of rentrees" [value]="r.nomRentree">
-                    {{ r.nomRentree }}
-                  </option>
-                </select>
-              </div>
-
-              <!-- TELEPHONE CANDIDAT -->
-              <div class="col-md-6">
-                <label class="form-label">Téléphone candidat</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="telCandidat"
-                  [(ngModel)]="candidat.telCandidat">
-              </div>
-
-              <!-- TELEPHONE PARENT -->
-              <div class="col-md-6">
-                <label class="form-label">Téléphone parent</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="telParent"
-                  [(ngModel)]="candidat.telParent">
-              </div>
-
-              <!-- TYPE PROCEDURE -->
-              <div class="col-md-6">
-                <label class="form-label">Type procédure</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  name="typeProcedure"
-                  [(ngModel)]="candidat.typeProcedure">
-              </div>
-
-              <!-- STATUT PAIEMENT -->
-              <div class="col-md-6">
-                <label class="form-label">Statut paiement</label>
-                <select
-                  class="form-select"
-                  name="statut"
-                  [(ngModel)]="candidat.statut">
-                  <option value="PAYE">Payé</option>
-                  <option value="NON_PAYE">Non payé</option>
-                </select>
-              </div>
-
-            </div>
-
-            <!-- BOUTONS -->
-            <div class="mt-4 d-flex gap-2">
-              <button
-                type="submit"
-                class="btn btn-warning"
-                [disabled]="!candidatForm.form.valid">
-                {{ isEdit ? 'Mettre à jour' : 'Enregistrer' }}
-              </button>
-
-              <button
-                type="button"
-                class="btn btn-secondary"
-                routerLink="/app/candidats">
-                Annuler
-              </button>
-            </div>
-
-          </form>
-
+        <h6 class="fw-bold mb-3 text-primary"><i class="bi bi-list-stars me-2"></i>Sessions existantes</h6>
+        <div class="list-container bg-light rounded p-2" style="max-height: 150px; overflow-y: auto;">
+          <div *ngIf="rentrees.length === 0" class="text-center text-muted small py-2">Aucune rentrée enregistrée</div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item bg-transparent d-flex justify-content-between align-items-center p-2 small" *ngFor="let r of rentrees">
+              <span class="fw-medium">{{ r.nomRentree }}</span>
+              <span class="badge bg-white text-primary border shadow-sm">{{ r.dateDebut | date:'dd/MM/yyyy' }}</span>
+            </li>
+          </ul>
         </div>
       </div>
+    </div>
+  </div>
 
+  <div class="accordion-item border-0 mb-2 shadow-sm rounded-3">
+    <h2 class="accordion-header">
+      <button class="accordion-button bg-success bg-gradient text-white fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseNiveau">
+        <i class="bi bi-mortarboard me-2"></i> Nouveau Niveau Académique
+      </button>
+    </h2>
+    <div id="collapseNiveau" class="accordion-collapse collapse" data-bs-parent="#accordionSettings">
+      <div class="accordion-body bg-white">
+        <p class="text-muted small mb-3">Définissez un nouveau grade académique ou technique pour les candidatures.</p>
+        <form (ngSubmit)="ajouterNiveau()">
+          <div class="row g-2">
+            <div class="col-md-7">
+              <input class="form-control border-0 bg-light" type="text" placeholder="Nom du niveau (ex: A1)" [(ngModel)]="nouveauNiveau.nom" name="nomNiveau" required>
+            </div>
+            <div class="col-md-5">
+              <input class="form-control border-0 bg-light" type="text" placeholder="Code (ex: M1 )" [(ngModel)]="nouveauNiveau.code" name="codeNiveau" required>
+            </div>
+          </div>
+          <button class="btn btn-success btn-sm mt-3 w-100 shadow-sm transition-btn" type="submit">
+            <i class="bi bi-check-all me-2"></i>Enregistrer le niveau
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="accordion-item border-0 mb-2 shadow-sm rounded-3">
+    <h2 class="accordion-header">
+      <button class="accordion-button bg-dark bg-gradient text-white fw-bold collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePartenaire">
+        <i class="bi bi-building me-2"></i> Partenaires Externes
+      </button>
+    </h2>
+    <div id="collapsePartenaire" class="accordion-collapse collapse" data-bs-parent="#accordionSettings">
+      <div class="accordion-body bg-white">
+        <form (ngSubmit)="ajouterPartenaire()">
+          <div class="mb-3">
+            <div class="input-group">
+              <span class="input-group-text border-0 bg-light"><i class="bi bi-person-badge"></i></span>
+              <input class="form-control border-0 bg-light" type="text" placeholder="Nom du partenaire" [(ngModel)]="nouveauPartenaire.nomPartenaire" name="nomPartenaire" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="input-group">
+              <span class="input-group-text border-0 bg-light"><i class="bi bi-geo-alt"></i></span>
+              <input class="form-control border-0 bg-light" type="text" placeholder="Adresse complète" [(ngModel)]="nouveauPartenaire.adresse" name="adressePartenaire">
+            </div>
+          </div>
+          <button class="btn btn-dark btn-sm w-100 shadow-sm transition-btn" type="submit">
+            <i class="bi bi-send me-2"></i>Ajouter le partenaire
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</div>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="container py-4">
+  <div class="d-flex align-items-center mb-4">
+    <div class="icon-shape bg-warning text-white rounded-circle shadow-sm me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+      <i class="bi" [ngClass]="isEdit ? 'bi-pencil-square' : 'bi-person-plus-fill'" style="font-size: 1.5rem;"></i>
+    </div>
+    <div>
+      <h2 class="mb-0 fw-bold text-dark">{{ isEdit ? 'Modifier le candidat' : 'Nouveau Candidat' }}</h2>
+      <p class="text-muted mb-0 small">Veuillez remplir les informations marquées d'une étoile (*)</p>
+    </div>
+  </div>
+
+  <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+    <div class="card-body p-4 p-md-5">
+      <form (ngSubmit)="submit()" #candidatForm="ngForm">
+
+        <div class="mb-5">
+          <h5 class="text-primary mb-4 border-bottom pb-2">
+            <i class="bi bi-person-badge me-2"></i>Informations Personnelles
+          </h5>
+          <div class="row g-4">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Nom <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-0"><i class="bi bi-person text-muted"></i></span>
+                <input type="text" class="form-control border-0 bg-light" name="nom" [(ngModel)]="candidat.nom" required placeholder="Nom de famille">
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Prénom <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <span class="input-group-text bg-light border-0"><i class="bi bi-person text-muted"></i></span>
+                <input type="text" class="form-control border-0 bg-light" name="prenom" [(ngModel)]="candidat.prenom" required placeholder="Prénoms">
+              </div>
+            </div>
+            <div class="col-md-4">
+          <label class="form-label fw-semibold">Montant total <span class="text-danger">*</span></label>
+          <input type="number" class="form-control border-0 bg-light" name="montantTotal" [(ngModel)]="candidat.montantTotal" required min="1">
+        </div>
+
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Date de naissance</label>
+              <input type="date" class="form-control border-0 bg-light shadow-none" name="dateNaiss" [(ngModel)]="candidat.dateNaiss">
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label fw-semibold">Téléphone candidat</label>
+              <input type="tel" class="form-control border-0 bg-light" name="telCandidat" [(ngModel)]="candidat.telCandidat" placeholder="Ex: +223...">
+            </div>
+
+            <div class="col-md-3">
+              <label class="form-label fw-semibold">Téléphone parent</label>
+              <input type="tel" class="form-control border-0 bg-light" name="telParent" [(ngModel)]="candidat.telParent">
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-5">
+          <h5 class="text-success mb-4 border-bottom pb-2">
+            <i class="bi bi-mortarboard me-2"></i>Parcours & Langues
+          </h5>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Niveau scolaire</label>
+              <input type="text" class="form-control border-0 bg-light" name="niveauScolaire" [(ngModel)]="candidat.niveauScolaire" placeholder="Ex: Licence 3">
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Niveau langue <span class="text-danger">*</span></label>
+              <select class="form-select border-0 bg-light" name="niveauLangue" [(ngModel)]="candidat.niveauLangue" required>
+                <option [ngValue]="undefined" disabled selected>-- Sélectionner --</option>
+                <option *ngFor="let n of niveaux" [ngValue]="n.code">{{ n.code }}</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Type procédure</label>
+              <input type="text" class="form-control border-0 bg-light" name="typeProcedure" [(ngModel)]="candidat.typeProcedure">
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h5 class="text-dark mb-4 border-bottom pb-2">
+            <i class="bi bi-gear-wide-connected me-2"></i>Détails Administratifs
+          </h5>
+          <div class="row g-4">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Partenaire <span class="text-danger">*</span></label>
+              <select class="form-select border-0 bg-light font-weight-bold" name="partenaire" [(ngModel)]="candidat.partenaire" required>
+                <option value="" disabled>-- Sélectionner --</option>
+                <option *ngFor="let p of partenaires" [value]="p.nomPartenaire">{{ p.nomPartenaire }}</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Rentrée <span class="text-danger">*</span></label>
+              <select class="form-select border-0 bg-light" name="rentree" [(ngModel)]="candidat.rentree" required>
+                <option value="" disabled>-- Sélectionner --</option>
+                <option *ngFor="let r of rentrees" [value]="r.nomRentree">{{ r.nomRentree }}</option>
+              </select>
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Statut paiement</label>
+              <select class="form-select border-0 fw-bold" 
+                      [ngClass]="candidat.statut === 'PAYE' ? 'text-success bg-success bg-opacity-10' : 'text-danger bg-danger bg-opacity-10'"
+                      name="statut" [(ngModel)]="candidat.statut">
+                <option value="PAYE">✓ Payé</option>
+                <option value="NON_PAYE">✗ Non payé</option>
+              </select>
+            </div>
+          </div>
+        </div>
+<div *ngIf="erreurMessage" class="alert alert-danger mb-3">
+  <strong>Erreur :</strong> {{ erreurMessage }}
+</div>
+        <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
+          <button type="submit" 
+                  class="btn btn-warning px-5 py-2 fw-bold shadow-sm transition-btn" 
+                  [disabled]="!candidatForm.form.valid">
+            <i class="bi bi-check2-circle me-2"></i>
+            {{ isEdit ? 'Mettre à jour les informations' : 'Enregistrer le candidat' }}
+          </button>
+
+          <button type="button" 
+                  class="btn btn-link text-decoration-none text-muted fw-semibold" 
+                  routerLink="/app/candidats">
+            Annuler et revenir
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+</div>
     </main>
   </div>
 </div>

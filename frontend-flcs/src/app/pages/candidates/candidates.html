@@ -46,9 +46,9 @@
                 </td>
                 <td>
                   <span [ngClass]="{
-                    'badge bg-success-subtle text-success': candidat.typeProcedure === 'ACTIF',
-                    'badge bg-warning-subtle text-warning': candidat.typeProcedure !== 'ACTIF'
-                  }">{{ candidat.typeProcedure }}</span>
+                    'badge bg-success-subtle text-success': candidat.statut === 'PAYE',
+                    'badge bg-warning-subtle text-warning': candidat.statut !== 'PAYE'
+                  }">{{ candidat.statut }}</span>
                 </td>
                 <td class="text-end pe-4">
                   <div class="btn-group">

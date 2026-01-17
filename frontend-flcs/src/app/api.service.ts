@@ -99,4 +99,139 @@ export class ApiService {
 
     return this.http.get<any>(`${this.baseUrl}/eleves/search`, { headers: this.authHeader, params });
   }
+
+  /* =======================
+   EVALUATIONS HEBDO (PLANNING)
+======================= */
+
+// Générer les 7 semaines pour un niveau
+creerEvaluationsPourNiveau(niveauId: number) {
+  return this.http.post(`${this.baseUrl}/evaluations-hebdo/niveau/${niveauId}`, {}, { headers: this.authHeader });
+}
+
+// Récupérer la liste des semaines d'un niveau
+getEvaluationsParNiveau(niveauId: number) {
+  return this.http.get<any[]>(`${this.baseUrl}/evaluations-hebdo/niveau/${niveauId}`, { headers: this.authHeader });
+}
+
+/* =======================
+   NOTES HEBDOMADAIRES
+======================= */
+
+saisirNoteHebdo(data: any) {
+  return this.http.post(`${this.baseUrl}/notes-hebdo`, data, { headers: this.authHeader });
+}
+
+modifierNoteHebdo(noteId: number, data: any) {
+  return this.http.put(`${this.baseUrl}/notes-hebdo/${noteId}`, data, { headers: this.authHeader });
+}
+
+getNotesHebdoParNiveauEtSemaine(niveauId: number, semaine: number) {
+  return this.http.get<any[]>(`${this.baseUrl}/notes-hebdo/niveau/${niveauId}/semaine/${semaine}`, { headers: this.authHeader });
+}
+
+getNotesHebdoParEleve(eleveId: number, niveauId: number) {
+  return this.http.get<any[]>(`${this.baseUrl}/notes-hebdo/eleve/${eleveId}/niveau/${niveauId}`, { headers: this.authHeader });
+}
+/* =======================
+   ENDPRÜFUNG (EXAMEN FINAL)
+======================= */
+
+// Créer l'événement examen
+creerEndprufung(data: any) {
+  return this.http.post(`${this.baseUrl}/endprufung`, data, { headers: this.authHeader });
+}
+
+// Saisir la note finale d'un élève
+saisirNoteFinale(data: any) {
+  return this.http.post(`${this.baseUrl}/notes-endprufung`, data, { headers: this.authHeader });
+}
+
+// Récupérer le résultat final d'un élève
+getNoteFinaleEleve(eleveId: number, niveauId: number) {
+  return this.http.get<any>(`${this.baseUrl}/notes-endprufung/eleve/${eleveId}/niveau/${niveauId}`, { headers: this.authHeader });
+}
+
+/* =======================
+   RÉSULTATS FINAUX PDF
+======================= */
+
+// Télécharger les résultats d’un niveau en PDF
+getResultatsNiveauPdf(niveauId: number) {
+  return this.http.get(`${this.baseUrl}/resultats/niveau/${niveauId}/pdf`, {
+    headers: this.authHeader,
+    responseType: 'blob' // pour récupérer un fichier PDF
+  });
+}
+
+// Télécharger le résultat final d’un élève en PDF
+getResultatElevePdf(eleveId: number, niveauId: number) {
+  return this.http.get(`${this.baseUrl}/resultats/eleve/${eleveId}/niveau/${niveauId}`, {
+    headers: this.authHeader,
+    responseType: 'blob'
+  });
+}
+
+/* =======================
+   PAIEMENTS
+======================= */
+
+// Enregistrer un paiement (POST déjà existant)
+createPaiement(data: any) {
+  return this.http.post(`${this.baseUrl}/paiements`, data, { headers: this.authHeader });
+}
+
+// Liste des paiements d’un élève
+getPaiementsEleve(eleveId: number) {
+  return this.http.get<any[]>(`${this.baseUrl}/paiements/eleve/${eleveId}`, { headers: this.authHeader });
+}
+
+// Résumé des paiements d’un élève
+getResumePaiementsEleve(id: number) {
+  return this.http.get<any>(`${this.baseUrl}/paiements/eleves/${id}/resume`, { headers: this.authHeader });
+}
+
+// Historique des paiements d’un élève
+getHistoriquePaiementsEleve(id: number) {
+  return this.http.get<any[]>(`${this.baseUrl}/paiements/eleves/${id}/paiements`, { headers: this.authHeader });
+}
+
+// Export PDF des paiements d’un élève
+exportPaiementsPdf(eleveId: number) {
+  return this.http.get(`${this.baseUrl}/paiements/paiements/export/pdf/${eleveId}`, {
+    headers: this.authHeader,
+    responseType: 'blob'
+  });
+}
+
+/* =======================
+   NIVEAUX – ACTIONS ADMINISTRATIVES
+======================= */
+
+// Promotion des élèves d’un niveau
+promouvoirNiveau(id: number) {
+  return this.http.post(`${this.baseUrl}/niveaux/${id}/promotion`, {}, { headers: this.authHeader });
+}
+
+// Clôture d’un niveau
+cloturerNiveau(id: number) {
+  return this.http.post(`${this.baseUrl}/niveaux/${id}/cloture`, {}, { headers: this.authHeader });
+}
+
+/* =======================
+   EXAMENS FINAUX – NIVEAU
+======================= */
+
+// Récupérer l’examen final d’un niveau
+getEndprufungParNiveau(niveauId: number) {
+  return this.http.get<any>(`${this.baseUrl}/endprufung/niveau/${niveauId}`, { headers: this.authHeader });
+}
+
+// Récupérer les notes finales d’un niveau
+getNotesEndprufungParNiveau(niveauId: number) {
+  return this.http.get<any[]>(`${this.baseUrl}/notes-endprufung/niveau/${niveauId}`, { headers: this.authHeader });
+}
+
+
+
 }

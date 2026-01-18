@@ -1,87 +1,96 @@
 <div class="container py-5">
-  <div class="card shadow-sm border-0 mb-4">
-    <div class="card-header bg-primary text-white py-3">
-      <h3 class="card-title mb-0 h5">
-        <i class="bi bi-journal-check me-2"></i>Gestion des Notes Hebdomadaires
-      </h3>
+  
+  <div class="card shadow-sm border-0 mb-4 overflow-hidden">
+    <div class="card-header bg-white border-bottom py-3">
+      <div class="d-flex align-items-center justify-content-between">
+        <h3 class="card-title mb-0 h5 text-primary fw-bold">
+          <i class="bi bi-calendar2-check me-2"></i>Suivi des Performances
+        </h3>
+        <span *ngIf="elevesAvecNotes.length > 0" class="badge rounded-pill bg-primary-subtle text-primary border border-primary-subtle px-3">
+          {{ elevesAvecNotes.length }} Élèves listés
+        </span>
+      </div>
     </div>
-    <div class="card-body bg-light">
-      <div class="row g-3">
-        <div class="col-md-6">
-          <label class="form-label fw-semibold text-secondary small uppercase">Niveau d'étude</label>
-          <div class="input-group">
-            <span class="input-group-text bg-white"><i class="bi bi-layers"></i></span>
-            <select
-              class="form-select shadow-none"
-              [(ngModel)]="niveauSelectionne"
-              (change)="afficherEleves()">
-              <option [ngValue]="null">-- Choisir un niveau --</option>
-              <option *ngFor="let n of niveaux" [ngValue]="n">
-                {{ n.code }} <span class="text-muted">(Barème {{ n.id }})</span>
-              </option>
+    
+    <div class="card-body bg-light-subtle">
+      <div class="row g-4">
+        <div class="col-md-4">
+          <label class="form-label small text-uppercase fw-bold text-muted">Niveau d'étude</label>
+          <div class="input-group input-group-merge">
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-layers text-primary"></i></span>
+            <select class="form-select shadow-none border-start-0" [(ngModel)]="niveauSelectionne" (change)="afficherEleves()">
+              <option [ngValue]="null">Choisir un niveau...</option>
+              <option *ngFor="let n of niveaux" [ngValue]="n">{{ n.code }}</option>
             </select>
           </div>
         </div>
 
-        <div class="col-md-6" *ngIf="evaluations.length > 0">
-          <label class="form-label fw-semibold text-secondary small">Période / Semaine</label>
+        <div class="col-md-4" *ngIf="evaluations.length > 0">
+          <label class="form-label small text-uppercase fw-bold text-muted">Période</label>
           <div class="input-group">
-            <span class="input-group-text bg-white"><i class="bi bi-calendar3"></i></span>
-            <select
-              class="form-select shadow-none"
-              [(ngModel)]="evaluationSelectionnee"
-              (change)="onEvaluationChange()">
-              <option [ngValue]="null">-- Sélectionner la semaine --</option>
-              <option *ngFor="let e of evaluations" [ngValue]="e">
-                Semaine {{ e.semaineNum }}
-              </option>
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-calendar3 text-primary"></i></span>
+            <select class="form-select shadow-none border-start-0" [(ngModel)]="evaluationSelectionnee" (change)="onEvaluationChange()">
+              <option [ngValue]="null">Sélectionner la semaine...</option>
+              <option *ngFor="let e of evaluations" [ngValue]="e">Semaine {{ e.semaineNum }}</option>
             </select>
           </div>
         </div>
+
       </div>
     </div>
   </div>
 
-  <div *ngIf="evaluationSelectionnee && elevesAvecNotes.length === 0" class="alert alert-warning border-0 shadow-sm d-flex align-items-center">
-    <i class="bi bi-exclamation-triangle-fill me-2"></i>
-    Aucune note enregistrée pour cette semaine.
+  <div *ngIf="evaluationSelectionnee && elevesAvecNotes.length === 0" class="text-center py-5 card border-0 shadow-sm">
+    <i class="bi bi-clipboard-x text-warning display-1 mb-3"></i>
+    <h4 class="text-secondary">Aucune donnée trouvée</h4>
+    <p class="text-muted">Aucune note n'a été enregistrée pour cette sélection.</p>
   </div>
 
-  <div class="card shadow-sm border-0" *ngIf="elevesAvecNotes.length > 0">
+  <div class="card shadow-sm border-0 mb-5" *ngIf="elevesAvecNotes.length > 0">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
-        <thead class="table-light">
+        <thead class="bg-light">
           <tr>
-            <th class="ps-4">Étudiant</th>
-            <th class="text-center" style="width: 100px;">LES</th>
-            <th class="text-center" style="width: 100px;">HOR</th>
-            <th class="text-center" style="width: 100px;">SCHR</th>
-            <th class="text-center" style="width: 100px;">GRAM</th>
-            <th class="text-center" style="width: 100px;">SPRE</th>
-            <th class="text-end pe-4">Actions</th>
+            <th class="ps-4 border-0 py-3 text-muted small uppercase" style="width: 250px;">Étudiant</th>
+            <th class="text-center border-0 py-3 text-muted small uppercase">LES</th>
+            <th class="text-center border-0 py-3 text-muted small uppercase">HOR</th>
+            <th class="text-center border-0 py-3 text-muted small uppercase">SCHR</th>
+            <th class="text-center border-0 py-3 text-muted small uppercase">GRAM</th>
+            <th class="text-center border-0 py-3 text-muted small uppercase">SPRE</th>
+            <th class="text-center border-0 py-3 text-muted small uppercase bg-primary-subtle text-primary">Moy.</th>
+            <th class="text-end pe-4 border-0 py-3 text-muted small uppercase">Action</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let note of elevesAvecNotes">
+          <tr *ngFor="let note of elevesAvecNotes" class="table-row-animate">
             <td class="ps-4">
-              <div class="fw-bold text-dark">{{ note.nom }}</div>
-              <div class="small text-muted text-uppercase">{{ note.prenom }}</div>
+              <div class="d-flex align-items-center">
+                <div class="avatar-soft me-3">{{ note.nom[0] }}{{ note.prenom[0] }}</div>
+                <div>
+                  <div class="fw-bold text-dark">{{ note.nom }}</div>
+                  <div class="small text-muted">{{ note.prenom }}</div>
+                </div>
+              </div>
             </td>
-            <td><input type="number" [(ngModel)]="note.les" class="form-control form-control-sm text-center border-subtle" min="0"></td>
-            <td><input type="number" [(ngModel)]="note.hor" class="form-control form-control-sm text-center border-subtle" min="0"></td>
-            <td><input type="number" [(ngModel)]="note.schreib" class="form-control form-control-sm text-center border-subtle" min="0"></td>
-            <td><input type="number" [(ngModel)]="note.gramm" class="form-control form-control-sm text-center border-subtle" min="0"></td>
-            <td><input type="number" [(ngModel)]="note.spre" class="form-control form-control-sm text-center border-subtle" min="0"></td>
+            <td><input type="number" [(ngModel)]="note.les" class="form-control form-control-custom" placeholder="00"></td>
+            <td><input type="number" [(ngModel)]="note.hor" class="form-control form-control-custom" placeholder="00"></td>
+            <td><input type="number" [(ngModel)]="note.schreib" class="form-control form-control-custom" placeholder="00"></td>
+            <td><input type="number" [(ngModel)]="note.gramm" class="form-control form-control-custom" placeholder="00"></td>
+            <td><input type="number" [(ngModel)]="note.spre" class="form-control form-control-custom" placeholder="00"></td>
+            
+            <td class="text-center bg-light-subtle">
+              <span class="fw-bold text-primary">--</span>
+            </td>
+
             <td class="text-end pe-4">
               <button 
-                [className]="note.id ? 'btn btn-outline-primary btn-sm px-3' : 'btn btn-success btn-sm px-3'"
+                (click)="enregistrerNote(note)"
                 [disabled]="note.loading"
-                (click)="enregistrerNote(note)">
+                [className]="note.id ? 'btn btn-action btn-update' : 'btn btn-action btn-save'">
                 
-                <span *ngIf="note.loading" class="spinner-border spinner-border-sm me-1" role="status"></span>
-                <i *ngIf="!note.loading" [className]="note.id ? 'bi bi-arrow-repeat me-1' : 'bi bi-check-lg me-1'"></i>
-                
-                {{ note.id ? (note.loading ? '...' : 'Actualiser') : (note.loading ? '...' : 'Valider') }}
+                <span *ngIf="note.loading" class="spinner-border spinner-border-sm" role="status"></span>
+                <i *ngIf="!note.loading" [className]="note.id ? 'bi bi-arrow-repeat' : 'bi bi-cloud-arrow-up'"></i>
+                <span class="ms-2 d-none d-xl-inline">{{ note.id ? 'Mettre à jour' : 'Enregistrer' }}</span>
               </button>
             </td>
           </tr>
@@ -90,14 +99,4 @@
     </div>
   </div>
 
-  <div *ngIf="message" class="toast-container position-fixed bottom-0 end-0 p-3">
-    <div class="toast show align-items-center text-white bg-success border-0 shadow" role="alert">
-      <div class="d-flex">
-        <div class="toast-body">
-          <i class="bi bi-check-circle me-2"></i>{{ message }}
-        </div>
-        <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="message = ''"></button>
-      </div>
-    </div>
-  </div>
 </div>

@@ -8,6 +8,7 @@ import { ApiService } from '../../api.service';
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './examen-final.html',
+  styleUrls: ['./examen-final.scss']
 })
 export class ExamenFinal implements OnInit {
 

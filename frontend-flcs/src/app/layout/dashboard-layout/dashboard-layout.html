@@ -1,83 +1,83 @@
 <div class="container-fluid">
   <div class="row min-vh-100">
 
-    <aside class="col-12 col-md-3 col-lg-2 bg-dark text-white p-0 d-flex flex-column sidebar shadow-lg">
+    <aside class="col-12 col-md-3 col-lg-2 bg-success text-white p-0 d-flex flex-column sidebar shadow">
       
-      <div class="p-4 mb-2 d-flex align-items-center gap-3 border-bottom border-secondary border-opacity-25">
-        <div class="bg-success rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
-          <i class="bi bi-mortarboard-fill fs-5"></i>
-        </div>
-        <div>
-          <h5 class="fw-bold mb-0">Admin FLCS</h5>
-          <span class="text-secondary small fw-medium">PORTAIL ACADÉMIQUE</span>
+      <div class="p-4 mb-2 border-bottom border-white border-opacity-25">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-mortarboard-fill fs-3"></i>
+          <div>
+            <h5 class="fw-bold mb-0">Admin FLCS</h5>
+            <small class="text-white-50 uppercase fw-bold" style="font-size: 0.65rem; letter-spacing: 1px;">Gestion Académique</small>
+          </div>
         </div>
       </div>
 
       <div class="p-3 flex-grow-1 overflow-auto">
         
-        <small class="text-secondary text-uppercase fw-bold px-3 mb-3 d-block" style="font-size: 0.7rem; letter-spacing: 1px;">Menu Principal</small>
-        
         <ul class="nav nav-pills flex-column gap-1">
+          
           <li class="nav-item">
-            <a routerLink="/app/home" routerLinkActive="active" class="nav-link custom-link">
-              <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            <a routerLink="/app/home" routerLinkActive="active" class="nav-link custom-sidebar-link">
+              <i class="bi bi-grid-1x2-fill me-2"></i> Dashboard
             </a>
           </li>
 
-          <li class="nav-item mt-3">
-            <small class="text-secondary text-uppercase fw-bold px-3 mb-2 d-block" style="font-size: 0.7rem;">Élèves</small>
+          <li class="nav-item mt-4 mb-2 px-3">
+            <span class="text-white-50 small fw-bold text-uppercase" style="font-size: 0.7rem;">Candidats</span>
           </li>
           
           <li class="nav-item">
-            <a routerLink="/app/candidats" routerLinkActive="active" class="nav-link custom-link">
-              <i class="bi bi-people me-2"></i> Liste des Candidats
+            <a routerLink="/app/candidats" routerLinkActive="active" class="nav-link custom-sidebar-link text-nowrap">
+              <i class="bi bi-people-fill me-2"></i> Liste complète
             </a>
           </li>
 
           <li class="nav-item">
-            <a routerLink="/app/candidats/add" routerLinkActive="active" class="nav-link custom-link">
-              <i class="bi bi-person-plus me-2"></i> Inscription Rapide
+            <a routerLink="/app/candidats/add" routerLinkActive="active" class="nav-link custom-sidebar-link">
+              <i class="bi bi-person-plus-fill me-2"></i> Ajouter nouveau
             </a>
           </li>
 
-          <li class="nav-item mt-3">
-            <small class="text-secondary text-uppercase fw-bold px-3 mb-2 d-block" style="font-size: 0.7rem;">Évaluations</small>
+          <li class="nav-item mt-4 mb-2 px-3">
+            <span class="text-white-50 small fw-bold text-uppercase" style="font-size: 0.7rem;">Résultats</span>
           </li>
 
           <li class="nav-item">
-            <a routerLink="/app/notes-hebdo" routerLinkActive="active" class="nav-link custom-link">
-              <i class="bi bi-journal-check me-2"></i> Notes Hebdomadaires
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a routerLink="/app/examen-final" routerLinkActive="active" class="nav-link custom-link">
-              <i class="bi bi-patch-check me-2"></i> Examen Final
+            <a routerLink="/app/notes-hebdo" routerLinkActive="active" class="nav-link custom-sidebar-link">
+              <i class="bi bi-calendar-check-fill me-2"></i> Notes Hebdo
             </a>
           </li>
 
           <li class="nav-item">
-            <a routerLink="/app/bulletin" routerLinkActive="active" class="nav-link custom-link">
-              <i class="bi bi-file-earmark-pdf me-2"></i> Bulletins & Résultats
+            <a routerLink="/app/examen-final" routerLinkActive="active" class="nav-link custom-sidebar-link">
+              <i class="bi bi-award-fill me-2"></i> Examen Final
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a routerLink="/app/bulletin" routerLinkActive="active" class="nav-link custom-sidebar-link">
+              <i class="bi bi-file-earmark-pdf-fill me-2"></i> Bulletins
             </a>
           </li>
         </ul>
       </div>
 
-      <div class="p-3 border-top border-secondary border-opacity-25 bg-black bg-opacity-25">
-        <a class="nav-link custom-link logout-link text-danger-emphasis">
-          <i class="bi bi-box-arrow-right me-2"></i> Déconnexion
-        </a>
+      <div class="p-3 mt-auto border-top border-white border-opacity-10">
+        <button class="btn btn-link nav-link text-white opacity-75 logout-hover d-flex align-items-center gap-2 w-100 border-0 shadow-none">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Déconnexion</span>
+        </button>
       </div>
 
     </aside>
 
-    <main class="col-12 col-md-9 col-lg-10 p-0 bg-light shadow-inner">
-      <header class="bg-white border-bottom py-2 px-4 d-none d-md-flex align-items-center justify-content-end shadow-sm" style="height: 60px;">
-         <div class="small text-muted fw-medium me-3">Session : 2025/2026</div>
-         <div class="vr me-3"></div>
-         <div class="fw-bold text-dark small">Utilisateur Admin</div>
-      </header>
+    <main class="col-12 col-md-9 col-lg-10 p-0 bg-light">
+      <nav class="navbar navbar-expand bg-white shadow-sm px-4 py-2 d-none d-md-flex justify-content-end mb-0">
+         <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2">
+            Année Académique 2025-2026
+         </span>
+      </nav>
 
       <div class="p-4 p-lg-5">
         <router-outlet></router-outlet>

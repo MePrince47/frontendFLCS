@@ -1,11 +1,52 @@
-.card {
-  border-radius: 12px;
+/* Container principal avec un léger dégradé */
+.login-page {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
 }
 
-h3 {
-  color: #2E7D32;
+/* Carte de connexion */
+.login-card {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 20px;
 }
 
-.btn-warning {
-  font-weight: 600;
+/* Style des inputs groupés */
+.input-group-text {
+  border-radius: 10px 0 0 10px;
+  border-color: #dee2e6;
+}
+
+.form-control {
+  border-radius: 0 10px 10px 0;
+  border-color: #dee2e6;
+  padding: 0.6rem 1rem;
+}
+
+.form-control:focus {
+  border-color: #dee2e6;
+}
+
+.input-group:focus-within .input-group-text,
+.input-group:focus-within .form-control {
+  border-color: #198754;
+  background-color: #fff;
+}
+
+/* Bouton */
+.btn-success {
+  background-color: #198754;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+  background-color: #157347;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(25, 135, 84, 0.3) !important;
+}
+
+/* Lien inscription */
+.text-success:hover {
+  text-decoration: underline !important;
 }

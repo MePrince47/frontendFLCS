@@ -1,60 +1,54 @@
-/* Sidebar Background */
-aside.bg-dark {
-  background-color: #1a1d21 !important;
+/* Sidebar de base */
+aside.bg-success {
+  background-color: #198754 !important; /* Le vert standard Bootstrap */
+  border-right: 1px solid rgba(0,0,0,0.05);
 }
 
-/* Liens personnalisés */
-.custom-link {
-  color: #aeb7c1 !important;
+/* Style des liens */
+.custom-sidebar-link {
+  color: rgba(255, 255, 255, 0.85) !important;
   font-weight: 500;
-  font-size: 0.9rem;
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
+  padding: 0.8rem 1.25rem;
+  border-radius: 10px;
   transition: all 0.2s ease;
-  display: flex;
-  align-items: center;
-
-  i {
-    font-size: 1.1rem;
-    opacity: 0.7;
-  }
-
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-    color: #fff !important;
-    transform: translateX(5px);
-    
-    i { opacity: 1; }
-  }
-
-  /* État actif (Angular routerLinkActive) */
-  &.active {
-    background-color: #198754 !important; /* Vert succès */
-    color: #fff !important;
-    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
-
-    i { opacity: 1; }
-  }
+  margin: 0 0.5rem;
 }
 
-/* Logout link spécifique */
-.logout-link {
-  &:hover {
-    background-color: rgba(220, 53, 69, 0.1);
-    color: #ea868f !important;
-  }
+/* Au survol */
+.custom-sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  color: #ffffff !important;
+  transform: translateX(4px);
 }
 
-/* Main content */
-main {
-  background-color: #f8f9fa;
+/* État actif (Angular) */
+.custom-sidebar-link.active {
+  background-color: #ffffff !important;
+  color: #198754 !important; /* Texte devient vert sur fond blanc */
+  font-weight: 700;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Custom Scrollbar pour le menu */
+.custom-sidebar-link.active i {
+  color: #198754 !important;
+}
+
+/* Déconnexion */
+.logout-hover:hover {
+  opacity: 1 !important;
+  color: #ffc107 !important; /* Jaune orangé pour l'alerte déconnexion */
+}
+
+/* Main Content */
+main.bg-light {
+  background-color: #f0f2f5 !important;
+}
+
+/* Scrollbar fine pour le menu */
 .overflow-auto::-webkit-scrollbar {
-  width: 4px;
+  width: 5px;
 }
 .overflow-auto::-webkit-scrollbar-thumb {
-  background: #333;
+  background: rgba(255,255,255,0.2);
   border-radius: 10px;
 }

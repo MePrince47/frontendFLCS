@@ -5,24 +5,28 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule],  // <-- important
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './login.html'
 })
 export class Login {
-  email = '';
+  username = '';
   password = '';
 
   constructor(private router: Router) {}
 
   login() {
-    if (!this.email || !this.password) {
+    if (!this.username || !this.password) {
       alert('Veuillez remplir tous les champs');
       return;
     }
 
-    // Appel API plus tard
-    console.log('Login:', this.email, this.password);
-
-    this.router.navigate(['/app/home']);
+    // Vérification simple pour l'instant
+    if (this.username === 'admin' && this.password === 'admin123') {
+      console.log('Connexion réussie !');
+      this.router.navigate(['/app/home']);
+    } else {
+      alert('Identifiants incorrects !');
+      this.password = '';
+    }
   }
 }

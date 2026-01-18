@@ -7,6 +7,69 @@
   <i class="bi bi-plus-lg"></i> Ajouter candidat
 </button>
   </div>
+<!-- FILTRES -->
+<!-- FILTRES -->
+<div class="card border-0 shadow-sm rounded-3 mb-4">
+  <div class="card-body">
+    <div class="row g-3 align-items-end">
+
+      <!-- Nom -->
+      <div class="col-md-3">
+        <label class="form-label small fw-bold text-muted">Nom</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="filters.nom"
+          placeholder="Nom du candidat">
+      </div>
+
+      <!-- Prénom -->
+      <div class="col-md-3">
+        <label class="form-label small fw-bold text-muted">Prénom</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="filters.prenom"
+          placeholder="Prénom du candidat">
+      </div>
+
+      <!-- Niveau (ID manuel ou futur select) -->
+      <div class="col-md-3">
+        <label class="form-label small fw-bold text-muted">Niveau (ID)</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="filters.niveauId"
+          placeholder="Ex: 1">
+      </div>
+
+      <!-- Rentrée (ID manuel ou futur select) -->
+      <div class="col-md-3">
+        <label class="form-label small fw-bold text-muted">Rentrée (ID)</label>
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="filters.rentreeId"
+          placeholder="Ex: 2025">
+      </div>
+
+      <!-- Actions -->
+      <div class="col-md-6">
+        <button class="btn btn-success w-100" (click)="search()">
+          <i class="bi bi-search me-2"></i>Rechercher
+        </button>
+      </div>
+
+      <div class="col-md-6">
+        <button class="btn btn-outline-secondary w-100" (click)="resetFilters()">
+          <i class="bi bi-arrow-clockwise me-2"></i>Réinitialiser
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
   <div class="card border-0 shadow-sm rounded-3">
     <div class="card-body p-0">

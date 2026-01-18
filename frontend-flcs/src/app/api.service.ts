@@ -232,6 +232,20 @@ getNotesEndprufungParNiveau(niveauId: number) {
   return this.http.get<any[]>(`${this.baseUrl}/notes-endprufung/niveau/${niveauId}`, { headers: this.authHeader });
 }
 
+// 🔹 Lister les élèves par rentrée
+getElevesByRentree(rentreeId: number | string) {
+  return this.http.get<any>(
+    `${this.baseUrl}/api/eleves/rentree/${rentreeId}`
+  );
+}
+
+// 🔹 Lister les élèves par niveau
+getElevesByNiveau(niveauId: number | string) {
+  return this.http.get<any>(
+    `${this.baseUrl}/api/eleves/niveau/${niveauId}`
+  );
+}
+
 
 
 }

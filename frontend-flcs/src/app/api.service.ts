@@ -146,6 +146,10 @@ creerEndprufung(data: any) {
 saisirNoteFinale(data: any) {
   return this.http.post(`${this.baseUrl}/notes-endprufung`, data, { headers: this.authHeader });
 }
+// Modifier une note finale existante (PUT)
+modifierNoteFinale(noteId: number, data: any) {
+  return this.http.put(`${this.baseUrl}/notes-endprufung/${noteId}`, data, { headers: this.authHeader });
+}
 
 // Récupérer le résultat final d'un élève
 getNoteFinaleEleve(eleveId: number, niveauId: number) {

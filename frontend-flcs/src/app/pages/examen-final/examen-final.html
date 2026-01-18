@@ -1,59 +1,94 @@
-<div class="container-fluid">
-  <h4 class="mb-4">Saisie de l'examen final</h4>
-
-  <!-- ACTIONS GLOBALES -->
-  <div class="d-flex justify-content-end gap-2 mb-3">
-    <button
-      *ngIf="!editionActive"
-      class="btn btn-outline-primary"
-      (click)="activerEdition()"
-    >
-      Éditer les notes
-    </button>
-
-    <button
-      *ngIf="editionActive"
-      class="btn btn-success"
-      (click)="enregistrer()"
-    >
-      Enregistrer
-    </button>
+<div class="container py-5">
+  
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-dark text-white py-3 d-flex align-items-center justify-content-between">
+      <h3 class="card-title mb-0 h5">
+        <i class="bi bi-mortarboard-fill me-2"></i>Examen Final <span class="fw-light opacity-75">(Endprüfung)</span>
+      </h3>
+      <span *ngIf="niveauSelectionne" class="badge bg-light text-dark">Niveau : {{ niveauSelectionne.code }}</span>
+    </div>
+    <div class="card-body bg-light">
+      <div class="row align-items-end">
+        <div class="col-md-5">
+          <label class="form-label fw-bold text-muted small uppercase">Sélectionner le Niveau</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white"><i class="bi bi-filter-circle"></i></span>
+            <select class="form-select shadow-none border-start-0" [(ngModel)]="niveauSelectionne" (change)="onNiveauChange()">
+              <option [ngValue]="null">-- Choisir un niveau --</option>
+              <option *ngFor="let n of niveaux" [ngValue]="n">{{ n.code }}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col-md-7 text-end">
+             </div>
+      </div>
+    </div>
   </div>
 
-  <div class="card shadow-sm">
-    <div class="card-body p-0">
+  <div *ngIf="loading" class="text-center my-5 p-5 card shadow-sm border-0">
+    <div class="spinner-grow text-primary" role="status"></div>
+    <p class="text-muted mt-3 mb-0 italic">Chargement des dossiers étudiants...</p>
+  </div>
 
-      <table class="table table-bordered table-hover align-middle mb-0">
-        <thead class="table-success">
-          <tr>
-            <th>Nom</th>
-            <th>Prénom</th>
-            <th>Niveau</th>
-            <th>Note Examen</th>
+  <div class="card shadow-sm border-0" *ngIf="!loading && notesFinales.length > 0">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-dark">
+          <tr class="small uppercase">
+            <th class="ps-4">Étudiant</th>
+            <th class="text-center" style="width: 90px;">LES</th>
+            <th class="text-center" style="width: 90px;">HOR</th>
+            <th class="text-center" style="width: 90px;">SCHR</th>
+            <th class="text-center" style="width: 90px;">GRAM</th>
+            <th class="text-center" style="width: 90px;">SPRE</th>
+            <th class="text-end pe-4">Statut / Action</th>
           </tr>
         </thead>
-
         <tbody>
-          <tr *ngFor="let c of candidats" [class.table-light]="!editionActive">
-            <td>{{ c.nom }}</td>
-            <td>{{ c.prenom }}</td>
-            <td>{{ c.niveau }}</td>
+          <tr *ngFor="let n of notesFinales">
+            <td class="ps-4">
+              <div class="d-flex align-items-center">
+                <div class="avatar-circle me-3">{{ n.nom[0] }}</div>
+                <div>
+                  <div class="fw-bold">{{ n.nom }}</div>
+                  <div class="small text-muted">{{ n.prenom }}</div>
+                </div>
+              </div>
+            </td>
 
-            <td>
-              <input
-                type="number"
-                class="form-control form-control-sm"
-                [(ngModel)]="c.noteExamen"
-                [disabled]="!editionActive"
-                min="0"
-                max="20"
-              />
+            <td><input type="number" [(ngModel)]="n.les" class="form-control form-control-sm text-center border-subtle" placeholder="-"></td>
+            <td><input type="number" [(ngModel)]="n.hor" class="form-control form-control-sm text-center border-subtle" placeholder="-"></td>
+            <td><input type="number" [(ngModel)]="n.schreib" class="form-control form-control-sm text-center border-subtle" placeholder="-"></td>
+            <td><input type="number" [(ngModel)]="n.gramm" class="form-control form-control-sm text-center border-subtle" placeholder="-"></td>
+            <td><input type="number" [(ngModel)]="n.spre" class="form-control form-control-sm text-center border-subtle" placeholder="-"></td>
+
+            <td class="text-end pe-4">
+              <button
+                [className]="n.id ? 'btn btn-outline-dark btn-sm rounded-pill px-3' : 'btn btn-primary btn-sm rounded-pill px-3'"
+                (click)="enregistrerNote(n)"
+                [disabled]="n.loading"
+              >
+                <span *ngIf="n.loading" class="spinner-border spinner-border-sm me-1"></span>
+                <i *ngIf="!n.loading" [className]="n.id ? 'bi bi-pencil-square me-1' : 'bi bi-cloud-arrow-up me-1'"></i>
+                {{ n.id ? 'Actualiser' : 'Publier' }}
+              </button>
             </td>
           </tr>
         </tbody>
-
       </table>
-
     </div>
   </div>
+
+  <div class="mt-4">
+    <div *ngIf="message" class="alert alert-success border-0 shadow-sm d-flex align-items-center animate__animated animate__fadeInUp">
+      <i class="bi bi-check-circle-fill me-2 fs-5"></i>
+      <div>{{ message }}</div>
+    </div>
+    
+    <div *ngIf="error" class="alert alert-danger border-0 shadow-sm d-flex align-items-center animate__animated animate__fadeInUp">
+      <i class="bi bi-exclamation-octagon-fill me-2 fs-5"></i>
+      <div>{{ error }}</div>
+    </div>
+  </div>
+
 </div>

@@ -1,0 +1,35 @@
+/* Style des avatars lettres */
+.avatar-circle {
+  width: 35px;
+  height: 35px;
+  background-color: #e9ecef;
+  color: #495057;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.8rem;
+  border: 1px solid #dee2e6;
+}
+
+/* Épurer les inputs dans le tableau */
+.table .form-control-sm {
+  padding: 0.25rem 0.1rem;
+  font-size: 0.9rem;
+  border-radius: 4px;
+}
+
+/* Header de table plus pro */
+.table thead th {
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.5px;
+}
+
+/* Retirer les flèches sur les inputs number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

@@ -1,68 +1,87 @@
-<div class="container-fluid p-4">
-
-  <h3 class="fw-bold mb-4">Saisie des notes hebdomadaires</h3>
-
-  <!-- Sélection Niveau / Semaine -->
-  <div class="row g-3 mb-4">
-    <div class="col-md-4">
-      <label class="form-label fw-bold">Niveau</label>
-      <select class="form-select"
-              [(ngModel)]="selectedNiveauId"
-              (change)="onNiveauChange()">
-        <option value="">-- Choisir un niveau --</option>
-        <option *ngFor="let n of niveaux" [value]="n.id">{{ n.code }}</option>
-      </select>
+<div class="container py-5">
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-header bg-primary text-white py-3">
+      <h3 class="card-title mb-0 h5">
+        <i class="bi bi-journal-check me-2"></i>Gestion des Notes Hebdomadaires
+      </h3>
     </div>
+    <div class="card-body bg-light">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label fw-semibold text-secondary small uppercase">Niveau d'étude</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white"><i class="bi bi-layers"></i></span>
+            <select
+              class="form-select shadow-none"
+              [(ngModel)]="niveauSelectionne"
+              (change)="afficherEleves()">
+              <option [ngValue]="null">-- Choisir un niveau --</option>
+              <option *ngFor="let n of niveaux" [ngValue]="n">
+                {{ n.code }} <span class="text-muted">(Barème {{ n.id }})</span>
+              </option>
+            </select>
+          </div>
+        </div>
 
-    <div class="col-md-4">
-      <label class="form-label fw-bold">Semaine</label>
-      <select class="form-select"
-              [(ngModel)]="selectedSemaine"
-              (change)="loadNotes()"
-              [disabled]="!selectedNiveauId || semaines.length === 0">
-        <option value="">-- Choisir une semaine --</option>
-        <option *ngFor="let s of semaines" [value]="s">Semaine {{ s }}</option>
-      </select>
-    </div>
-
-    <div class="col-md-4 text-end">
-      <button class="btn btn-outline-secondary w-100"
-              (click)="resetSelection()">
-        <i class="bi bi-arrow-clockwise me-2"></i>Réinitialiser
-      </button>
+        <div class="col-md-6" *ngIf="evaluations.length > 0">
+          <label class="form-label fw-semibold text-secondary small">Période / Semaine</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white"><i class="bi bi-calendar3"></i></span>
+            <select
+              class="form-select shadow-none"
+              [(ngModel)]="evaluationSelectionnee"
+              (change)="onEvaluationChange()">
+              <option [ngValue]="null">-- Sélectionner la semaine --</option>
+              <option *ngFor="let e of evaluations" [ngValue]="e">
+                Semaine {{ e.semaineNum }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Tableau des notes -->
-  <div *ngIf="notes.length > 0" class="card shadow-sm border-0">
+  <div *ngIf="evaluationSelectionnee && elevesAvecNotes.length === 0" class="alert alert-warning border-0 shadow-sm d-flex align-items-center">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    Aucune note enregistrée pour cette semaine.
+  </div>
+
+  <div class="card shadow-sm border-0" *ngIf="elevesAvecNotes.length > 0">
     <div class="table-responsive">
       <table class="table table-hover align-middle mb-0">
-        <thead class="bg-light">
+        <thead class="table-light">
           <tr>
-            <th>Élève</th>
-            <th class="text-center">LES</th>
-            <th class="text-center">HOR</th>
-            <th class="text-center">SCHREIB</th>
-            <th class="text-center">GRAMM</th>
-            <th class="text-center">SPRE</th>
-            <th class="text-end">Action</th>
+            <th class="ps-4">Étudiant</th>
+            <th class="text-center" style="width: 100px;">LES</th>
+            <th class="text-center" style="width: 100px;">HOR</th>
+            <th class="text-center" style="width: 100px;">SCHR</th>
+            <th class="text-center" style="width: 100px;">GRAM</th>
+            <th class="text-center" style="width: 100px;">SPRE</th>
+            <th class="text-end pe-4">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let n of notes">
-            <td>{{ n.nom }} {{ n.prenom }}</td>
-
-            <td><input type="number" class="form-control text-center" [(ngModel)]="n.les" min="0" max="20"></td>
-            <td><input type="number" class="form-control text-center" [(ngModel)]="n.hor" min="0" max="20"></td>
-            <td><input type="number" class="form-control text-center" [(ngModel)]="n.schreib" min="0" max="20"></td>
-            <td><input type="number" class="form-control text-center" [(ngModel)]="n.gramm" min="0" max="20"></td>
-            <td><input type="number" class="form-control text-center" [(ngModel)]="n.spre" min="0" max="20"></td>
-
-            <td class="text-end">
-              <button class="btn btn-sm btn-success"
-                      (click)="saveNote(n)"
-                      [disabled]="!selectedNiveauId || !selectedSemaine">
-                💾 Enregistrer
+          <tr *ngFor="let note of elevesAvecNotes">
+            <td class="ps-4">
+              <div class="fw-bold text-dark">{{ note.nom }}</div>
+              <div class="small text-muted text-uppercase">{{ note.prenom }}</div>
+            </td>
+            <td><input type="number" [(ngModel)]="note.les" class="form-control form-control-sm text-center border-subtle" min="0"></td>
+            <td><input type="number" [(ngModel)]="note.hor" class="form-control form-control-sm text-center border-subtle" min="0"></td>
+            <td><input type="number" [(ngModel)]="note.schreib" class="form-control form-control-sm text-center border-subtle" min="0"></td>
+            <td><input type="number" [(ngModel)]="note.gramm" class="form-control form-control-sm text-center border-subtle" min="0"></td>
+            <td><input type="number" [(ngModel)]="note.spre" class="form-control form-control-sm text-center border-subtle" min="0"></td>
+            <td class="text-end pe-4">
+              <button 
+                [className]="note.id ? 'btn btn-outline-primary btn-sm px-3' : 'btn btn-success btn-sm px-3'"
+                [disabled]="note.loading"
+                (click)="enregistrerNote(note)">
+                
+                <span *ngIf="note.loading" class="spinner-border spinner-border-sm me-1" role="status"></span>
+                <i *ngIf="!note.loading" [className]="note.id ? 'bi bi-arrow-repeat me-1' : 'bi bi-check-lg me-1'"></i>
+                
+                {{ note.id ? (note.loading ? '...' : 'Actualiser') : (note.loading ? '...' : 'Valider') }}
               </button>
             </td>
           </tr>
@@ -71,18 +90,14 @@
     </div>
   </div>
 
-  <div *ngIf="loading" class="text-center p-5">
-    <div class="spinner-border text-primary"></div>
-    <p class="mt-2">Chargement...</p>
+  <div *ngIf="message" class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast show align-items-center text-white bg-success border-0 shadow" role="alert">
+      <div class="d-flex">
+        <div class="toast-body">
+          <i class="bi bi-check-circle me-2"></i>{{ message }}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="message = ''"></button>
+      </div>
+    </div>
   </div>
-
-  <div *ngIf="!loading && notes.length === 0 && selectedNiveauId && selectedSemaine"
-       class="text-center p-5 text-muted">
-    <i class="bi bi-clipboard-x display-4"></i>
-    <p class="mt-3">Aucune note pour cette semaine.</p>
-  </div>
-
 </div>
-<p class="text-muted small mt-2">
-  Niveau: {{ selectedNiveauId }} | Semaine: {{ selectedSemaine }}
-</p>

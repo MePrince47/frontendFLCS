@@ -1,7 +1,9 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../api.service';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-notes-hebdo',
@@ -10,143 +12,259 @@ import { ApiService } from '../../api.service';
   templateUrl: './notes-hebdo.html',
 })
 export class NotesHebdo implements OnInit {
-  editionActive = false;
 
   niveaux: any[] = [];
-  semaines: number[] = [];
+  niveauSelectionne: any = null;
+
+  evaluations: any[] = [];
+  evaluationSelectionnee: any = null;
+
   notes: any[] = [];
 
-  selectedNiveauId!: number;
-  selectedSemaine!: number;
-
   loading = false;
+  message = '';
 
-  constructor(
-    private api: ApiService,
-    private cdr: ChangeDetectorRef
-  ) {}
+  constructor(private api: ApiService , private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.loadNiveaux();
+    this.chargerNiveaux();
   }
 
-  /* =====================
-     NIVEAUX
-     ===================== */
-  loadNiveaux() {
+  /* ======================
+     CHARGEMENT DES DONNÉES
+  ====================== */
+
+    chargerNiveaux() {
     this.api.getNiveaux().subscribe(res => {
       this.niveaux = res;
-    });
-  }
 
-  /* =====================
-     SEMAINES & ÉLÈVES
-     ===================== */
-  onNiveauChange() {
-    if (!this.selectedNiveauId) return;
-
-    this.loading = true;
-
-    // Récupérer les semaines pour ce niveau
-    this.api.getEvaluationsParNiveau(this.selectedNiveauId).subscribe({
-      next: (res: any) => {
-        this.semaines = res.map((e: any) => e.semaineNum); // utiliser semaineNum
-        this.notes = []; // réinitialiser les notes
-        this.selectedSemaine = null as any;
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
-      error: err => {
-        console.error('Erreur récupération semaines:', err);
-        this.loading = false;
+      // ✅ Sélection automatique du premier niveau
+      if (this.niveaux.length > 0) {
+        this.niveauSelectionne = this.niveaux[0];
+        this.onNiveauChange();
       }
+      this.cd.detectChanges();
     });
   }
 
-  /* =====================
-     NOTES
-     ===================== */
-  loadNotes() {
-    if (!this.selectedNiveauId || !this.selectedSemaine) return;
+onNiveauChange() {
+    if (!this.niveauSelectionne) return;
 
-    this.loading = true;
+    // Réinitialiser
+    this.evaluations = [];
+    this.evaluationSelectionnee = null;
+    this.eleves = [];
+    this.elevesAvecNotes = [];
 
-    // Récupérer les notes pour ce niveau et cette semaine
-    this.api.getNotesHebdoParNiveauEtSemaine(
-      this.selectedNiveauId,
-      this.selectedSemaine
-    ).subscribe({
-      next: (res: any) => {
-        // Si aucune note existante, créer la liste des élèves pour saisie
-        if (!res || res.length === 0) {
-          this.loadElevesPourSaisie();
-        } else {
-          this.notes = res;
+    // 1️⃣ Charger les élèves
+    this.api.getElevesByNiveau(this.niveauSelectionne.id).subscribe(eleves => {
+      this.eleves = eleves;
+
+      // 2️⃣ Charger les évaluations
+      this.api.getEvaluationsParNiveau(this.niveauSelectionne.id).subscribe(evals => {
+        this.evaluations = evals;
+
+        // Sélection automatique de la première semaine
+        if (this.evaluations.length > 0) {
+          this.evaluationSelectionnee = this.evaluations[0];
+          this.onEvaluationChange();
         }
-        this.loading = false;
-        this.cdr.detectChanges();
+
+        this.cd.detectChanges();
+      });
+    });
+  }
+
+
+  /* ======================
+     INITIALISER LES NOTES
+  ====================== */
+  initialiserNotes() {
+    this.api.getElevesByNiveau(this.niveauSelectionne.id).subscribe(eleves => {
+      const requests = eleves.map((eleve:any) => {
+        const payload = {
+          evaluationHebdoId: this.evaluationSelectionnee.id,
+          eleveId: eleve.id,
+          les: 0,
+          hor: 0,
+          schreib: 0,
+          gramm: 0,
+          spre: 0
+        };
+        return this.api.saisirNoteHebdo(payload);
+      });
+
+      // Envoyer tous les POST
+      Promise.all(requests.map((r:any) => r.toPromise()))
+        .then(() => {
+          this.api.getNotesHebdoParNiveauEtSemaine(
+            this.niveauSelectionne.id,
+            this.evaluationSelectionnee.semaineNum
+          ).subscribe(res => {
+            this.notes = res;
+          });
+        })
+        .catch(err => console.error(err));
+    });
+  }
+
+  /* ======================
+     SAUVEGARDE DES NOTES
+  ====================== */
+ 
+  elevesAvecNotes: any[] = [];
+  eleves: any[] = [];
+// =========================
+// AFFICHER LES ÉLÈVES
+// =========================
+afficherEleves() {
+  if (!this.niveauSelectionne) return;
+
+  // 1️⃣ Récupérer les élèves
+  this.api.getElevesByNiveau(this.niveauSelectionne.id).subscribe(eleves => {
+    this.eleves = eleves;
+
+    // 2️⃣ Récupérer les évaluations hebdo pour ce niveau
+    this.api.getEvaluationsParNiveau(this.niveauSelectionne.id).subscribe(evals => {
+      this.evaluations = evals;
+
+      // 3️⃣ Initialiser les notes pour la première semaine par défaut
+      const premiereEval = this.evaluations[0];
+      if (!premiereEval) return;
+
+      // 4️⃣ Créer le tableau des notes
+      this.elevesAvecNotes = this.eleves.map(eleve => ({
+        eleveId: eleve.id,
+        nom: eleve.nom,
+        prenom: eleve.prenom,
+        evaluationHebdoId: premiereEval.id,
+        les: 0,
+        hor: 0,
+        schreib: 0,
+        gramm: 0,
+        spre: 0
+      }));
+
+      // 5️⃣ Sélectionner la semaine
+      this.evaluationSelectionnee = premiereEval;
+
+      // 6️⃣ Forcer la détection Angular pour que tout s'affiche
+      this.cd.detectChanges();
+
+      // 7️⃣ Optionnel : charger les notes existantes si elles sont déjà saisies
+      this.api.getNotesHebdoParNiveauEtSemaine(
+        this.niveauSelectionne.id,
+        premiereEval.semaineNum
+      ).subscribe(notesExistantes => {
+        this.elevesAvecNotes = this.elevesAvecNotes.map(note => {
+          const exist = notesExistantes.find(n => n.eleveId === note.eleveId);
+          return exist ? { ...note, ...exist } : note;
+        });
+
+        // 🔥 Force l'affichage après merge des notes existantes
+        this.cd.detectChanges();
+      });
+    });
+  });
+}
+
+// Quand tu changes de semaine
+
+onEvaluationChange() {
+    if (!this.evaluationSelectionnee || !this.eleves) return;
+
+    // 1️⃣ Construire le tableau des notes pour chaque élève
+    this.elevesAvecNotes = this.eleves.map(eleve => ({
+      eleveId: eleve.id,
+      nom: eleve.nom,
+      prenom: eleve.prenom,
+      evaluationHebdoId: this.evaluationSelectionnee.id,
+      les: 0,
+      hor: 0,
+      schreib: 0,
+      gramm: 0,
+      spre: 0
+    }));
+
+    // 2️⃣ Charger les notes existantes
+    this.api.getNotesHebdoParNiveauEtSemaine(
+      this.niveauSelectionne.id,
+      this.evaluationSelectionnee.semaineNum
+    ).subscribe(notesExistantes => {
+      this.elevesAvecNotes = this.elevesAvecNotes.map(note => {
+        const exist = notesExistantes.find(n => n.eleveId === note.eleveId);
+        return exist ? { ...note, ...exist } : note;
+      });
+
+      this.cd.detectChanges(); // 🔥 Force Angular à mettre à jour l'UI
+    });
+  }
+enregistrerNote(note: any) {
+  note.loading = true;
+
+  const payload = {
+    evaluationHebdoId: note.evaluationHebdoId,
+    eleveId: note.eleveId,
+    les: note.les,
+    hor: note.hor,
+    schreib: note.schreib,
+    gramm: note.gramm,
+    spre: note.spre
+  };
+
+  if (note.id) {
+    this.api.modifierNoteHebdo(note.id, payload).subscribe({
+      next: () => {
+        note.loading = false;
+        this.message = 'Note mise à jour';
+
+        // 🔥 FORCER LA DÉTECTION
+        this.cd.detectChanges();
       },
       error: err => {
-        console.error('Erreur récupération notes:', err);
-        this.loading = false;
+        note.loading = false;
+        this.cd.detectChanges();
+        console.error(err);
+      }
+    });
+  } else {
+    this.api.saisirNoteHebdo(payload).subscribe({
+      next: (res: any) => {
+        note.id = res.id;
+        note.loading = false;
+        this.message = 'Note enregistrée';
+
+        // 🔥 FORCER LA DÉTECTION
+        this.cd.detectChanges();
+      },
+      error: err => {
+        note.loading = false;
+        this.cd.detectChanges();
+        console.error(err);
       }
     });
   }
+}
 
-  // Charger les élèves pour saisie de note si pas de note existante
-  loadElevesPourSaisie() {
-    this.api.getElevesByNiveau(this.selectedNiveauId).subscribe({
-      next: (res: any) => {
-        this.notes = res.map((e: any) => ({
-          eleveId: e.id,
-          nom: e.nom,
-          prenom: e.prenom,
-          note: null,   // aucune note encore
-          id: null      // id null pour futur update
-        }));
-        this.cdr.detectChanges();
-      },
-      error: err => console.error('Erreur récupération élèves:', err)
+
+
+chargerNotes() {
+  if (!this.evaluationSelectionnee || !this.niveauSelectionne) return;
+
+  this.api
+    .getNotesHebdoParNiveauEtSemaine(
+      this.niveauSelectionne.id,
+      this.evaluationSelectionnee.semaineNum
+    )
+    .subscribe(res => {
+      // ⚡ Pour chaque élève, vérifier s'il y a une note
+      this.notes = this.eleves.map(eleve => {
+        const note = res.find(n => n.eleveId === eleve.id);
+        return note
+          ? { ...note, eleve } // On garde l'élève dans l'objet note
+          : { evaluationHebdoId: this.evaluationSelectionnee.id, eleveId: eleve.id, les:0, hor:0, schreib:0, gramm:0, spre:0, eleve };
+      });
     });
-  }
+}
 
-  /* =====================
-     ENREGISTREMENT
-     ===================== */
-  saveNote(note: any) {
-    const payload = {
-      eleveId: note.eleveId,
-      niveauId: this.selectedNiveauId,
-      semaine: this.selectedSemaine,
-      note: note.note
-    };
-
-    if (note.id) {
-      this.api.modifierNoteHebdo(note.id, payload).subscribe((res:any) => {
-        note.id = res.id; // mettre à jour l'id si modifié
-      });
-    } else {
-      this.api.saisirNoteHebdo(payload).subscribe((res:any) => {
-        note.id = res.id; // récupérer l'id pour futur update
-      });
-    }
-  }
-
-  /* =====================
-     UTILS
-     ===================== */
-  activerEdition() {
-    this.editionActive = true;
-  }
-
-  enregistrer() {
-    this.editionActive = false;
-  }
-
-  resetSelection() {
-    this.selectedNiveauId = null as any;
-    this.selectedSemaine = null as any;
-    this.semaines = [];
-    this.notes = [];
-  }
 }

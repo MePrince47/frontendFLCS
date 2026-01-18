@@ -1,12 +1,66 @@
-aside {
-  min-height: 100vh;
+/* Cartes KPI */
+.stat-icon {
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.nav-link {
-  border-radius: 6px;
-  padding: 8px 12px;
+/* Avatar de la table */
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+  font-size: 0.8rem;
+}
 
-  &:hover {
-    background-color: rgba(255, 255, 255, 0.15);
-  }
+/* Badges avec point (Dot Style) */
+.badge-dot-success, .badge-dot-danger {
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.badge-dot-success::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: #198754;
+  border-radius: 50%;
+}
+
+.badge-dot-danger::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background-color: #dc3545;
+  border-radius: 50%;
+}
+
+/* Timeline */
+.icon-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.8rem;
+}
+
+.x-small {
+  font-size: 0.75rem;
+}
+
+/* Boutons personnalisés */
+.btn-white {
+  background: #fff;
+  color: #333;
+}
+
+.btn-white:hover {
+  background: #f8f9fa;
 }

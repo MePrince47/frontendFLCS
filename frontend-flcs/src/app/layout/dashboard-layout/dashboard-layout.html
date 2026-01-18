@@ -1,102 +1,87 @@
 <div class="container-fluid">
   <div class="row min-vh-100">
 
-    <!-- SIDEBAR -->
-    <aside class="col-12 col-md-3 col-lg-2 bg-success text-white p-4 sidebar">
+    <aside class="col-12 col-md-3 col-lg-2 bg-dark text-white p-0 d-flex flex-column sidebar shadow-lg">
       
-      <!-- LOGO / TITRE -->
-      <div class="mb-5">
-        <h4 class="fw-bold mb-0">Admin FLCS</h4>
-        <small class="text-white-50">Gestion académique</small>
+      <div class="p-4 mb-2 d-flex align-items-center gap-3 border-bottom border-secondary border-opacity-25">
+        <div class="bg-success rounded-3 p-2 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+          <i class="bi bi-mortarboard-fill fs-5"></i>
+        </div>
+        <div>
+          <h5 class="fw-bold mb-0">Admin FLCS</h5>
+          <span class="text-secondary small fw-medium">PORTAIL ACADÉMIQUE</span>
+        </div>
       </div>
 
-      <!-- MENU -->
-<ul class="nav flex-column gap-1">
+      <div class="p-3 flex-grow-1 overflow-auto">
+        
+        <small class="text-secondary text-uppercase fw-bold px-3 mb-3 d-block" style="font-size: 0.7rem; letter-spacing: 1px;">Menu Principal</small>
+        
+        <ul class="nav nav-pills flex-column gap-1">
+          <li class="nav-item">
+            <a routerLink="/app/home" routerLinkActive="active" class="nav-link custom-link">
+              <i class="bi bi-speedometer2 me-2"></i> Dashboard
+            </a>
+          </li>
 
-  <!-- Dashboard -->
-  <li class="nav-item">
-    <a
-      routerLink="/app/home"
-      routerLinkActive="active"
-      class="nav-link d-flex align-items-center gap-2 text-white"
-    >
-      <i class="bi bi-speedometer2"></i>
-      Dashboard
-    </a>
-  </li>
+          <li class="nav-item mt-3">
+            <small class="text-secondary text-uppercase fw-bold px-3 mb-2 d-block" style="font-size: 0.7rem;">Élèves</small>
+          </li>
+          
+          <li class="nav-item">
+            <a routerLink="/app/candidats" routerLinkActive="active" class="nav-link custom-link">
+              <i class="bi bi-people me-2"></i> Liste des Candidats
+            </a>
+          </li>
 
-  <!-- Candidats -->
-  <li class="nav-item">
-    <a
-      routerLink="/app/candidats"
-      routerLinkActive="active"
-      class="nav-link d-flex align-items-center gap-2 text-white"
-    >
-      <i class="bi bi-people"></i>
-      Candidats
-    </a>
-  </li>
+          <li class="nav-item">
+            <a routerLink="/app/candidats/add" routerLinkActive="active" class="nav-link custom-link">
+              <i class="bi bi-person-plus me-2"></i> Inscription Rapide
+            </a>
+          </li>
 
-  <li class="nav-item">
-    <a
-      routerLink="/app/candidats/add"
-      routerLinkActive="active"
-      class="nav-link d-flex align-items-center gap-2 text-white"
-    >
-      <i class="bi bi-person-plus"></i>
-      Ajouter candidat
-    </a>
-  </li>
+          <li class="nav-item mt-3">
+            <small class="text-secondary text-uppercase fw-bold px-3 mb-2 d-block" style="font-size: 0.7rem;">Évaluations</small>
+          </li>
 
-  <!-- Notes hebdomadaires -->
-  <li class="nav-item">
-    <a
-      routerLink="/app/notes-hebdo"
-      routerLinkActive="active"
-      class="nav-link d-flex align-items-center gap-2 text-white"
-    >
-      <i class="bi bi-journal-check"></i>
-      Notes hebdomadaires
-    </a>
-  </li>
+          <li class="nav-item">
+            <a routerLink="/app/notes-hebdo" routerLinkActive="active" class="nav-link custom-link">
+              <i class="bi bi-journal-check me-2"></i> Notes Hebdomadaires
+            </a>
+          </li>
 
-  <!-- ✅ Examen final -->
-  <li class="nav-item">
-    <a
-      routerLink="/app/examen-final"
-      routerLinkActive="active"
-      class="nav-link d-flex align-items-center gap-2 text-white"
-    >
-      <i class="bi bi-mortarboard"></i>
-      Examen final
-    </a>
-  </li>
-<li class="nav-item">
-  <a
-    routerLink="/app/bulletin"
-    routerLinkActive="active"
-    class="nav-link d-flex align-items-center gap-2 text-white"
-  >
-    <i class="bi bi-file-earmark-text"></i>
-    Bulletin
-  </a>
-</li>
-</ul>
+          <li class="nav-item">
+            <a routerLink="/app/examen-final" routerLinkActive="active" class="nav-link custom-link">
+              <i class="bi bi-patch-check me-2"></i> Examen Final
+            </a>
+          </li>
 
+          <li class="nav-item">
+            <a routerLink="/app/bulletin" routerLinkActive="active" class="nav-link custom-link">
+              <i class="bi bi-file-earmark-pdf me-2"></i> Bulletins & Résultats
+            </a>
+          </li>
+        </ul>
+      </div>
 
-      <!-- FOOTER SIDEBAR -->
-      <div class="mt-auto pt-4 border-top border-light-subtle">
-        <a class="nav-link d-flex align-items-center gap-2 text-white opacity-75">
-          <i class="bi bi-box-arrow-right"></i>
-          Déconnexion
+      <div class="p-3 border-top border-secondary border-opacity-25 bg-black bg-opacity-25">
+        <a class="nav-link custom-link logout-link text-danger-emphasis">
+          <i class="bi bi-box-arrow-right me-2"></i> Déconnexion
         </a>
       </div>
 
     </aside>
 
-    <!-- CONTENU -->
-    <main class="col-12 col-md-9 col-lg-10 p-4 bg-light">
-      <router-outlet></router-outlet>
+    <main class="col-12 col-md-9 col-lg-10 p-0 bg-light shadow-inner">
+      <header class="bg-white border-bottom py-2 px-4 d-none d-md-flex align-items-center justify-content-end shadow-sm" style="height: 60px;">
+         <div class="small text-muted fw-medium me-3">Session : 2025/2026</div>
+         <div class="vr me-3"></div>
+         <div class="fw-bold text-dark small">Utilisateur Admin</div>
+      </header>
+
+      <div class="p-4 p-lg-5">
+        <router-outlet></router-outlet>
+      </div>
     </main>
 
   </div>

@@ -1,118 +1,133 @@
-<h2 class="mb-3">Dashboard</h2>
-
-<!-- ACTIONS RAPIDES -->
-<div class="d-flex gap-2 mb-4">
-  <a routerLink="/app/candidats/add" class="btn btn-success">
-    <i class="bi bi-person-plus"></i> Nouveau candidat
-  </a>
-  <a routerLink="/app/candidats" class="btn btn-outline-success">
-    <i class="bi bi-list"></i> Voir les candidats
-  </a>
-</div>
-
-<!-- LOADING -->
-<div *ngIf="loading" class="text-center my-4">
-  <div class="spinner-border text-success"></div>
-</div>
-
-<!-- STATS -->
-<div class="row g-4 mb-5" *ngIf="!loading">
-
-  <!-- TOTAL CANDIDATS -->
-  <div class="col-md-4">
-    <div class="card shadow-sm h-100">
-      <div class="card-body">
-        <h6 class="d-flex align-items-center gap-2">
-          <i class="bi bi-people-fill text-success"></i>
-          Total candidats
-        </h6>
-        <h3 class="text-success">{{ totalCandidats }}</h3>
-
-      </div>
+<div class="container py-4">
+  
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+    <div>
+      <h2 class="fw-bold text-dark mb-1">Tableau de bord</h2>
+      <p class="text-muted small mb-0">Bienvenue sur votre gestionnaire de candidatures.</p>
     </div>
-  </div>
-
-  <!-- PAYÉS -->
-  <div class="col-md-4">
-    <div class="card shadow-sm h-100">
-      <div class="card-body">
-        <h6 class="d-flex align-items-center gap-2">
-          <i class="bi bi-cash-coin text-success"></i>
-          Payés
-        </h6>
-        <h3 class="text-success">
-          <h3 class="text-success">{{ candidatsPayes }}</h3>
-        </h3>
-
-        <span class="badge bg-light text-success border">
-          {{ rentrees?.[0]?.libelle || 'Rentrée active' }}
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <!-- NON PAYÉS -->
-  <div class="col-md-4">
-    <div class="card shadow-sm h-100">
-      <div class="card-body">
-        <h6 class="d-flex align-items-center gap-2">
-          <i class="bi bi-x-circle-fill text-danger"></i>
-          Non payés
-        </h6>
-        <h3 class="text-danger">
-          <h3 class="text-danger">{{ candidatsNonPayes }}</h3>
-
-        </h3>
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- APERÇU CANDIDATS -->
-<div class="card shadow-sm mb-4" *ngIf="candidats.length > 0">
-  <div class="card-body">
-    <div class="d-flex justify-content-between align-items-center mb-3">
-      <h5 class="mb-0">Derniers candidats</h5>
-      <a routerLink="/app/candidats" class="btn btn-sm btn-outline-success">
-        Voir tout
+    <div class="d-flex gap-2">
+      <a routerLink="/app/candidats/add" class="btn btn-success d-flex align-items-center px-3 shadow-sm">
+        <i class="bi bi-person-plus-fill me-2"></i> Nouveau candidat
+      </a>
+      <a routerLink="/app/candidats" class="btn btn-white border d-flex align-items-center px-3 shadow-sm">
+        <i class="bi bi-list-ul me-2 text-success"></i> Liste complète
       </a>
     </div>
-
-    <table class="table table-sm align-middle">
-      <thead>
-        <tr>
-          <th>Nom</th>
-          <th>Niveau</th>
-          <th>Statut</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let c of candidats | slice:0:5">
-          <td>{{ c.nom }} {{ c.prenom }}</td>
-          <td>{{ c.niveau?.code || '-' }}</td>
-          <td>
-            <span 
-              class="badge"
-              [ngClass]="c.paye ? 'bg-success' : 'bg-danger'">
-              {{ c.paye ? 'Payé' : 'Non payé' }}
-            </span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
   </div>
-</div>
 
-<!-- ACTIVITÉ RÉCENTE (simple / statique pour l’instant) -->
-<div class="card shadow-sm">
-  <div class="card-body">
-    <h5 class="mb-3">Activité récente</h5>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item" *ngFor="let c of candidats | slice:0:3">
-        <i class="bi bi-check-circle-fill text-success"></i>
-        {{ c.nom }} {{ c.prenom }} ajouté
-      </li>
-    </ul>
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-grow text-success" role="status"></div>
+    <p class="text-muted mt-2">Mise à jour des données...</p>
   </div>
+
+  <div class="row g-4 mb-4" *ngIf="!loading">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="stat-icon bg-success-subtle text-success p-3 rounded-3">
+              <i class="bi bi-people-fill fs-4"></i>
+            </div>
+            <span class="badge bg-light text-muted border-0">Total</span>
+          </div>
+          <h3 class="fw-bold mb-1">{{ totalCandidats }}</h3>
+          <p class="text-muted small mb-0 font-monospace">Candidats inscrits</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="stat-icon bg-info-subtle text-info p-3 rounded-3">
+              <i class="bi bi-cash-stack fs-4"></i>
+            </div>
+            <span class="badge bg-success-subtle text-success border-0 px-2 py-1">Active</span>
+          </div>
+          <h3 class="fw-bold mb-1 text-success">{{ candidatsPayes }}</h3>
+          <p class="text-muted small mb-0">Paiements confirmés</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body p-4">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div class="stat-icon bg-danger-subtle text-danger p-3 rounded-3">
+              <i class="bi bi-shield-exclamation fs-4"></i>
+            </div>
+            <span class="badge bg-danger text-white border-0">Alerte</span>
+          </div>
+          <h3 class="fw-bold mb-1 text-danger">{{ candidatsNonPayes }}</h3>
+          <p class="text-muted small mb-0">En attente de règlement</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-header bg-transparent border-0 pt-4 px-4 d-flex justify-content-between align-items-center">
+          <h5 class="fw-bold mb-0">Derniers inscrits</h5>
+          <button routerLink="/app/candidats" class="btn btn-sm btn-link text-success text-decoration-none">Voir tout <i class="bi bi-arrow-right"></i></button>
+        </div>
+        <div class="card-body px-0">
+          <div class="table-responsive">
+            <table class="table align-middle table-hover border-top">
+              <thead class="bg-light-subtle">
+                <tr class="small text-muted uppercase">
+                  <th class="ps-4 border-0">CANDIDAT</th>
+                  <th class="border-0">NIVEAU</th>
+                  <th class="border-0">STATUT</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let c of candidats | slice:0:5">
+                  <td class="ps-4">
+                    <div class="d-flex align-items-center">
+                      <div class="avatar-sm me-3 bg-light rounded-circle text-center d-flex align-items-center justify-content-center fw-bold text-muted">
+                        {{ c.nom[0] }}
+                      </div>
+                      <span class="fw-semibold text-dark">{{ c.nom }} {{ c.prenom }}</span>
+                    </div>
+                  </td>
+                  <td><span class="badge rounded-pill bg-light text-dark border">{{ c.niveauLangue || '-' }}</span></td>
+                  <td>
+                    <span [ngClass]="c.statut === 'PAYE' ? 'badge-dot-success' : 'badge-dot-danger'">
+                      {{ c.statut || 'INCONNU' }}
+                    </span>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-header bg-transparent border-0 pt-4 px-4">
+          <h5 class="fw-bold mb-0">Flux d'activité</h5>
+        </div>
+        <div class="card-body">
+          <div class="timeline-simple">
+            <div class="timeline-item pb-3 mb-3 border-bottom border-light d-flex gap-3" *ngFor="let c of candidats | slice:0:4">
+              <div class="icon-circle bg-success-subtle text-success">
+                <i class="bi bi-plus-lg"></i>
+              </div>
+              <div>
+                <p class="mb-0 fw-semibold small">{{ c.nom }} {{ c.prenom }}</p>
+                <span class="text-muted x-small">Nouveau candidat ajouté au système.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

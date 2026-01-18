@@ -64,11 +64,15 @@
       </div>
 
       <div class="p-3 mt-auto border-top border-white border-opacity-10">
-        <button class="btn btn-link nav-link text-white opacity-75 logout-hover d-flex align-items-center gap-2 w-100 border-0 shadow-none">
-          <i class="bi bi-box-arrow-right"></i>
-          <span>Déconnexion</span>
-        </button>
-      </div>
+          <button
+            class="btn btn-link nav-link text-white opacity-75 logout-hover d-flex align-items-center gap-2 w-100 border-0 shadow-none"
+            (click)="logout()"
+          >
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Déconnexion</span>
+          </button>
+        </div>
+
 
     </aside>
 

@@ -27,8 +27,8 @@ export const routes: Routes = [
       { path: 'candidats/:id', component: CandidateDetails },
       { path: 'notes-hebdo', component: NotesHebdo },
       { path: 'examen-final',component: ExamenFinal},
+      { path: 'bulletin',component: Bulletin},
       { path: 'candidats/:id/bulletin', component: Bulletin },
-
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]
   },

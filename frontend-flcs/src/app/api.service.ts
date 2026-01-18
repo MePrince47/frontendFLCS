@@ -254,5 +254,13 @@ getElevesByNiveau(niveauId: number | string) {
 }
 
 
+// api.service.ts
+genererResultatsNiveau(niveauId: number) {
+  return this.http.post(`${this.baseUrl}/resultats/niveau/${niveauId}`, {}, { headers: this.authHeader });
+}
+
+genererResultatEleve(eleveId: number, niveauId: number) {
+  return this.http.post(`${this.baseUrl}/resultats/eleve/${eleveId}/niveau/${niveauId}`, {}, { headers: this.authHeader });
+}
 
 }

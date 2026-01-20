@@ -20,7 +20,7 @@
             <span class="input-group-text bg-white border-end-0"><i class="bi bi-layers text-primary"></i></span>
             <select class="form-select shadow-none border-start-0" [(ngModel)]="niveauSelectionne" (change)="afficherEleves()">
               <option [ngValue]="null">Choisir un niveau...</option>
-              <option *ngFor="let n of niveaux" [ngValue]="n">{{ n.code }}</option>
+              <option *ngFor="let n of niveaux" [ngValue]="n"> {{ n.id }} - {{ n.code }} Barème( {{ n.bareme }} )</option>
             </select>
           </div>
         </div>

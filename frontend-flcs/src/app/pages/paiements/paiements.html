@@ -1,0 +1,80 @@
+<div class="container py-4">
+
+  <h3 class="fw-bold mb-4">Gestion des paiements</h3>
+
+  <!-- Recherche élève -->
+  <div class="card p-3 mb-4">
+    <label class="form-label">ID Élève</label>
+    <div class="d-flex gap-2">
+      <input type="number" class="form-control" [(ngModel)]="eleveId">
+      <button class="btn btn-success" (click)="chargerPaiements()">
+        Charger
+      </button>
+    </div>
+  </div>
+
+  <!-- Chargement -->
+  <div *ngIf="loading" class="alert alert-info">
+    Chargement des données...
+  </div>
+
+  <!-- Résumé -->
+  <div *ngIf="resume" class="card p-3 mb-4">
+    <h5>Résumé financier</h5>
+    <p><strong>Élève :</strong> {{ resume.nomEleve }}</p>
+    <p>Total : {{ resume.montantTotal }} FCFA</p>
+    <p>Payé : {{ resume.totalPaye }} FCFA</p>
+    <p>Reste : <strong class="text-danger">{{ resume.resteAPayer }} FCFA</strong></p>
+
+    <button class="btn btn-outline-primary btn-sm" (click)="exporterPdf()">
+      Exporter PDF
+    </button>
+  </div>
+
+  <!-- Historique -->
+  <div *ngIf="paiements.length" class="card p-3 mb-4">
+    <h5>Historique des paiements</h5>
+
+    <table class="table table-sm">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Montant</th>
+          <th>Référence</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of paiements">
+          <td>{{ p.datePaiement }}</td>
+          <td>{{ p.montant }} FCFA</td>
+          <td>{{ p.referenceVirement }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Nouveau paiement -->
+  <div class="card p-3">
+    <h5>Nouveau paiement</h5>
+
+    <div class="mb-2">
+      <label>Montant</label>
+      <input type="number" class="form-control" [(ngModel)]="nouveauPaiement.montant">
+    </div>
+
+    <div class="mb-2">
+      <label>Date</label>
+      <input type="date" class="form-control" [(ngModel)]="nouveauPaiement.datePaiement">
+    </div>
+
+    <div class="mb-3">
+      <label>Référence</label>
+      <input type="text" class="form-control" [(ngModel)]="nouveauPaiement.referenceVirement">
+    </div>
+
+    <button class="btn btn-warning" (click)="enregistrerPaiement()">
+      Enregistrer
+    </button>
+  </div>
+
+</div>

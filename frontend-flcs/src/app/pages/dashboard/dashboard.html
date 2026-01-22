@@ -94,7 +94,7 @@
                       <span class="fw-semibold text-dark">{{ c.nom }} {{ c.prenom }}</span>
                     </div>
                   </td>
-                  <td><span class="badge rounded-pill bg-light text-dark border">{{ c.niveauLangue || '-' }}</span></td>
+                  <td><span class="badge rounded-pill bg-light text-dark border">{{ c.niveauLangue || '-' }} {{ c.nomRentree || '-' }}</span></td>
                   <td>
                     <span [ngClass]="c.statut === 'PAYE' ? 'badge-dot-success' : 'badge-dot-danger'">
                       {{ c.statut || 'INCONNU' }}

@@ -9,6 +9,7 @@ import { NotesHebdo } from './pages/notes-hebdo/notes-hebdo';
 import { ExamenFinal } from './pages/examen-final/examen-final';
 import { Bulletin } from './pages/bulletin/bulletin';
 import { Register } from './pages/register/register';
+import { Paiements } from './pages/paiements/paiements';
 
 
 export const routes: Routes = [
@@ -23,7 +24,7 @@ export const routes: Routes = [
       { path: 'candidats', component: Candidates },
       { path: 'candidats/edit/:id', component: AddCandidate },
       { path: 'candidats/add', component: AddCandidate },
-
+      { path: 'paiements', component: Paiements },
       { path: 'candidats/:id', component: CandidateDetails },
       { path: 'notes-hebdo', component: NotesHebdo },
       { path: 'examen-final',component: ExamenFinal},

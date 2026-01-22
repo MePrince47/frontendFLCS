@@ -1,80 +1,122 @@
-<div class="container py-4">
-
-  <h3 class="fw-bold mb-4">Gestion des paiements</h3>
-
-  <!-- Recherche élève -->
-  <div class="card p-3 mb-4">
-    <label class="form-label">ID Élève</label>
-    <div class="d-flex gap-2">
-      <input type="number" class="form-control" [(ngModel)]="eleveId">
-      <button class="btn btn-success" (click)="chargerPaiements()">
-        Charger
-      </button>
-    </div>
-  </div>
-
-  <!-- Chargement -->
-  <div *ngIf="loading" class="alert alert-info">
-    Chargement des données...
-  </div>
-
-  <!-- Résumé -->
-  <div *ngIf="resume" class="card p-3 mb-4">
-    <h5>Résumé financier</h5>
-    <p><strong>Élève :</strong> {{ resume.nomEleve }}</p>
-    <p>Total : {{ resume.montantTotal }} FCFA</p>
-    <p>Payé : {{ resume.totalPaye }} FCFA</p>
-    <p>Reste : <strong class="text-danger">{{ resume.resteAPayer }} FCFA</strong></p>
-
-    <button class="btn btn-outline-primary btn-sm" (click)="exporterPdf()">
-      Exporter PDF
+<div class="container py-5">
+  
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold text-primary"><i class="bi bi-wallet2 me-2"></i>Gestion des paiements</h2>
+    <button *ngIf="resume" class="btn btn-danger shadow-sm" (click)="exporterPdf()">
+      <i class="bi bi-file-earmark-pdf me-1"></i> Exporter Reçu PDF
     </button>
   </div>
 
-  <!-- Historique -->
-  <div *ngIf="paiements.length" class="card p-3 mb-4">
-    <h5>Historique des paiements</h5>
+  <div class="row g-4">
+    
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body">
+          <label class="form-label fw-bold">Rechercher un élève</label>
+          <div class="input-group">
+            <span class="input-group-text bg-white"><i class="bi bi-person-badge"></i></span>
+            <input type="number" class="form-control border-start-0" placeholder="ID Élève..." [(ngModel)]="eleveId">
+            <button class="btn btn-success" (click)="chargerPaiements()">
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
 
-    <table class="table table-sm">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Montant</th>
-          <th>Référence</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let p of paiements">
-          <td>{{ p.datePaiement }}</td>
-          <td>{{ p.montant }} FCFA</td>
-          <td>{{ p.referenceVirement }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Nouveau paiement -->
-  <div class="card p-3">
-    <h5>Nouveau paiement</h5>
-
-    <div class="mb-2">
-      <label>Montant</label>
-      <input type="number" class="form-control" [(ngModel)]="nouveauPaiement.montant">
+      <div *ngIf="resume" class="card border-0 shadow bg-primary text-white mb-4">
+        <div class="card-body">
+          <h5 class="card-title mb-4 opacity-75">Résumé financier</h5>
+          <div class="mb-2">
+            <small class="d-block opacity-75">Élève</small>
+            <span class="h5 fw-bold">{{ resume.nomEleve }}</span>
+          </div>
+          <hr class="opacity-25">
+          <div class="row text-center">
+            <div class="col-6 border-end border-white border-opacity-25">
+              <small class="d-block opacity-75">Total Scolarité</small>
+              <span class="fw-bold">{{ resume.montantTotal | number }} FCFA</span>
+            </div>
+            <div class="col-6">
+              <small class="d-block opacity-75">Total Payé</small>
+              <span class="fw-bold text-info">{{ resume.totalPaye | number }} FCFA</span>
+            </div>
+          </div>
+          <div class="mt-4 p-3 bg-white bg-opacity-10 rounded text-center">
+            <small class="d-block opacity-75">Reste à payer</small>
+            <span class="h3 fw-bold text-warning">{{ resume.resteAPayer | number }} FCFA</span>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="mb-2">
-      <label>Date</label>
-      <input type="date" class="form-control" [(ngModel)]="nouveauPaiement.datePaiement">
-    </div>
+    <div class="col-lg-8">
+      
+      <div *ngIf="loading" class="d-flex align-items-center justify-content-center p-5">
+        <div class="spinner-border text-primary me-3" role="status"></div>
+        <span class="text-muted">Récupération des données...</span>
+      </div>
 
-    <div class="mb-3">
-      <label>Référence</label>
-      <input type="text" class="form-control" [(ngModel)]="nouveauPaiement.referenceVirement">
-    </div>
+      <div *ngIf="paiements.length" class="card border-0 shadow-sm mb-4">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0 fw-bold">Historique des transactions</h5>
+        </div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+              <thead class="bg-light">
+                <tr>
+                  <th class="ps-3 text-muted border-0">Date</th>
+                  <th class="text-muted border-0">Référence</th>
+                  <th class="text-end pe-3 text-muted border-0">Montant</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let p of paiements">
+                  <td class="ps-3">
+                    <div class="d-flex align-items-center">
+                      <div class="icon-shape bg-light text-primary rounded-circle me-2 p-2" style="width: 35px; height: 35px; display: flex; align-items: center; justify-content: center;">
+                        <i class="bi bi-calendar-event"></i>
+                      </div>
+                      {{ p.datePaiement }}
+                    </div>
+                  </td>
+                  <td><span class="badge bg-light text-dark border">{{ p.referenceVirement }}</span></td>
+                  <td class="text-end pe-3 fw-bold text-success">+ {{ p.montant | number }} FCFA</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-    <button class="btn btn-warning" (click)="enregistrerPaiement()">
-      Enregistrer
-    </button>
-  </div>
+      <div class="card border-0 shadow-sm">
+        <div class="card-header bg-white py-3">
+          <h5 class="mb-0 fw-bold text-dark">Enregistrer un versement</h5>
+        </div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Montant du versement</label>
+              <div class="input-group">
+                <input type="number" class="form-control" placeholder="0" [(ngModel)]="nouveauPaiement.montant">
+                <span class="input-group-text bg-light">FCFA</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label small fw-bold">Date du paiement</label>
+              <input type="date" class="form-control" [(ngModel)]="nouveauPaiement.datePaiement">
+            </div>
+            <div class="col-12">
+              <label class="form-label small fw-bold">Référence du virement / dépôt</label>
+              <input type="text" class="form-control" placeholder="Ex: ORANGE-MONEY-789..." [(ngModel)]="nouveauPaiement.referenceVirement">
+            </div>
+            <div class="col-12 mt-4">
+              <button class="btn btn-warning w-100 fw-bold text-uppercase py-2 shadow-sm" (click)="enregistrerPaiement()">
+                <i class="bi bi-check-circle me-2"></i> Valider l'encaissement
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-</div>
+    </div> </div> </div>

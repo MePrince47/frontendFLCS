@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../api.service';
@@ -10,7 +10,7 @@ import { ApiService } from '../../api.service';
   templateUrl: './paiements.html',
   styleUrl: './paiements.scss',
 })
-export class Paiements  implements OnInit {
+export class Paiements implements OnInit {
 
   eleveId!: number;
 
@@ -27,54 +27,113 @@ export class Paiements  implements OnInit {
   loading = false;
   error = '';
 
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {}
 
   chargerPaiements() {
     if (!this.eleveId) return;
 
+    // reset propre
     this.loading = true;
     this.error = '';
+    this.resume = null;
+    this.paiements = [];
+    this.cdr.detectChanges();
 
+    /* ======================
+       Résumé financier
+    ====================== */
     this.api.getResumePaiementsEleve(this.eleveId).subscribe({
-      next: data => this.resume = data,
-      error: () => this.error = 'Erreur chargement résumé'
+      next: data => {
+        this.resume = data;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.error = 'Erreur chargement résumé';
+        this.cdr.detectChanges();
+      }
     });
 
+    /* ======================
+       Historique paiements
+    ====================== */
     this.api.getHistoriquePaiementsEleve(this.eleveId).subscribe({
-      next: data => this.paiements = data,
-      error: () => this.error = 'Erreur chargement paiements',
-      complete: () => this.loading = false
+      next: data => {
+        this.paiements = data;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.error = 'Erreur chargement paiements';
+        this.cdr.detectChanges();
+      },
+      complete: () => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
   enregistrerPaiement() {
+    if (!this.eleveId) return;
+
+    this.loading = true;
+    this.cdr.detectChanges();
+
     this.nouveauPaiement.eleveId = this.eleveId;
 
     this.api.createPaiement(this.nouveauPaiement).subscribe({
       next: () => {
         alert('Paiement enregistré');
-        this.chargerPaiements();
+
+        // reset formulaire
         this.nouveauPaiement = {
           montant: 0,
           datePaiement: '',
           referenceVirement: '',
           eleveId: this.eleveId
         };
+
+        this.cdr.detectChanges();
+
+        // recharger les données
+        this.chargerPaiements();
       },
-      error: () => alert('Erreur lors de l’enregistrement')
+      error: () => {
+        alert('Erreur lors de l’enregistrement');
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 
   exporterPdf() {
-    this.api.exportPaiementsPdf(this.eleveId).subscribe(blob => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `paiements-eleve-${this.eleveId}.pdf`;
-      a.click();
-      window.URL.revokeObjectURL(url);
+    if (!this.eleveId) return;
+
+    this.loading = true;
+    this.cdr.detectChanges();
+
+    this.api.exportPaiementsPdf(this.eleveId).subscribe({
+      next: blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `paiements-eleve-${this.eleveId}.pdf`;
+        a.click();
+        window.URL.revokeObjectURL(url);
+      },
+      complete: () => {
+        this.loading = false;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        alert('Erreur export PDF');
+        this.loading = false;
+        this.cdr.detectChanges();
+      }
     });
   }
 }

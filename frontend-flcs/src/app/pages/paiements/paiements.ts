@@ -12,8 +12,17 @@ import { ApiService } from '../../api.service';
 })
 export class Paiements implements OnInit {
 
+  /* ======================
+     ÉLÈVE
+  ====================== */
   eleveId!: number;
+  eleves: any[] = [];
+  elevesFiltres: any[] = [];
+  selectedEleve: any = null;
 
+  /* ======================
+     DONNÉES
+  ====================== */
   resume: any = null;
   paiements: any[] = [];
 
@@ -24,6 +33,9 @@ export class Paiements implements OnInit {
     eleveId: 0
   };
 
+  /* ======================
+     UI STATE
+  ====================== */
   loading = false;
   error = '';
 
@@ -32,21 +44,70 @@ export class Paiements implements OnInit {
     private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit() {}
+  /* ======================
+     INIT
+  ====================== */
+  ngOnInit(): void {
+    this.chargerEleves();
+  }
 
-  chargerPaiements() {
+  private chargerEleves(): void {
+    this.api.getEleves().subscribe({
+      next: (data:any) => {
+        this.eleves = Array.isArray(data) ? data : data.data;
+        this.cdr.detectChanges();
+      },
+      error: () => {
+        this.error = 'Erreur chargement des élèves';
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  /* ======================
+     AUTOCOMPLETE
+  ====================== */
+  filtrerEleves(event: any): void {
+    const value = event.target.value.toLowerCase();
+
+    if (!value) {
+      this.elevesFiltres = [];
+      return;
+    }
+
+    this.elevesFiltres = this.eleves.filter(e =>
+      `${e.nom} ${e.prenom}`.toLowerCase().includes(value)
+    );
+
+    this.cdr.detectChanges();
+  }
+
+  selectionnerEleve(eleve: any): void {
+    this.selectedEleve = eleve;
+    this.eleveId = eleve.id;
+    this.nouveauPaiement.eleveId = eleve.id;
+    this.elevesFiltres = [];
+
+    // reset données
+    this.resume = null;
+    this.paiements = [];
+
+    this.cdr.detectChanges();
+    this.chargerPaiements();
+  }
+
+  /* ======================
+     CHARGEMENT PAIEMENTS
+  ====================== */
+  chargerPaiements(): void {
     if (!this.eleveId) return;
 
-    // reset propre
     this.loading = true;
     this.error = '';
     this.resume = null;
     this.paiements = [];
     this.cdr.detectChanges();
 
-    /* ======================
-       Résumé financier
-    ====================== */
     this.api.getResumePaiementsEleve(this.eleveId).subscribe({
       next: data => {
         this.resume = data;
@@ -58,9 +119,6 @@ export class Paiements implements OnInit {
       }
     });
 
-    /* ======================
-       Historique paiements
-    ====================== */
     this.api.getHistoriquePaiementsEleve(this.eleveId).subscribe({
       next: data => {
         this.paiements = data;
@@ -77,19 +135,22 @@ export class Paiements implements OnInit {
     });
   }
 
-  enregistrerPaiement() {
-    if (!this.eleveId) return;
+  /* ======================
+     ENREGISTREMENT
+  ====================== */
+  enregistrerPaiement(): void {
+    if (!this.eleveId) {
+      alert('Veuillez sélectionner un élève');
+      return;
+    }
 
     this.loading = true;
     this.cdr.detectChanges();
-
-    this.nouveauPaiement.eleveId = this.eleveId;
 
     this.api.createPaiement(this.nouveauPaiement).subscribe({
       next: () => {
         alert('Paiement enregistré');
 
-        // reset formulaire
         this.nouveauPaiement = {
           montant: 0,
           datePaiement: '',
@@ -98,8 +159,6 @@ export class Paiements implements OnInit {
         };
 
         this.cdr.detectChanges();
-
-        // recharger les données
         this.chargerPaiements();
       },
       error: () => {
@@ -110,7 +169,10 @@ export class Paiements implements OnInit {
     });
   }
 
-  exporterPdf() {
+  /* ======================
+     EXPORT PDF
+  ====================== */
+  exporterPdf(): void {
     if (!this.eleveId) return;
 
     this.loading = true;
@@ -125,12 +187,10 @@ export class Paiements implements OnInit {
         a.click();
         window.URL.revokeObjectURL(url);
       },
-      complete: () => {
-        this.loading = false;
-        this.cdr.detectChanges();
-      },
       error: () => {
         alert('Erreur export PDF');
+      },
+      complete: () => {
         this.loading = false;
         this.cdr.detectChanges();
       }

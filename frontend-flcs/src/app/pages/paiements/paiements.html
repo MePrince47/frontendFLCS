@@ -10,18 +10,45 @@
   <div class="row g-4">
     
     <div class="col-lg-4">
-      <div class="card border-0 shadow-sm mb-4">
-        <div class="card-body">
-          <label class="form-label fw-bold">Rechercher un élève</label>
-          <div class="input-group">
-            <span class="input-group-text bg-white"><i class="bi bi-person-badge"></i></span>
-            <input type="number" class="form-control border-start-0" placeholder="ID Élève..." [(ngModel)]="eleveId">
-            <button class="btn btn-success" (click)="chargerPaiements()">
-              <i class="bi bi-search"></i>
-            </button>
-          </div>
+        <div class="card border-0 shadow-sm mb-4">
+        <div class="card-body position-relative">
+            <label class="form-label fw-bold">Rechercher un élève</label>
+
+            <div class="input-group">
+            <span class="input-group-text bg-white">
+                <i class="bi bi-person-badge"></i>
+            </span>
+
+            <input
+                type="text"
+                class="form-control border-start-0"
+                placeholder="Nom ou prénom de l'élève..."
+                (input)="filtrerEleves($event)"
+                [value]="selectedEleve ? selectedEleve.nom + ' ' + selectedEleve.prenom : ''"
+            />
+            </div>
+
+            <!-- AUTOCOMPLETE -->
+            <ul
+            *ngIf="elevesFiltres.length"
+            class="list-group position-absolute w-100 shadow-sm"
+            style="z-index: 1000;"
+            >
+            <li
+                class="list-group-item list-group-item-action"
+                *ngFor="let e of elevesFiltres"
+                (click)="selectionnerEleve(e)"
+            >
+                <strong>{{ e.nom }} {{ e.prenom }}</strong>
+                <small class="text-muted d-block">
+                ID: {{ e.id }}
+                </small>
+            </li>
+            </ul>
+
         </div>
-      </div>
+        </div>
+
 
       <div *ngIf="resume" class="card border-0 shadow bg-primary text-white mb-4">
         <div class="card-body">

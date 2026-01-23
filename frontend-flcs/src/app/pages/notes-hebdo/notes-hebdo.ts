@@ -199,6 +199,7 @@ onEvaluationChange() {
       this.cd.detectChanges(); // 🔥 Force Angular à mettre à jour l'UI
     });
   }
+
 enregistrerNote(note: any) {
   note.loading = true;
 
@@ -212,13 +213,12 @@ enregistrerNote(note: any) {
     spre: note.spre
   };
 
+  // 🔹 Si la note existe déjà (id présent) → PUT
   if (note.id) {
     this.api.modifierNoteHebdo(note.id, payload).subscribe({
       next: () => {
         note.loading = false;
         this.message = 'Note mise à jour';
-
-        // 🔥 FORCER LA DÉTECTION
         this.cd.detectChanges();
       },
       error: err => {
@@ -227,14 +227,27 @@ enregistrerNote(note: any) {
         console.error(err);
       }
     });
-  } else {
+  } 
+  // 🔹 Sinon, vérifier si la note existe déjà dans le tableau local
+  else {
+const noteExistante = this.notes.find(
+  n => n.eleveId === note.eleveId && n.evaluationHebdoId === note.evaluationHebdoId
+);
+
+if (noteExistante) {
+  // utiliser PUT avec l'id existante
+  note.id = noteExistante.id;
+  this.enregistrerNote(note);
+  return;
+}
+
+
+    // 🔹 Sinon, POST pour créer la note
     this.api.saisirNoteHebdo(payload).subscribe({
       next: (res: any) => {
         note.id = res.id;
         note.loading = false;
         this.message = 'Note enregistrée';
-
-        // 🔥 FORCER LA DÉTECTION
         this.cd.detectChanges();
       },
       error: err => {

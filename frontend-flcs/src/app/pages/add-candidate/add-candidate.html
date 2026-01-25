@@ -119,12 +119,23 @@
 
 <div class="container py-4">
   <div class="d-flex align-items-center mb-4">
-    <div class="icon-shape bg-warning text-white rounded-circle shadow-sm me-3 d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-      <i class="bi" [ngClass]="isEdit ? 'bi-pencil-square' : 'bi-person-plus-fill'" style="font-size: 1.5rem;"></i>
+    <div
+      class="icon-shape bg-warning text-white rounded-circle shadow-sm me-3 d-flex align-items-center justify-content-center"
+      style="width: 50px; height: 50px;"
+    >
+      <i
+        class="bi"
+        [ngClass]="isEdit ? 'bi-pencil-square' : 'bi-person-plus-fill'"
+        style="font-size: 1.5rem;"
+      ></i>
     </div>
     <div>
-      <h2 class="mb-0 fw-bold text-dark">{{ isEdit ? 'Modifier le candidat' : 'Nouveau Candidat' }}</h2>
-      <p class="text-muted mb-0 small">Veuillez remplir les informations marquées d'une étoile (*)</p>
+      <h2 class="mb-0 fw-bold text-dark">
+        {{ isEdit ? 'Modifier le candidat' : 'Nouveau candidat' }}
+      </h2>
+      <p class="text-muted mb-0 small">
+        Veuillez remplir les informations marquées d'une étoile (*)
+      </p>
     </div>
   </div>
 
@@ -132,120 +143,206 @@
     <div class="card-body p-4 p-md-5">
       <form (ngSubmit)="submit()" #candidatForm="ngForm">
 
+        <!-- ================= INFORMATIONS PERSONNELLES ================= -->
         <div class="mb-5">
           <h5 class="text-primary mb-4 border-bottom pb-2">
-            <i class="bi bi-person-badge me-2"></i>Informations Personnelles
+            <i class="bi bi-person-badge me-2"></i> Informations personnelles
           </h5>
+
           <div class="row g-4">
             <div class="col-md-6">
-              <label class="form-label fw-semibold">Nom <span class="text-danger">*</span></label>
-              <div class="input-group">
-                <span class="input-group-text bg-light border-0"><i class="bi bi-person text-muted"></i></span>
-                <input type="text" class="form-control border-0 bg-light" name="nom" [(ngModel)]="candidat.nom" required placeholder="Nom de famille">
-              </div>
+              <label class="form-label fw-semibold">
+                Nom <span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                class="form-control border-0 bg-light"
+                name="nom"
+                [(ngModel)]="candidat.nom"
+                required
+              >
             </div>
 
             <div class="col-md-6">
-              <label class="form-label fw-semibold">Prénom <span class="text-danger">*</span></label>
-              <div class="input-group">
-                <span class="input-group-text bg-light border-0"><i class="bi bi-person text-muted"></i></span>
-                <input type="text" class="form-control border-0 bg-light" name="prenom" [(ngModel)]="candidat.prenom" required placeholder="Prénoms">
-              </div>
+              <label class="form-label fw-semibold">
+                Prénom <span class="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                class="form-control border-0 bg-light"
+                name="prenom"
+                [(ngModel)]="candidat.prenom"
+                required
+              >
             </div>
+
             <div class="col-md-4">
-          <label class="form-label fw-semibold">Coût de procédure <span class="text-danger">*</span></label>
-          <input type="number" class="form-control border-0 bg-light" name="montantTotal" [(ngModel)]="candidat.montantTotal" required min="1">
-        </div>
+              <label class="form-label fw-semibold">Date de naissance</label>
+              <input
+                type="date"
+                class="form-control border-0 bg-light"
+                name="dateNaiss"
+                [(ngModel)]="candidat.dateNaiss"
+              >
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Lieu de naissance</label>
+              <input
+                type="text"
+                class="form-control border-0 bg-light"
+                name="lieuNaiss"
+                [(ngModel)]="candidat.lieuNaiss"
+              >
+            </div>
+
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">
+                Montant procédure <span class="text-danger">*</span>
+              </label>
+              <input
+                type="number"
+                class="form-control border-0 bg-light"
+                name="montantProcedure"
+                [(ngModel)]="candidat.montantProcedure"
+                required
+                min="0"
+              >
+            </div>
 
             <div class="col-md-6">
-              <label class="form-label fw-semibold">Date de naissance</label>
-              <input type="date" class="form-control border-0 bg-light shadow-none" name="dateNaiss" [(ngModel)]="candidat.dateNaiss">
-            </div>
-
-            <div class="col-md-3">
               <label class="form-label fw-semibold">Téléphone candidat</label>
-              <input type="tel" class="form-control border-0 bg-light" name="telCandidat" [(ngModel)]="candidat.telCandidat" placeholder="Ex: +223...">
+              <input
+                type="tel"
+                class="form-control border-0 bg-light"
+                name="telCandidat"
+                [(ngModel)]="candidat.telCandidat"
+              >
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-6">
               <label class="form-label fw-semibold">Téléphone parent</label>
-              <input type="tel" class="form-control border-0 bg-light" name="telParent" [(ngModel)]="candidat.telParent">
+              <input
+                type="tel"
+                class="form-control border-0 bg-light"
+                name="telParent"
+                [(ngModel)]="candidat.telParent"
+              >
             </div>
           </div>
         </div>
 
+        <!-- ================= PARCOURS & LANGUE ================= -->
         <div class="mb-5">
           <h5 class="text-success mb-4 border-bottom pb-2">
-            <i class="bi bi-mortarboard me-2"></i>Parcours & Langues
+            <i class="bi bi-mortarboard me-2"></i> Parcours & langue
           </h5>
+
           <div class="row g-4">
             <div class="col-md-4">
               <label class="form-label fw-semibold">Niveau scolaire</label>
-              <input type="text" class="form-control border-0 bg-light" name="niveauScolaire" [(ngModel)]="candidat.niveauScolaire" placeholder="Ex: Licence 3">
+              <input
+                type="text"
+                class="form-control border-0 bg-light"
+                name="niveauScolaire"
+                [(ngModel)]="candidat.niveauScolaire"
+              >
             </div>
 
             <div class="col-md-4">
-              <label class="form-label fw-semibold">Niveau langue <span class="text-danger">*</span></label>
-              <select class="form-select border-0 bg-light" name="niveauLangue" [(ngModel)]="candidat.niveauLangue" required>
-                <option [ngValue]="undefined" disabled selected>-- Sélectionner --</option>
-                <option *ngFor="let n of niveaux" [ngValue]="n.code">{{ n.code }}</option>
+              <label class="form-label fw-semibold">
+                Niveau langue <span class="text-danger">*</span>
+              </label>
+              <select
+                class="form-select border-0 bg-light"
+                name="codeNiveau"
+                [(ngModel)]="candidat.codeNiveau"
+                required
+              >
+                <option value="" disabled>-- Sélectionner --</option>
+                <option *ngFor="let n of niveaux" [value]="n.code">
+                  {{ n.code }}
+                </option>
               </select>
             </div>
 
             <div class="col-md-4">
-              <label class="form-label fw-semibold">Type procédure</label>
-              <input type="text" class="form-control border-0 bg-light" name="typeProcedure" [(ngModel)]="candidat.typeProcedure">
+              <label class="form-label fw-semibold">Type de procédure</label>
+              <input
+                type="text"
+                class="form-control border-0 bg-light"
+                name="typeProcedure"
+                [(ngModel)]="candidat.typeProcedure"
+              >
             </div>
           </div>
         </div>
 
+        <!-- ================= ADMINISTRATIF ================= -->
         <div class="mb-4">
           <h5 class="text-dark mb-4 border-bottom pb-2">
-            <i class="bi bi-gear-wide-connected me-2"></i>Détails Administratifs
+            <i class="bi bi-gear-wide-connected me-2"></i> Détails administratifs
           </h5>
+
           <div class="row g-4">
-            <div class="col-md-4">
-              <label class="form-label fw-semibold">Partenaire <span class="text-danger">*</span></label>
-              <select class="form-select border-0 bg-light font-weight-bold" name="partenaire" [(ngModel)]="candidat.partenaire" required>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">
+                Partenaire <span class="text-danger">*</span>
+              </label>
+              <select
+                class="form-select border-0 bg-light"
+                name="nomPartenaire"
+                [(ngModel)]="candidat.nomPartenaire"
+                required
+              >
                 <option value="" disabled>-- Sélectionner --</option>
-                <option *ngFor="let p of partenaires" [value]="p.nomPartenaire">{{ p.nomPartenaire }}</option>
+                <option *ngFor="let p of partenaires" [value]="p.nomPartenaire">
+                  {{ p.nomPartenaire }}
+                </option>
               </select>
             </div>
 
-            <div class="col-md-4">
-              <label class="form-label fw-semibold">Rentrée <span class="text-danger">*</span></label>
-              <select class="form-select border-0 bg-light" name="rentree" [(ngModel)]="candidat.rentree" required>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">
+                Rentrée <span class="text-danger">*</span>
+              </label>
+              <select
+                class="form-select border-0 bg-light"
+                name="nomRentree"
+                [(ngModel)]="candidat.nomRentree"
+                required
+              >
                 <option value="" disabled>-- Sélectionner --</option>
-                <option *ngFor="let r of rentrees" [value]="r.nomRentree">{{ r.nomRentree }}</option>
-              </select>
-            </div>
-
-            <div class="col-md-4">
-              <label class="form-label fw-semibold">Statut paiement</label>
-              <select class="form-select border-0 fw-bold" 
-                      [ngClass]="candidat.statut === 'PAYE' ? 'text-success bg-success bg-opacity-10' : 'text-danger bg-danger bg-opacity-10'"
-                      name="statut" [(ngModel)]="candidat.statut">
-                <option value="PAYE">✓ Payé</option>
-                <option value="NON_PAYE">✗ Non payé</option>
+                <option *ngFor="let r of rentrees" [value]="r.nomRentree">
+                  {{ r.nomRentree }}
+                </option>
               </select>
             </div>
           </div>
         </div>
-<div *ngIf="erreurMessage" class="alert alert-danger mb-3">
-  <strong>Erreur :</strong> {{ erreurMessage }}
-</div>
+
+        <!-- ================= ERREUR ================= -->
+        <div *ngIf="erreurMessage" class="alert alert-danger mb-3">
+          <strong>Erreur :</strong> {{ erreurMessage }}
+        </div>
+
+        <!-- ================= ACTIONS ================= -->
         <div class="mt-5 pt-3 d-flex flex-column flex-md-row gap-3">
-          <button type="submit" 
-                  class="btn btn-warning px-5 py-2 fw-bold shadow-sm transition-btn" 
-                  [disabled]="!candidatForm.form.valid">
+          <button
+            type="submit"
+            class="btn btn-warning px-5 py-2 fw-bold shadow-sm"
+            [disabled]="!candidatForm.form.valid"
+          >
             <i class="bi bi-check2-circle me-2"></i>
-            {{ isEdit ? 'Mettre à jour les informations' : 'Enregistrer le candidat' }}
+            {{ isEdit ? 'Mettre à jour' : 'Enregistrer' }}
           </button>
 
-          <button type="button" 
-                  class="btn btn-link text-decoration-none text-muted fw-semibold" 
-                  routerLink="/app/candidats">
-            Annuler et revenir
+          <button
+            type="button"
+            class="btn btn-link text-muted fw-semibold"
+            routerLink="/app/candidats"
+          >
+            Annuler
           </button>
         </div>
 
@@ -253,6 +350,8 @@
     </div>
   </div>
 </div>
+
+
 </div>
     </main>
   </div>

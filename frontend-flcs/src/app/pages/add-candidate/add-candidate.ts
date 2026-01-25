@@ -101,15 +101,17 @@ export class AddCandidate implements OnInit {
           nom: res.nom,
           prenom: res.prenom,
           dateNaiss: res.dateNaiss,
+          lieuNaiss: res.lieuNaiss,
           niveauScolaire: res.niveauScolaire,
-          niveauLangue: res.codeNiveau,   // Mapping vers le select langue
-          partenaire: res.nomPartenaire,  // Mapping vers le select partenaire
-          rentree: res.nomRentree,        // Mapping vers le select rentrée
+          typeProcedure: res.typeProcedure,
+          montantProcedure: res.montantProcedure,
           telCandidat: res.telCandidat,
           telParent: res.telParent,
-          typeProcedure: res.typeProcedure,
-          statut: res.statut
+          codeNiveau: res.niveauLangue,
+          nomPartenaire: res.partenaire,
+          nomRentree: res.rentree
         };
+
         this.loading = false;
         this.cdr.detectChanges(); // Réveil immédiat de la vue
       },
@@ -127,20 +129,21 @@ export class AddCandidate implements OnInit {
 submit() {
   this.erreurMessage = null; // reset erreurs
 
-  const payload = {
-    nom: this.candidat.nom,
-    prenom: this.candidat.prenom,
-    dateNaiss: this.candidat.dateNaiss,
-    niveauScolaire: this.candidat.niveauScolaire,
-    typeProcedure: this.candidat.typeProcedure,
-    montantTotal: this.candidat.montantTotal || 1, // obligatoire pour passer la validation
-    telCandidat: this.candidat.telCandidat,
-    telParent: this.candidat.telParent,
-    statut: this.candidat.statut,
-    nomRentree: this.candidat.rentree,
-    nomPartenaire: this.candidat.partenaire,
-    codeNiveau: this.candidat.niveauLangue
-  };
+const payload = {
+  nom: this.candidat.nom,
+  prenom: this.candidat.prenom,
+  dateNaiss: this.candidat.dateNaiss,
+  lieuNaiss: this.candidat.lieuNaiss,
+  niveauScolaire: this.candidat.niveauScolaire,
+  typeProcedure: this.candidat.typeProcedure,
+  montantProcedure: this.candidat.montantProcedure,
+  telCandidat: this.candidat.telCandidat,
+  telParent: this.candidat.telParent,
+  codeNiveau: this.candidat.codeNiveau,
+  nomPartenaire: this.candidat.nomPartenaire,
+  nomRentree: this.candidat.nomRentree
+};
+
 
   const request = (this.isEdit && this.candidatId) 
     ? this.api.updateEleve(this.candidatId, payload)

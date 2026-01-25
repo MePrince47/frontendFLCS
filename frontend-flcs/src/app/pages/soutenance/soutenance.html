@@ -1,25 +1,50 @@
 <div class="container py-4">
   <h2 class="mb-4">Gestion des soutenances</h2>
 
-  <div class="mb-3">
-    <label>ID Élève</label>
-    <input type="number" [(ngModel)]="eleveId" class="form-control" placeholder="Ex: 1">
+  <!-- ======================
+       AUTOCOMPLETE ELEVE
+  ====================== -->
+  <div class="mb-3 position-relative">
+    <label>Élève <span class="text-danger">*</span></label>
+    <input type="text" class="form-control" placeholder="Tapez le nom ou prénom"
+           (input)="filtrerEleves($event)" [value]="selectedEleve ? selectedEleve.nom + ' ' + selectedEleve.prenom : ''">
+
+    <ul *ngIf="elevesFiltres.length > 0" class="list-group position-absolute w-100 shadow" style="z-index: 10; max-height: 200px; overflow-y: auto;">
+      <li *ngFor="let e of elevesFiltres" class="list-group-item list-group-item-action"
+          (click)="selectionnerEleve(e)">
+        {{ e.nom }} {{ e.prenom }}
+      </li>
+    </ul>
   </div>
 
+  <!-- ======================
+       SELECT NIVEAU
+  ====================== -->
   <div class="mb-3">
-    <label>ID Niveau</label>
-    <input type="number" [(ngModel)]="niveauId" class="form-control" placeholder="Ex: 3">
+    <label>Niveau <span class="text-danger">*</span></label>
+    <select class="form-select" [(ngModel)]="niveauSelectionne" (change)="onNiveauChange()">
+      <option *ngFor="let n of niveaux" [ngValue]="n">{{ n.code }}</option>
+    </select>
   </div>
 
+  <!-- ======================
+       NOTE
+  ====================== -->
   <div class="mb-3">
-    <label>Note (sur 20)</label>
+    <label>Note (sur 20) <span class="text-danger">*</span></label>
     <input type="number" [(ngModel)]="note" class="form-control" min="0" max="20">
   </div>
 
+  <!-- ======================
+       BOUTONS
+  ====================== -->
   <div class="d-flex gap-2">
-    <button class="btn btn-success" (click)="enregistrerNote()">Enregistrer</button>
-    <button class="btn btn-primary" (click)="consulterNote()">Consulter</button>
+    <button class="btn btn-success" (click)="enregistrerNote()" [disabled]="!eleveId || !niveauId || note == null">Enregistrer</button>
+    <button class="btn btn-primary" (click)="consulterNote()" [disabled]="!eleveId || !niveauId">Consulter</button>
   </div>
 
+  <!-- ======================
+       MESSAGE
+  ====================== -->
   <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
 </div>

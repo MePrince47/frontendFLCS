@@ -10,6 +10,8 @@ import { ExamenFinal } from './pages/examen-final/examen-final';
 import { Bulletin } from './pages/bulletin/bulletin';
 import { Register } from './pages/register/register';
 import { Paiements } from './pages/paiements/paiements';
+import { Soutenance } from './pages/soutenance/soutenance';
+import { HistoriqueResultats } from './pages/historique-resultats/historique-resultats';
 
 
 export const routes: Routes = [
@@ -29,6 +31,8 @@ export const routes: Routes = [
       { path: 'notes-hebdo', component: NotesHebdo },
       { path: 'examen-final',component: ExamenFinal},
       { path: 'bulletin',component: Bulletin},
+      { path: 'soutenance',component: Soutenance},
+      { path: 'historique',component: HistoriqueResultats},
       { path: 'candidats/:id/bulletin', component: Bulletin },
       { path: '', redirectTo: 'home', pathMatch: 'full' }
     ]

@@ -262,5 +262,41 @@ genererResultatsNiveau(niveauId: number) {
 genererResultatEleve(eleveId: number, niveauId: number) {
   return this.http.post(`${this.baseUrl}/resultats/eleve/${eleveId}/niveau/${niveauId}`, {}, { headers: this.authHeader });
 }
+// =======================
+// BULLETINS
+// =======================
+
+getBulletin(eleveId: number, niveauId: number) {
+  return this.http.get<any>(
+    `${this.baseUrl}/bulletins/${eleveId}/niveau/${niveauId}`,
+    { headers: this.authHeader }
+  );
+}
+
+downloadBulletinPdf(eleveId: number, niveauId: number) {
+  return this.http.get(
+    `${this.baseUrl}/bulletins/${eleveId}/niveau/${niveauId}/pdf`,
+    { headers: this.authHeader, responseType: 'blob' } // important pour récupérer un PDF
+  );
+}
+
+// =======================
+// SOUTENANCES
+// =======================
+
+attribuerNoteSoutenance(payload: { eleveId: number; niveauId: number; note: number }) {
+  return this.http.post<any>(
+    `${this.baseUrl}/soutenances`,
+    payload,
+    { headers: this.authHeader }
+  );
+}
+
+getNoteSoutenance(eleveId: number, niveauId: number) {
+  return this.http.get<any>(
+    `${this.baseUrl}/soutenances/eleve/${eleveId}/niveau/${niveauId}`,
+    { headers: this.authHeader }
+  );
+}
 
 }

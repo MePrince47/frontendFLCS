@@ -9,6 +9,17 @@ import { RouterLink } from '@angular/router';
 import { ApiService } from '../../api.service';
 import { forkJoin } from 'rxjs';
 
+
+export interface ResumePaiementEleve {
+  eleveId: number;
+  nomEleve: string;
+  montantTotal: number;
+  totalPaye: number;
+  resteAPayer: number;
+}
+
+
+
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -17,7 +28,16 @@ import { forkJoin } from 'rxjs';
   styleUrls: ['./dashboard.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
+
+
+
 export class Dashboard implements OnInit {
+  
+  
+  dernierPaiements: any[] = [];
+
+  paiementsConfirmes = 0;
+  paiementsEnAttente = 0;
 
   // 💾 Données principales
   candidats: any[] = [];
@@ -41,6 +61,7 @@ export class Dashboard implements OnInit {
      INITIALISATION
      ========================= */
 ngOnInit(): void {
+   this.chargerDerniersPaiements();
   if (this.candidats.length) {
     this.computeStats();
     this.loading = false; // spinner pas nécessaire
@@ -136,5 +157,17 @@ ngOnInit(): void {
       error: (err) => console.error('Erreur chargement niveaux :', err)
     });
   }
+chargerDerniersPaiements() {
+  this.api.getResumePaiementsEleves().subscribe(
+    (res) => {
+      this.dernierPaiements = res.slice(0, 5);
+
+      this.paiementsConfirmes = res.filter(p => p.resteAPayer === 0).length;
+      this.paiementsEnAttente = res.filter(p => p.resteAPayer > 0).length;
+    },
+    err => console.error(err)
+  );
+}
+
 
 }

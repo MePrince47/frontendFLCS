@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
+import { ResumePaiementEleve } from './pages/dashboard/dashboard';
 
 @Injectable({
   providedIn: 'root'
@@ -210,10 +211,12 @@ exportPaiementsPdf(eleveId: number) {
 
 // Résumé global des paiements de tous les élèves
 getResumePaiementsEleves() {
-  return this.http.get(`${this.baseUrl}/paiements/eleves/resume`, {
-    headers: this.authHeader
-  });
+  return this.http.get<ResumePaiementEleve[]>(
+    `${this.baseUrl}/paiements/eleves/resume`,
+    { headers: this.authHeader }
+  );
 }
+
 /* =======================
    NIVEAUX – ACTIONS ADMINISTRATIVES
 ======================= */

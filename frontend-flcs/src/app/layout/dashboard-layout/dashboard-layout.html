@@ -1,20 +1,20 @@
 <div class="container-fluid">
-  <div class="row min-vh-100">
+  <div class="row">
 
-    <aside class="col-12 col-md-3 col-lg-2 bg-success text-white p-0 d-flex flex-column sidebar shadow">
+    <aside class="col-12 col-md-3 col-lg-2 bg-success text-white p-0 d-flex flex-column shadow sticky-md-top" 
+           style="height: 100vh; z-index: 1020;">
       
-      <div class="p-4 mb-2 border-bottom border-white border-opacity-25">
+      <div class="p-4 border-bottom border-white border-opacity-25 flex-shrink-0">
         <div class="d-flex align-items-center gap-2">
           <i class="bi bi-mortarboard-fill fs-3"></i>
           <div>
             <h5 class="fw-bold mb-0">Admin FLCS</h5>
-            <small class="text-white-50 uppercase fw-bold" style="font-size: 0.65rem; letter-spacing: 1px;">Gestion Académique</small>
+            <small class="text-white-50 text-uppercase fw-bold" style="font-size: 0.65rem; letter-spacing: 1px;">Gestion Académique</small>
           </div>
         </div>
       </div>
 
-      <div class="p-3 flex-grow-1 overflow-auto">
-        
+      <div class="p-3 flex-grow-1 overflow-y-auto custom-sidebar-scroll">
         <ul class="nav nav-pills flex-column gap-1">
           
           <li class="nav-item">
@@ -24,84 +24,44 @@
           </li>
 
           <li class="nav-item mt-4 mb-2 px-3">
-            <span class="text-white-50 small fw-bold text-uppercase" style="font-size: 0.7rem;">Candidats</span>
+            <span class="text-white-50 small fw-bold text-uppercase" style="font-size: 0.7rem;">👤 Candidats</span>
           </li>
-          
-          <li class="nav-item">
-            <a routerLink="/app/candidats" routerLinkActive="active" class="nav-link custom-sidebar-link text-nowrap">
-              <i class="bi bi-people-fill me-2"></i> Liste complète
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a routerLink="/app/candidats/add" routerLinkActive="active" class="nav-link custom-sidebar-link">
-              <i class="bi bi-person-plus-fill me-2"></i> Ajouter nouveau
-            </a>
-          </li>
+          <li class="nav-item"><a routerLink="/app/candidats" class="nav-link custom-sidebar-link"><i class="bi bi-people-fill me-2"></i> Liste complète</a></li>
+          <li class="nav-item"><a routerLink="/app/candidats/add" class="nav-link custom-sidebar-link"><i class="bi bi-person-plus-fill me-2"></i> Ajouter nouveau</a></li>
 
           <li class="nav-item mt-4 mb-2 px-3">
-            <span class="text-white-50 small fw-bold text-uppercase" style="font-size: 0.7rem;">Résultats</span>
+            <span class="text-white-50 small fw-bold text-uppercase" style="font-size: 0.7rem;">📝 Évaluations</span>
           </li>
+          <li class="nav-item"><a routerLink="/app/notes-hebdo" class="nav-link custom-sidebar-link"><i class="bi bi-calendar-check-fill me-2"></i> Notes Hebdo</a></li>
+          <li class="nav-item"><a routerLink="/app/examen-final" class="nav-link custom-sidebar-link"><i class="bi bi-award-fill me-2"></i> Examen Final</a></li>
+          <li class="nav-item"><a routerLink="/app/soutenance" class="nav-link custom-sidebar-link"><i class="bi bi-journal-check me-2"></i> Soutenances</a></li> <li class="nav-item"><a routerLink="/app/bulletin" class="nav-link custom-sidebar-link"><i class="bi bi-file-earmark-bar-graph-fill me-2"></i> Bulletins</a></li>
+         
 
-          <li class="nav-item">
-            <a routerLink="/app/notes-hebdo" routerLinkActive="active" class="nav-link custom-sidebar-link">
-              <i class="bi bi-calendar-check-fill me-2"></i> Notes Hebdo
-            </a>
+          <li class="nav-item mt-4 mb-2 px-3">
+            <span class="text-white-50 small fw-bold text-uppercase" style="font-size: 0.7rem;">💰 Finance & Bilans</span>
           </li>
-
-          <li class="nav-item">
-            <a routerLink="/app/examen-final" routerLinkActive="active" class="nav-link custom-sidebar-link">
-              <i class="bi bi-award-fill me-2"></i> Examen Final
-            </a>
-          </li>
-
-          <li class="nav-item">
-            <a routerLink="/app/bulletin" routerLinkActive="active" class="nav-link custom-sidebar-link">
-              <i class="bi bi-file-earmark-pdf-fill me-2"></i> Bulletins
-            </a>
-          </li>
-          <li class="nav-item">
-            <a routerLink="/app/soutenance" routerLinkActive="active" class="nav-link custom-sidebar-link">
-              <i class="bi bi-file-earmark-pdf-fill me-2"></i> soutenances
-            </a>
-          </li>
-          <li class="nav-item">
-            <a routerLink="/app/historique" routerLinkActive="active" class="nav-link custom-sidebar-link">
-              <i class="bi bi-file-earmark-pdf-fill me-2"></i> Historique des résultats
-            </a>
-          </li>
-          <li class="nav-item">
-            <a
-              routerLink="/app/paiements"
-              routerLinkActive="active"
-              class="nav-link custom-sidebar-link"
-            >
-              <i class="bi bi-cash-coin fs-5"></i>
-              <span>Paiements</span>
-            </a>
-          </li>
+          <li class="nav-item"><a routerLink="/app/paiements" class="nav-link custom-sidebar-link"><i class="bi bi-cash-stack me-2"></i> Paiements</a></li>
+          <li class="nav-item"><a routerLink="/app/historique-Paiements" class="nav-link custom-sidebar-link"><i class="bi bi-clock-history me-2"></i> Histo. Paiements</a></li>
+          <li class="nav-item"><a routerLink="/app/historique" class="nav-link custom-sidebar-link"><i class="bi bi-archive-fill me-2"></i> Histo. Résultats</a></li>
 
         </ul>
       </div>
 
-      <div class="p-3 mt-auto border-top border-white border-opacity-10">
-          <button
-            class="btn btn-link nav-link text-white opacity-75 logout-hover d-flex align-items-center gap-2 w-100 border-0 shadow-none"
-            (click)="logout()"
-          >
-            <i class="bi bi-box-arrow-right"></i>
-            <span>Déconnexion</span>
-          </button>
-        </div>
-
-
+      <div class="p-3 mt-auto border-top border-white border-opacity-10 flex-shrink-0">
+        <button class="btn btn-link nav-link text-white opacity-75 logout-hover d-flex align-items-center gap-2 w-100 border-0 shadow-none" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Déconnexion</span>
+        </button>
+      </div>
     </aside>
 
-    <main class="col-12 col-md-9 col-lg-10 p-0 bg-light">
-      <nav class="navbar navbar-expand bg-white shadow-sm px-4 py-2 d-none d-md-flex justify-content-end mb-0">
-         <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2">
-            Année Académique 2025-2026
-         </span>
+    <main class="col-12 col-md-9 col-lg-10 p-0 bg-light min-vh-100">
+      <nav class="navbar navbar-expand bg-white shadow-sm px-4 py-2 sticky-top">
+         <div class="ms-auto">
+            <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill px-3 py-2">
+              Année Académique 2025-2026
+            </span>
+         </div>
       </nav>
 
       <div class="p-4 p-lg-5">

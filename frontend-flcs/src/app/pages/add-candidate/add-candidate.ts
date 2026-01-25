@@ -23,21 +23,7 @@ export class AddCandidate implements OnInit {
   partenaires: any[] = [];
   rentrees: any[] = [];
 
-  // Modèle de données
-  candidat: any = {
-    nom: '',
-    prenom: '',
-    dateNaiss: '',
-    niveauScolaire: '',
-    niveauLangue: '',
-    partenaire: '',
-    rentree: '',
-    telCandidat: '',
-    telParent: '',
-    typeProcedure: '',
-    montantTotal:0,
-    statut: 'ACTIF'
-  };
+
 
   constructor(
     private api: ApiService,
@@ -50,6 +36,21 @@ export class AddCandidate implements OnInit {
     this.loadInitialData();
     this.chargerRentrees();
   }
+  // Modèle de données
+  candidat: any = {
+    nom: '',
+    prenom: '',
+    dateNaiss: '',
+    lieuNaiss: '',
+    niveauScolaire: '',
+    typeProcedure: '',
+    montantProcedure: 0,
+    telCandidat: '',
+    telParent: '',
+    codeNiveau: '',
+    nomPartenaire: '',
+    nomRentree: ''
+  };
 
   /**
    * Charge toutes les données nécessaires au démarrage

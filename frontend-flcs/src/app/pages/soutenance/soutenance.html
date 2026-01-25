@@ -1,0 +1,25 @@
+<div class="container py-4">
+  <h2 class="mb-4">Gestion des soutenances</h2>
+
+  <div class="mb-3">
+    <label>ID Élève</label>
+    <input type="number" [(ngModel)]="eleveId" class="form-control" placeholder="Ex: 1">
+  </div>
+
+  <div class="mb-3">
+    <label>ID Niveau</label>
+    <input type="number" [(ngModel)]="niveauId" class="form-control" placeholder="Ex: 3">
+  </div>
+
+  <div class="mb-3">
+    <label>Note (sur 20)</label>
+    <input type="number" [(ngModel)]="note" class="form-control" min="0" max="20">
+  </div>
+
+  <div class="d-flex gap-2">
+    <button class="btn btn-success" (click)="enregistrerNote()">Enregistrer</button>
+    <button class="btn btn-primary" (click)="consulterNote()">Consulter</button>
+  </div>
+
+  <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
+</div>

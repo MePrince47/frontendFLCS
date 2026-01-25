@@ -208,6 +208,12 @@ exportPaiementsPdf(eleveId: number) {
   });
 }
 
+// Résumé global des paiements de tous les élèves
+getResumePaiementsEleves() {
+  return this.http.get(`${this.baseUrl}/paiements/eleves/resume`, {
+    headers: this.authHeader
+  });
+}
 /* =======================
    NIVEAUX – ACTIONS ADMINISTRATIVES
 ======================= */

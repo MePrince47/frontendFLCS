@@ -33,6 +33,9 @@
   <div class="mb-3">
     <label>Note (sur 20) <span class="text-danger">*</span></label>
     <input type="number" [(ngModel)]="note" class="form-control" min="0" max="20">
+    <small class="text-muted" style="font-size: 0.85rem;">
+      ⚠️ Une fois enregistrée, cette note ne pourra plus être modifiée et restera définitive.
+    </small>
   </div>
 
   <!-- ======================

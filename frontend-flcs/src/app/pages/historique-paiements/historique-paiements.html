@@ -1,0 +1,35 @@
+<div class="container py-4">
+  <h2 class="mb-4">Résumé des paiements des élèves</h2>
+
+  <div *ngIf="loading" class="alert alert-info">Chargement en cours...</div>
+  <div *ngIf="message" class="alert alert-danger">{{ message }}</div>
+
+  <table *ngIf="elevesPaiements.length > 0" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Élève</th>
+        <th>Montant total</th>
+        <th>Total payé</th>
+        <th>Reste à payer</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let e of elevesPaiements">
+        <td>{{ e.nomEleve }}</td>
+        <td>{{ e.montantTotal | number:'1.0-0' }}</td>
+        <td>{{ e.totalPaye | number:'1.0-0' }}</td>
+        <td>{{ e.resteAPayer | number:'1.0-0' }}</td>
+        <td>
+          <button class="btn btn-success btn-sm" (click)="exportPdf(e.eleveId)">
+            Télécharger PDF
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div *ngIf="!loading && elevesPaiements.length === 0" class="alert alert-warning">
+    Aucun paiement disponible
+  </div>
+</div>

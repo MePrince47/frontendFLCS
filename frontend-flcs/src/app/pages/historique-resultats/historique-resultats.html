@@ -1,51 +1,42 @@
 <div class="container py-4">
   <h2 class="mb-4">Historique des résultats</h2>
 
-  <!-- ======================
-       AUTOCOMPLETE ELEVE
-  ====================== -->
-  <div class="mb-3 position-relative">
+  <!-- Sélection élève -->
+  <div class="mb-3">
     <label>Élève</label>
-    <input type="text"
-           [(ngModel)]="selectedEleve?.nom"
-           (input)="filtrerEleves($event)"
-           class="form-control"
-           placeholder="Tapez le nom ou prénom de l'élève">
-    
-    <!-- Liste des suggestions -->
-    <ul class="list-group position-absolute w-100" *ngIf="elevesFiltres.length" style="z-index: 1000;">
-      <li class="list-group-item list-group-item-action"
-          *ngFor="let e of elevesFiltres"
-          (click)="selectionnerEleve(e)">
+    <input type="text" [(ngModel)]="eleveInput" (input)="filtrerEleves($event)" class="form-control" placeholder="Tapez le nom de l'élève">
+    <ul *ngIf="elevesFiltres.length" class="list-group mt-1">
+      <li *ngFor="let e of elevesFiltres" class="list-group-item list-group-item-action" (click)="selectionnerEleve(e)">
         {{ e.nom }} {{ e.prenom }}
       </li>
     </ul>
   </div>
 
-  <!-- ======================
-       SELECT NIVEAU
-  ====================== -->
+  <!-- Sélection niveau -->
   <div class="mb-3">
     <label>Niveau</label>
-    <select [(ngModel)]="niveauSelectionne" (change)="onNiveauChange()" class="form-control">
-      <option *ngFor="let n of niveaux" [ngValue]="n">
-        {{ n.code }} ({{ n.bareme }} pts)
-      </option>
-    </select>
+    <input type="text" [(ngModel)]="niveauInput" (input)="filtrerNiveaux($event)" class="form-control" placeholder="Tapez le code du niveau">
+    <ul *ngIf="niveauxFiltres.length" class="list-group mt-1">
+      <li *ngFor="let n of niveauxFiltres" class="list-group-item list-group-item-action" (click)="selectionnerNiveau(n)">
+        {{ n.code }}
+      </li>
+    </ul>
   </div>
 
-  <!-- ======================
-       BOUTONS ACTION
-  ====================== -->
-  <div class="d-flex gap-2 mb-3">
+  <!-- Boutons -->
+  <div class="d-flex gap-2">
     <button class="btn btn-primary" (click)="genererBulletin()">Générer bulletin</button>
     <button class="btn btn-success" (click)="telechargerPdf()">Télécharger PDF</button>
   </div>
 
-  <!-- ======================
-       MESSAGES & BULLETIN
-  ====================== -->
+  <!-- Message principal -->
   <div *ngIf="message" class="alert alert-info mt-3">{{ message }}</div>
 
+  <!-- Petit avertissement -->
+  <p class="text-muted mt-2" style="font-size: 0.85rem;">
+    ⚠️ Assurez-vous que le bulletin a bien été généré avant de le télécharger. Si vous ne générez pas le bulletin, il ne figurera pas dans le PDF.
+  </p>
+
+  <!-- Affichage JSON du bulletin -->
   <pre *ngIf="bulletin">{{ bulletin | json }}</pre>
 </div>

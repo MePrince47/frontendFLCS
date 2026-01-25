@@ -189,26 +189,30 @@ const payload = {
 
 nouveauNiveau = { nom: '', code: '' };
 nouveauPartenaire = { nomPartenaire: '', adresse: '' };
- nouvelleRentree = {
-    nomRentree: '',
-    dateDebut: ''
-  };
+nouvelleRentree = {
+  nomRentree: '',
+  dateDebut: ''
+};
 
+// =======================
+// Charger les rentrées
+// =======================
+chargerRentrees() {
+  this.api.getRentrees().subscribe(res => {
+    this.rentrees = res;
+    this.cdr.detectChanges(); // ✅ mise à jour UI
+  });
+}
 
-
-
-
-  chargerRentrees() {
-    this.api.getRentrees().subscribe(res => this.rentrees = res);
-  }
-
-  creerRentree() {
-  // Réinitialiser l'erreur à chaque submit
+// =======================
+// Créer une rentrée
+// =======================
+creerRentree() {
   this.erreurMessage = null;
 
-  // Vérifier les champs obligatoires
   if (!this.nouvelleRentree.nomRentree || !this.nouvelleRentree.dateDebut) {
     this.erreurMessage = 'Veuillez remplir tous les champs obligatoires.';
+    this.cdr.detectChanges(); // ✅ UI mise à jour
     return;
   }
 
@@ -222,33 +226,31 @@ nouveauPartenaire = { nomPartenaire: '', adresse: '' };
     next: (res: any) => {
       console.log('Rentrée créée', res);
       this.rentrees.push(res);
-      // Réinitialiser le formulaire
       this.nouvelleRentree = { nomRentree: '', dateDebut: '' };
+      this.cdr.detectChanges(); // ✅ UI mise à jour
     },
     error: (err: any) => {
       console.error('Erreur création rentrée', err);
-      // Si le backend renvoie un objet d'erreurs
       if (err.error && typeof err.error === 'object') {
         const messages = Object.entries(err.error).map(([k, v]) => `${k}: ${v}`);
         this.erreurMessage = messages.join(' | ');
       } else {
         this.erreurMessage = 'Une erreur est survenue lors de la création de la rentrée.';
       }
+      this.cdr.detectChanges(); // ✅ UI mise à jour
     }
   });
 }
-
-
 
 // =======================
 // Ajouter un niveau
 // =======================
 ajouterNiveau() {
-  // Réinitialiser l'erreur
   this.erreurMessage = null;
 
   if (!this.nouveauNiveau.nom || !this.nouveauNiveau.code) {
     this.erreurMessage = 'Veuillez remplir le nom et le code du niveau.';
+    this.cdr.detectChanges(); // ✅ UI mise à jour
     return;
   }
 
@@ -256,6 +258,7 @@ ajouterNiveau() {
     next: (res: any) => {
       this.niveaux.push(res);
       this.nouveauNiveau = { nom: '', code: '' };
+      this.cdr.detectChanges(); // ✅ UI mise à jour
     },
     error: (err: any) => {
       console.error('Erreur création niveau', err);
@@ -265,6 +268,7 @@ ajouterNiveau() {
       } else {
         this.erreurMessage = 'Une erreur est survenue lors de la création du niveau.';
       }
+      this.cdr.detectChanges(); // ✅ UI mise à jour
     }
   });
 }
@@ -273,11 +277,11 @@ ajouterNiveau() {
 // Ajouter un partenaire
 // =======================
 ajouterPartenaire() {
-  // Réinitialiser l'erreur
   this.erreurMessage = null;
 
   if (!this.nouveauPartenaire.nomPartenaire) {
     this.erreurMessage = 'Veuillez saisir le nom du partenaire.';
+    this.cdr.detectChanges(); // ✅ UI mise à jour
     return;
   }
 
@@ -285,6 +289,7 @@ ajouterPartenaire() {
     next: (res: any) => {
       this.partenaires.push(res);
       this.nouveauPartenaire = { nomPartenaire: '', adresse: '' };
+      this.cdr.detectChanges(); // ✅ UI mise à jour
     },
     error: (err: any) => {
       console.error('Erreur création partenaire', err);
@@ -294,10 +299,10 @@ ajouterPartenaire() {
       } else {
         this.erreurMessage = 'Une erreur est survenue lors de la création du partenaire.';
       }
+      this.cdr.detectChanges(); // ✅ UI mise à jour
     }
   });
 }
-
 
 
 

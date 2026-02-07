@@ -16,11 +16,17 @@ jobs:
         with:
           node-version: 22
 
+      # CETTE ÉTAPE FORCE L'URL HTTPS DANS LE CODE AVANT LE BUILD
+      - name: Force Production API URL
+        working-directory: ./frontend-flcs
+        run: |
+          sed -i 's|http://localhost:8080/api|https://flcs-center.com/api|g' src/environments/environment.ts
+          sed -i 's|http://localhost:8080/api|https://flcs-center.com/api|g' src/environments/environment.prod.ts
+
       - name: Build Angular
         working-directory: ./frontend-flcs 
         run: |
           npm install
-          # Le --no-prerender évite les erreurs sur les routes :id
           npm run build -- --configuration production --no-prerender
 
       - name: Deploy to Server via SCP
@@ -29,10 +35,8 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          # Avec Angular 21, les fichiers sont dans dist/frontend-flcs/browser
           source: "frontend-flcs/dist/frontend-flcs/browser/**"
           target: "/var/www/frontend/public"
-          # strip_components: 4 permet de ne copier que le CONTENU de 'browser'
           strip_components: 4
 
       - name: Nettoyage Post-Déploiement
@@ -42,6 +46,5 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            # Optionnel : s'assurer que les permissions sont bonnes pour Nginx
             chown -R www-data:www-data /var/www/frontend/public
             chmod -R 755 /var/www/frontend/public

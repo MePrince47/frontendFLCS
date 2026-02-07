@@ -17,9 +17,10 @@ jobs:
           node-version: 18
 
       - name: Build Angular
+        # On ajoute cette ligne pour dire où se trouve le projet
+        working-directory: ./frontend-flcs 
         run: |
           npm install
-          # On s'assure de générer les fichiers dans dist/
           npm run build -- --configuration production
 
       - name: Deploy to Server via SCP
@@ -28,6 +29,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/**"
+          source: "frontend-flcs/dist/**"
           target: "/var/www/frontend/public"
-          strip_components: 2 
+          strip_components: 3

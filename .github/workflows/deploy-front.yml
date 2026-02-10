@@ -16,17 +16,22 @@ jobs:
         with:
           node-version: 22
 
-      # CETTE ÉTAPE FORCE L'URL HTTPS DANS LE CODE AVANT LE BUILD
       - name: Force Production API URL
         working-directory: ./frontend-flcs
         run: |
-          sed -i 's|http://localhost:8080/api|https://flcs-center.com/api|g' src/environments/environment.ts
-          sed -i 's|http://localhost:8080/api|https://flcs-center.com/api|g' src/environments/environment.prod.ts
+          # On remplace l'URL locale par l'URL de production AVEC le WWW
+          sed -i 's|http://localhost:8080/api|https://www.flcs-center.com/api|g' src/environments/environment.ts
+          sed -i 's|http://localhost:8080/api|https://www.flcs-center.com/api|g' src/environments/environment.prod.ts
+          
+          # Optionnel : Vérification visuelle dans les logs GitHub pour être sûr
+          echo "Vérification de l'URL dans environment.prod.ts :"
+          grep "apiUrl" src/environments/environment.prod.ts
 
       - name: Build Angular
         working-directory: ./frontend-flcs 
         run: |
           npm install
+          # On utilise la configuration production
           npm run build -- --configuration production --no-prerender
 
       - name: Deploy to Server via SCP
@@ -35,6 +40,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          # On cible le dossier browser généré par Angular 17+
           source: "frontend-flcs/dist/frontend-flcs/browser/**"
           target: "/var/www/frontend/public"
           strip_components: 4
@@ -46,5 +52,8 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            # On s'assure que Nginx peut lire les fichiers
             chown -R www-data:www-data /var/www/frontend/public
             chmod -R 755 /var/www/frontend/public
+            # Redémarrage préventif de Nginx
+            systemctl reload nginx

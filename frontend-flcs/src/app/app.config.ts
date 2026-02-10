@@ -1,7 +1,8 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter } from '@angular/router';
-// 1. Ajoutez ces imports essentiels
-import { provideHttpClient, withFetch } from '@angular/common/http'; 
+// Importe withInterceptors et ton fichier créé juste au-dessus
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http'; 
+import { authInterceptor } from './auth.interceptor'; // Vérifie bien le chemin
 
 import { routes } from './app.routes';
 import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
@@ -11,7 +12,10 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes), 
     provideClientHydration(withEventReplay()),
-    // 2. Ajoutez cette ligne ici
-    provideHttpClient(withFetch()) 
+    // On ajoute withInterceptors ici
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([authInterceptor]) 
+    ) 
   ]
 };

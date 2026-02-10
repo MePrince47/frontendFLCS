@@ -11,9 +11,12 @@ export class ApiService {
   private baseUrl = environment.apiUrl;
 
   // Header Basic Auth encodé
-  private authHeader = new HttpHeaders({
-    Authorization: 'Basic ' + btoa('admin:admin123')
-  });
+  private getHeaders() {
+    return new HttpHeaders({
+      'Authorization': 'Basic ' + btoa('admin:admin123'),
+      'Content-Type': 'application/json'
+    });
+  }
 
   constructor(private http: HttpClient) {}
 
@@ -22,11 +25,11 @@ export class ApiService {
   ======================= */
 
   getUtilisateurs() {
-    return this.http.get<any[]>(`${this.baseUrl}/utilisateurs`, { headers: this.authHeader });
+    return this.http.get<any[]>(`${this.baseUrl}/utilisateurs`, { headers: this.getHeaders() });
   }
 
   createUtilisateur(data: any) {
-    return this.http.post(`${this.baseUrl}/utilisateurs`, data, { headers: this.authHeader });
+    return this.http.post(`${this.baseUrl}/utilisateurs`, data, { headers: this.getHeaders() });
   }
 
   /* =======================
@@ -34,11 +37,11 @@ export class ApiService {
   ======================= */
 
   getPartenaires() {
-    return this.http.get<any[]>(`${this.baseUrl}/partenaires`, { headers: this.authHeader });
+    return this.http.get<any[]>(`${this.baseUrl}/partenaires`, { headers: this.getHeaders() });
   }
 
   createPartenaire(data: any) {
-    return this.http.post(`${this.baseUrl}/partenaires`, data, { headers: this.authHeader });
+    return this.http.post(`${this.baseUrl}/partenaires`, data, { headers: this.getHeaders() });
   }
 
   /* =======================
@@ -46,11 +49,11 @@ export class ApiService {
   ======================= */
 
   getRentrees() {
-    return this.http.get<any[]>(`${this.baseUrl}/rentrees`, { headers: this.authHeader });
+    return this.http.get<any[]>(`${this.baseUrl}/rentrees`, { headers: this.getHeaders() });
   }
 
   createRentree(data: any) {
-    return this.http.post(`${this.baseUrl}/rentrees`, data, { headers: this.authHeader });
+    return this.http.post(`${this.baseUrl}/rentrees`, data, { headers: this.getHeaders() });
   }
 
   /* =======================
@@ -58,11 +61,11 @@ export class ApiService {
   ======================= */
 
   getNiveaux() {
-    return this.http.get<any[]>(`${this.baseUrl}/niveaux`, { headers: this.authHeader });
+    return this.http.get<any[]>(`${this.baseUrl}/niveaux`, { headers: this.getHeaders() });
   }
 
   createNiveau(data: any) {
-    return this.http.post(`${this.baseUrl}/niveaux`, data, { headers: this.authHeader });
+    return this.http.post(`${this.baseUrl}/niveaux`, data, { headers: this.getHeaders() });
   }
 
   /* =======================
@@ -70,23 +73,23 @@ export class ApiService {
   ======================= */
 
   getEleves() {
-    return this.http.get<any[]>(`${this.baseUrl}/eleves`, { headers: this.authHeader });
+    return this.http.get<any[]>(`${this.baseUrl}/eleves`, { headers: this.getHeaders() });
   }
 
   getEleveById(id: number) {
-    return this.http.get<any>(`${this.baseUrl}/eleves/${id}`, { headers: this.authHeader });
+    return this.http.get<any>(`${this.baseUrl}/eleves/${id}`, { headers: this.getHeaders() });
   }
 
   createEleve(data: any) {
-    return this.http.post(`${this.baseUrl}/eleves`, data, { headers: this.authHeader });
+    return this.http.post(`${this.baseUrl}/eleves`, data, { headers: this.getHeaders() });
   }
 
   updateEleve(id: number, data: any) {
-    return this.http.put(`${this.baseUrl}/eleves/${id}`, data, { headers: this.authHeader });
+    return this.http.put(`${this.baseUrl}/eleves/${id}`, data, { headers: this.getHeaders() });
   }
 
   deleteEleve(id: number) {
-    return this.http.delete(`${this.baseUrl}/eleves/${id}`, { headers: this.authHeader });
+    return this.http.delete(`${this.baseUrl}/eleves/${id}`, { headers: this.getHeaders() });
   }
 
   searchEleves(filters: any) {
@@ -98,7 +101,7 @@ export class ApiService {
       }
     });
 
-    return this.http.get<any>(`${this.baseUrl}/eleves/search`, { headers: this.authHeader, params });
+    return this.http.get<any>(`${this.baseUrl}/eleves/search`, { headers: this.getHeaders(), params });
   }
 
   /* =======================
@@ -107,12 +110,12 @@ export class ApiService {
 
 // Générer les 7 semaines pour un niveau
 creerEvaluationsPourNiveau(niveauId: number) {
-  return this.http.post(`${this.baseUrl}/evaluations-hebdo/niveau/${niveauId}`, {}, { headers: this.authHeader });
+  return this.http.post(`${this.baseUrl}/evaluations-hebdo/niveau/${niveauId}`, {}, { headers: this.getHeaders() });
 }
 
 // Récupérer la liste des semaines d'un niveau
 getEvaluationsParNiveau(niveauId: number) {
-  return this.http.get<any[]>(`${this.baseUrl}/evaluations-hebdo/niveau/${niveauId}`, { headers: this.authHeader });
+  return this.http.get<any[]>(`${this.baseUrl}/evaluations-hebdo/niveau/${niveauId}`, { headers: this.getHeaders() });
 }
 
 /* =======================
@@ -120,19 +123,19 @@ getEvaluationsParNiveau(niveauId: number) {
 ======================= */
 
 saisirNoteHebdo(data: any) {
-  return this.http.post(`${this.baseUrl}/notes-hebdo`, data, { headers: this.authHeader });
+  return this.http.post(`${this.baseUrl}/notes-hebdo`, data, { headers: this.getHeaders() });
 }
 
 modifierNoteHebdo(noteId: number, data: any) {
-  return this.http.put(`${this.baseUrl}/notes-hebdo/${noteId}`, data, { headers: this.authHeader });
+  return this.http.put(`${this.baseUrl}/notes-hebdo/${noteId}`, data, { headers: this.getHeaders() });
 }
 
 getNotesHebdoParNiveauEtSemaine(niveauId: number, semaine: number) {
-  return this.http.get<any[]>(`${this.baseUrl}/notes-hebdo/niveau/${niveauId}/semaine/${semaine}`, { headers: this.authHeader });
+  return this.http.get<any[]>(`${this.baseUrl}/notes-hebdo/niveau/${niveauId}/semaine/${semaine}`, { headers: this.getHeaders() });
 }
 
 getNotesHebdoParEleve(eleveId: number, niveauId: number) {
-  return this.http.get<any[]>(`${this.baseUrl}/notes-hebdo/eleve/${eleveId}/niveau/${niveauId}`, { headers: this.authHeader });
+  return this.http.get<any[]>(`${this.baseUrl}/notes-hebdo/eleve/${eleveId}/niveau/${niveauId}`, { headers: this.getHeaders() });
 }
 /* =======================
    ENDPRÜFUNG (EXAMEN FINAL)
@@ -140,21 +143,21 @@ getNotesHebdoParEleve(eleveId: number, niveauId: number) {
 
 // Créer l'événement examen
 creerEndprufung(data: any) {
-  return this.http.post(`${this.baseUrl}/endprufung`, data, { headers: this.authHeader });
+  return this.http.post(`${this.baseUrl}/endprufung`, data, { headers: this.getHeaders() });
 }
 
 // Saisir la note finale d'un élève
 saisirNoteFinale(data: any) {
-  return this.http.post(`${this.baseUrl}/notes-endprufung`, data, { headers: this.authHeader });
+  return this.http.post(`${this.baseUrl}/notes-endprufung`, data, { headers: this.getHeaders() });
 }
 // Modifier une note finale existante (PUT)
 modifierNoteFinale(noteId: number, data: any) {
-  return this.http.put(`${this.baseUrl}/notes-endprufung/${noteId}`, data, { headers: this.authHeader });
+  return this.http.put(`${this.baseUrl}/notes-endprufung/${noteId}`, data, { headers: this.getHeaders() });
 }
 
 // Récupérer le résultat final d'un élève
 getNoteFinaleEleve(eleveId: number, niveauId: number) {
-  return this.http.get<any>(`${this.baseUrl}/notes-endprufung/eleve/${eleveId}/niveau/${niveauId}`, { headers: this.authHeader });
+  return this.http.get<any>(`${this.baseUrl}/notes-endprufung/eleve/${eleveId}/niveau/${niveauId}`, { headers: this.getHeaders() });
 }
 
 /* =======================
@@ -164,7 +167,7 @@ getNoteFinaleEleve(eleveId: number, niveauId: number) {
 // Télécharger les résultats d’un niveau en PDF
 getResultatsNiveauPdf(niveauId: number) {
   return this.http.get(`${this.baseUrl}/resultats/niveau/${niveauId}/pdf`, {
-    headers: this.authHeader,
+    headers: this.getHeaders(),
     responseType: 'blob' // pour récupérer un fichier PDF
   });
 }
@@ -172,7 +175,7 @@ getResultatsNiveauPdf(niveauId: number) {
 // Télécharger le résultat final d’un élève en PDF
 getResultatElevePdf(eleveId: number, niveauId: number) {
   return this.http.get(`${this.baseUrl}/resultats/eleve/${eleveId}/niveau/${niveauId}`, {
-    headers: this.authHeader,
+    headers: this.getHeaders(),
     responseType: 'blob'
   });
 }
@@ -183,28 +186,28 @@ getResultatElevePdf(eleveId: number, niveauId: number) {
 
 // Enregistrer un paiement (POST déjà existant)
 createPaiement(data: any) {
-  return this.http.post(`${this.baseUrl}/paiements`, data, { headers: this.authHeader });
+  return this.http.post(`${this.baseUrl}/paiements`, data, { headers: this.getHeaders() });
 }
 
 // Liste des paiements d’un élève
 getPaiementsEleve(eleveId: number) {
-  return this.http.get<any[]>(`${this.baseUrl}/paiements/eleve/${eleveId}`, { headers: this.authHeader });
+  return this.http.get<any[]>(`${this.baseUrl}/paiements/eleve/${eleveId}`, { headers: this.getHeaders() });
 }
 
 // Résumé des paiements d’un élève
 getResumePaiementsEleve(id: number) {
-  return this.http.get<any>(`${this.baseUrl}/paiements/eleves/${id}/resume`, { headers: this.authHeader });
+  return this.http.get<any>(`${this.baseUrl}/paiements/eleves/${id}/resume`, { headers: this.getHeaders() });
 }
 
 // Historique des paiements d’un élève
 getHistoriquePaiementsEleve(id: number) {
-  return this.http.get<any[]>(`${this.baseUrl}/paiements/eleves/${id}/paiements`, { headers: this.authHeader });
+  return this.http.get<any[]>(`${this.baseUrl}/paiements/eleves/${id}/paiements`, { headers: this.getHeaders() });
 }
 
 // Export PDF des paiements d’un élève
 exportPaiementsPdf(eleveId: number) {
   return this.http.get(`${this.baseUrl}/paiements/paiements/export/pdf/${eleveId}`, {
-    headers: this.authHeader,
+    headers: this.getHeaders(),
     responseType: 'blob'
   });
 }
@@ -213,7 +216,7 @@ exportPaiementsPdf(eleveId: number) {
 getResumePaiementsEleves() {
   return this.http.get<ResumePaiementEleve[]>(
     `${this.baseUrl}/paiements/eleves/resume`,
-    { headers: this.authHeader }
+    { headers: this.getHeaders() }
   );
 }
 
@@ -223,12 +226,12 @@ getResumePaiementsEleves() {
 
 // Promotion des élèves d’un niveau
 promouvoirNiveau(id: number) {
-  return this.http.post(`${this.baseUrl}/niveaux/${id}/promotion`, {}, { headers: this.authHeader });
+  return this.http.post(`${this.baseUrl}/niveaux/${id}/promotion`, {}, { headers: this.getHeaders() });
 }
 
 // Clôture d’un niveau
 cloturerNiveau(id: number) {
-  return this.http.post(`${this.baseUrl}/niveaux/${id}/cloture`, {}, { headers: this.authHeader });
+  return this.http.post(`${this.baseUrl}/niveaux/${id}/cloture`, {}, { headers: this.getHeaders() });
 }
 
 /* =======================
@@ -237,12 +240,12 @@ cloturerNiveau(id: number) {
 
 // Récupérer l’examen final d’un niveau
 getEndprufungParNiveau(niveauId: number) {
-  return this.http.get<any>(`${this.baseUrl}/endprufung/niveau/${niveauId}`, { headers: this.authHeader });
+  return this.http.get<any>(`${this.baseUrl}/endprufung/niveau/${niveauId}`, { headers: this.getHeaders() });
 }
 
 // Récupérer les notes finales d’un niveau
 getNotesEndprufungParNiveau(niveauId: number) {
-  return this.http.get<any[]>(`${this.baseUrl}/notes-endprufung/niveau/${niveauId}`, { headers: this.authHeader });
+  return this.http.get<any[]>(`${this.baseUrl}/notes-endprufung/niveau/${niveauId}`, { headers: this.getHeaders() });
 }
 
 
@@ -250,7 +253,7 @@ getNotesEndprufungParNiveau(niveauId: number) {
 getElevesByRentree(rentreeId: number | string) {
   return this.http.get<any>(
     `${this.baseUrl}/eleves/rentree/${rentreeId}`,
-    { headers: this.authHeader }
+    { headers: this.getHeaders() }
   );
 }
 
@@ -258,18 +261,18 @@ getElevesByRentree(rentreeId: number | string) {
 getElevesByNiveau(niveauId: number | string) {
   return this.http.get<any>(
     `${this.baseUrl}/eleves/niveau/${niveauId}`,
-    { headers: this.authHeader }
+    { headers: this.getHeaders() }
   );
 }
 
 
 // api.service.ts
 genererResultatsNiveau(niveauId: number) {
-  return this.http.post(`${this.baseUrl}/resultats/niveau/${niveauId}`, {}, { headers: this.authHeader });
+  return this.http.post(`${this.baseUrl}/resultats/niveau/${niveauId}`, {}, { headers: this.getHeaders() });
 }
 
 genererResultatEleve(eleveId: number, niveauId: number) {
-  return this.http.post(`${this.baseUrl}/resultats/eleve/${eleveId}/niveau/${niveauId}`, {}, { headers: this.authHeader });
+  return this.http.post(`${this.baseUrl}/resultats/eleve/${eleveId}/niveau/${niveauId}`, {}, { headers: this.getHeaders() });
 }
 // =======================
 // BULLETINS
@@ -278,14 +281,14 @@ genererResultatEleve(eleveId: number, niveauId: number) {
 getBulletin(eleveId: number, niveauId: number) {
   return this.http.get<any>(
     `${this.baseUrl}/bulletins/${eleveId}/niveau/${niveauId}`,
-    { headers: this.authHeader }
+    { headers: this.getHeaders() }
   );
 }
 
 downloadBulletinPdf(eleveId: number, niveauId: number) {
   return this.http.get(
     `${this.baseUrl}/bulletins/${eleveId}/niveau/${niveauId}/pdf`,
-    { headers: this.authHeader, responseType: 'blob' } // important pour récupérer un PDF
+    { headers: this.getHeaders(), responseType: 'blob' } // important pour récupérer un PDF
   );
 }
 
@@ -297,14 +300,14 @@ attribuerNoteSoutenance(payload: { eleveId: number; niveauId: number; note: numb
   return this.http.post<any>(
     `${this.baseUrl}/soutenances`,
     payload,
-    { headers: this.authHeader }
+    { headers: this.getHeaders() }
   );
 }
 
 getNoteSoutenance(eleveId: number, niveauId: number) {
   return this.http.get<any>(
     `${this.baseUrl}/soutenances/eleve/${eleveId}/niveau/${niveauId}`,
-    { headers: this.authHeader }
+    { headers: this.getHeaders() }
   );
 }
 

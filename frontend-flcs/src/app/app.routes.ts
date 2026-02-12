@@ -13,7 +13,7 @@ import { Paiements } from './pages/paiements/paiements';
 import { Soutenance } from './pages/soutenance/soutenance';
 import { HistoriqueResultats } from './pages/historique-resultats/historique-resultats';
 import { HistoriquePaiements } from './pages/historique-paiements/historique-paiements';
-
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -21,6 +21,7 @@ export const routes: Routes = [
   {
     path: 'app',
     component: DashboardLayout,
+    canActivate: [authGuard],
     children: [
       { path: 'home', component: Dashboard },
 

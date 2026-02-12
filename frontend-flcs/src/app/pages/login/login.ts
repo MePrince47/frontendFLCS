@@ -20,9 +20,21 @@ export class Login {
       return;
     }
 
-    // Vérification simple pour l'instant
+    let role = '';
+
+    // Vérification des identifiants
     if (this.username === 'admin' && this.password === 'admin123') {
-      console.log('Connexion réussie !');
+      role = 'ADMIN';
+    } else if (this.username === 'Secretaire' && this.password === 'secretaire811') {
+      role = 'SECRETAIRE';
+    }
+
+    if (role !== '') {
+      // On stocke les infos pour que l'app s'en souvienne
+      localStorage.setItem('userRole', role);
+      localStorage.setItem('userName', this.username);
+      
+      console.log(`Connexion réussie en tant que : ${role}`);
       this.router.navigate(['/app/home']);
     } else {
       alert('Identifiants incorrects !');

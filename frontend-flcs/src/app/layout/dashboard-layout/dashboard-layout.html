@@ -40,17 +40,36 @@
           <li class="nav-item mt-4 mb-2 px-3">
             <span class="text-white-50 small fw-bold text-uppercase" style="font-size: 0.7rem;">💰 Finance & Bilans</span>
           </li>
-          <li class="nav-item"><a routerLink="/app/paiements" class="nav-link custom-sidebar-link"><i class="bi bi-cash-stack me-2"></i> Paiements</a></li>
-          <li class="nav-item"><a routerLink="/app/historique-Paiements" class="nav-link custom-sidebar-link"><i class="bi bi-clock-history me-2"></i> Histo. Paiements</a></li>
-          <li class="nav-item"><a routerLink="/app/historique" class="nav-link custom-sidebar-link"><i class="bi bi-archive-fill me-2"></i> Histo. Résultats</a></li>
+          <li class="nav-item">
+            <a routerLink="/app/paiements" routerLinkActive="active" class="nav-link custom-sidebar-link">
+              <i class="bi bi-cash-stack me-2"></i> Paiements
+            </a>
+          </li>
 
+          <li class="nav-item">
+            <a [routerLink]="userRole === 'ADMIN' ? '/app/historique-Paiements' : null" 
+               [class.disabled-link]="userRole === 'SECRETAIRE'"
+               class="nav-link custom-sidebar-link">
+              <i class="bi bi-clock-history me-2"></i> Histo. Paiements
+              <i *ngIf="userRole === 'SECRETAIRE'" class="bi bi-lock-fill ms-auto small"></i>
+            </a>
+          </li>
+
+          <li class="nav-item">
+            <a [routerLink]="userRole === 'ADMIN' ? '/app/historique' : null" 
+               [class.disabled-link]="userRole === 'SECRETAIRE'"
+               class="nav-link custom-sidebar-link">
+              <i class="bi bi-archive-fill me-2"></i> Histo. Résultats
+              <i *ngIf="userRole === 'SECRETAIRE'" class="bi bi-lock-fill ms-auto small"></i>
+            </a>
+          </li>
         </ul>
       </div>
 
-      <div class="p-3 mt-auto border-top border-white border-opacity-10 flex-shrink-0">
-        <button class="btn btn-link nav-link text-white opacity-75 logout-hover d-flex align-items-center gap-2 w-100 border-0 shadow-none" (click)="logout()">
+      <div class="p-3 mt-auto border-top border-white border-opacity-10">
+        <button class="btn btn-link nav-link text-white opacity-75 d-flex align-items-center gap-2 border-0" (click)="logout()">
           <i class="bi bi-box-arrow-right"></i>
-          <span>Déconnexion</span>
+          <span>Déconnexion ({{ userName }})</span>
         </button>
       </div>
     </aside>

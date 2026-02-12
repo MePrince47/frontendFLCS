@@ -9,12 +9,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./dashboard-layout.scss']
 })
 export class DashboardLayout {
+  userRole: string | null = '';
+  userName: string | null = '';
 
     constructor(private router: Router) {}
+  ngOnInit() {
+    // Récupération des données stockées lors du login
+    this.userRole = localStorage.getItem('userRole');
+    this.userName = localStorage.getItem('userName');
 
+    // Si personne n'est connecté, retour forcé au login
+    if (!this.userRole) {
+      this.router.navigate(['/login']);
+    }}
    logout() {
-    // Ici tu peux aussi vider le localStorage/sessionStorage si tu gères un token
-    console.log('Déconnexion');
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 }
